@@ -45,11 +45,11 @@ public class ClientConnector extends AbstractClient {
 	   *
 	   * @param msg The message from user to be sent to the server.
 	   */
-	public void handleMessageFromClientUI(Object sendData)  
+	public void handleMessageFromClientUI(Object msg)  
 	{
 	   try
 	   {
-	    sendToServer(sendData);
+	    sendToServer(msg);
 	   }
 	    catch(IOException e)
 	    {
