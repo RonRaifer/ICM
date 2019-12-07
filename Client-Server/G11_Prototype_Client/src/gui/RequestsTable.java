@@ -1,8 +1,13 @@
 package gui;
 
-public class RequestsTable {
+/**
+ * Table view for Requierment table in bd
+ * 
+ */
 
-	String name, board, handler, status;
+public class RequestsTable {
+	private String name, board, handler, status;
+	
 	public RequestsTable(String name, String board, String handler, String status) {
 		super();
 		this.name = name;

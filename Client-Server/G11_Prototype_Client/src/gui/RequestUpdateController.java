@@ -20,35 +20,42 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class RequestUpdateController {
+	 /**
+	   * GUI elements
+	   *
+	   */
 	@FXML
     private ScrollPane spCurrent;
-
     @FXML
     private ScrollPane spRequest;
-
     @FXML
     private TextField tbStatus;
-
     @FXML
     private Label lblApplicant;
-
     @FXML
     private Label lblBoard;
-
     @FXML
     private Label lblHandler;
-
     @FXML
     private Button btnUpdate;
-
     @FXML
     private Button btnBack;
 
-    private ClientConnector uClient;
-    private String status;
-    private int celId;
-    private Scene rScene;
+    /**
+	   * Variables to store data.
+	   *
+	   */
+    private ClientConnector uClient;		//client connection
+    private String status;					//current status of request
+    private int celId;						//keeps the chosen cell id
+    private Scene rScene;					//saves the previous scene
     
+    /**
+	   * before loading scene, updating it with data
+	   *
+	   *@param cellId The chosen cell id
+	   *@param client The client connection for server
+	   */
 	public void setForm(int celId, ClientConnector client) {
 		this.uClient = client;
 		this.celId = celId;
@@ -63,6 +70,10 @@ public class RequestUpdateController {
 		this.status = uClient.getListj().get(celId).get(4).toString(); //keep current status
 	}
 	
+	/**
+	   * FXML GUI functions and actions
+	   *
+	   */ 
 	@FXML
 	private void onUpdateClick(ActionEvent event) {
 		if(this.status.equals(tbStatus.getText())) {
@@ -76,7 +87,6 @@ public class RequestUpdateController {
 			showUpdated(); //show success message
 		}
 	}
-	
 	 @FXML
 	 private void goBack(ActionEvent event) {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
@@ -97,6 +107,11 @@ public class RequestUpdateController {
 			e.printStackTrace();
 		}
 	}
+	 
+	 /**
+	   * Show alert dialog
+	   *	If updates success: showUpdated(), else showNotUpdated()
+	   */  
 	private void showNotUpdated() {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Update Failed");
@@ -111,6 +126,12 @@ public class RequestUpdateController {
 		alert.setContentText("The new status is: " + tbStatus.getText());
 		alert.show();
 	}
+	
+	/**
+	   * update the previous scene
+	   *
+	   *@param g The scene sent from previous window
+	   */
 	public void setBack(Scene g) {
     	this.rScene = g;
     }

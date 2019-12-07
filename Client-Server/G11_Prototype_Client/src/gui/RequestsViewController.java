@@ -21,34 +21,41 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class RequestsViewController{
+	/**
+	   * GUI elements
+	   *
+	   */
 	@FXML
     private TableView<RequestsTable> tbl_requests;
-
     @FXML
     private TableColumn<RequestsTable, String> col_name;
-
     @FXML
     private TableColumn<RequestsTable, String> col_board;
-
     @FXML
     private TableColumn<RequestsTable, String> col_handler;
-
     @FXML
-    private TableColumn<RequestsTable, String> col_status;
-    
+    private TableColumn<RequestsTable, String> col_status;  
     @FXML
     private Button btnEdit;
     @FXML
-    private Button btnBack;
-    
+    private Button btnBack;    
     @FXML
     private Label lblError;
     
-    private int celId = -1; //if item picked, keep board number
-    private ClientConnector rClient;
-    private Scene mScene;
-    ObservableList<RequestsTable> list = FXCollections.observableArrayList();
+    /**
+	   * Variables to store data.
+	   *
+	   */
+    private int celId = -1; 			//keeps the chosen cell id
+    private ClientConnector rClient;	//client connection
+    private Scene mScene;				//saves the previous scene
+    ObservableList<RequestsTable> list = FXCollections.observableArrayList(); //for table view
     
+    /**
+	   * Before loading RequestView scene, updating it with data and prepare the table view
+	   *
+	   *@param client The client connection for server
+	   */
     public void setTable(ClientConnector client){
     	this.rClient = client;
     	for (ArrayList<String> temp : client.getListj()) {
@@ -61,10 +68,15 @@ public class RequestsViewController{
 		
 		tbl_requests.setItems(list);	
 	}
+    
+    /**
+	   * FXML GUI functions and actions
+	   *
+	   */ 
     @FXML
     private void onItemClick(MouseEvent event) {
     	btnEdit.setStyle("-fx-background-color: #00ff00");
-    	celId = tbl_requests.getSelectionModel().getSelectedIndex();
+    	celId = tbl_requests.getSelectionModel().getSelectedIndex(); //save the selected item
     	lblError.setVisible(false);
 	}
     @FXML
@@ -99,6 +111,12 @@ public class RequestsViewController{
     		lblError.setVisible(true);
     	}
 	}
+    
+    /**
+	   * update the previous scene
+	   *
+	   *@param g The scene sent from previous window
+	   */
     public void setBack(Scene g) {
     	this.mScene = g;
     }
