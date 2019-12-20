@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="756.0" style="-fx-opacity: 70;" styleClass="anchor" stylesheets="@../img/login/login.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <MenuBar layoutY="-3.0" prefHeight="32.0" prefWidth="756.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="ICM">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Window">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Pane layoutX="93.0" layoutY="73.0" prefHeight="354.0" prefWidth="570.0" styleClass="pane" stylesheets="@login.css">
+         <children>
+            <Separator layoutX="211.0" layoutY="64.0" orientation="VERTICAL" prefHeight="200.0" />
+            <PasswordField layoutX="320.0" layoutY="175.0" prefHeight="27.0" prefWidth="180.0" promptText="Password" />
+            <TextField layoutX="320.0" layoutY="135.0" prefHeight="27.0" prefWidth="180.0" promptText="Email Address" />
+            <Button layoutX="320.0" layoutY="214.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="180.0" text="Login" textFill="#0284e5">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Button>
+            <ImageView fitHeight="65.0" fitWidth="62.0" layoutX="327.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/login/logICN.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="23.0" layoutY="219.0" text="To access ICM, please log-in first" />
+            <Hyperlink layoutX="318.0" layoutY="252.0" text="Forgot UserName or Password?" />
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="13.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/icmLogo.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="229.0" layoutY="140.0" text="Email Address:" />
+            <Label layoutX="229.0" layoutY="180.0" text="Password:" />
+            <Label layoutX="395.0" layoutY="71.0" text="LOGIN">
+               <font>
+                  <Font size="29.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="32.0" fitWidth="164.0" layoutX="403.0" layoutY="319.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../braudeLogo.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="25.0" fitWidth="99.0" layoutX="437.0" layoutY="216.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/login/btnLogin.png" />
+               </image>
+            </ImageView>
+            <ToolBar layoutX="6.0" layoutY="1.0" prefHeight="6.0" prefWidth="132.0" style="-fx-background-color: transparent;">
+               <items>
+                  <Label prefHeight="17.0" prefWidth="48.0" text="ICM    &gt;" textFill="#c3c0c0" />
+                  <Label text="Login" textFill="#868686">
+                     <effect>
+                        <Glow />
+                     </effect>
+                  </Label>
+               </items>
+            </ToolBar>
+            <Button layoutX="13.0" layoutY="319.0" mnemonicParsing="false" text="Exit" />
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Pane>
+   </children>
+</AnchorPane>
