@@ -1,0 +1,9 @@
+.info-msg {
+	-fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #2196F3, #2277B9);
+	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
+.info-req {
+	-fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #36C6D3, #27979F);
+	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
