@@ -1,29 +1,43 @@
 package controller;
 
-import java.awt.event.ActionEvent;
+import javafx.event.ActionEvent;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.BorderPane;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class LoginController {
-	@FXML
-    private Pane mainView;
-
-    @FXML
-    private void handleChangeView(ActionEvent event) {
-        try {
-            //tring menuItemID = ((MenuItem) event.getSource()).getId();
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Login" + ".fxml"));
-            loader.setController(this);
-            mainView = loader.load();
-            
+public class LoginController implements Initializable{
+	@FXML private Pane InsidePane;
+	@FXML private Pane apInside;
+	@FXML private AnchorPane apMain;
+	@FXML private Button btnLogin;
+	
+	@FXML 
+	public void handleChangeView(ActionEvent event) {
+		try 
+        {
+            Pane newLoadedPane;  
+            newLoadedPane =  FXMLLoader.load(getClass().getResource("/boundary/guifiles/ServerConnection.fxml"));
+            apInside.getChildren().clear();
+            apInside.getChildren().add(newLoadedPane);
         }
-        catch (IOException e) {
-            e.printStackTrace();
+        catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub		
+	}
+
+	
 }
