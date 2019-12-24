@@ -33,7 +33,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Label layoutX="63.0" layoutY="220.0" text="Server Connection" />
+      <Label layoutX="52.0" layoutY="207.0" text="Server Connection" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="13.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@img/icmLogo.png" />
@@ -46,7 +46,7 @@
             <Font size="29.0" />
          </font>
       </Label>
-      <ImageView fitHeight="32.0" fitWidth="164.0" layoutX="355.0" layoutY="322.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="32.0" fitWidth="164.0" layoutX="345.0" layoutY="322.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@img/braudeLogo.png" />
          </image>
@@ -64,15 +64,18 @@
             </Label>
          </items>
       </ToolBar>
-      <Button id="btnExit" layoutX="527.0" layoutY="324.0" mnemonicParsing="false" text="Exit" textFill="RED" />
-      <Label layoutX="14.0" layoutY="324.0" text="Server Status:" />
-      <Label id="lblConnectionStatus" layoutX="96.0" layoutY="324.0" text="Offline" />
-      <Label id="lblError" layoutX="320.0" layoutY="269.0" text="Error Label" textFill="#fc0303">
+      <Button id="btnExit" fx:id="btnBack" layoutX="517.0" layoutY="325.0" mnemonicParsing="false" text="Back" textFill="RED" />
+      <Label id="lblError" fx:id="lblError" layoutX="314.0" layoutY="256.0" text="Error Label" textFill="#fc0303">
          <font>
             <Font name="Arial Bold" size="13.0" />
          </font>
       </Label>
       <TextField id="tbLoginID" layoutX="323.0" layoutY="175.0" prefHeight="27.0" prefWidth="180.0" promptText="Login ID" text="5555" />
+      <Label id="lblError" fx:id="lblSuccess" layoutX="314.0" layoutY="272.0" text="Success Label" textFill="#07b507">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </Label>
    </children>
    <effect>
       <DropShadow />
