@@ -33,6 +33,11 @@ public class LoginController implements Initializable{
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+	@FXML 
+	public void handleChangeView2(ActionEvent event) {
+        System.out.print("LOGIN");
+       
+    }
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
