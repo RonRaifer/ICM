@@ -52,11 +52,11 @@ public class IcmServer extends AbstractServer
 	   
 	}
   
-	  protected void serverStarted()
-	  {
-	    System.out.println
-	      ("Server listening for connections on port " + getPort());
-	  }
+	protected void serverStarted()
+	{
+	  System.out.println
+	    ("Server listening for connections on port " + getPort());
+	}
   
   /**
    * This method overrides the one in the superclass.  Called
@@ -102,6 +102,7 @@ public class IcmServer extends AbstractServer
     {
       System.out.println("ERROR - Could not listen for clients!");
     }
+    dbHandler.AAA();
   }
 }
 //End of EchoServer class
