@@ -14,14 +14,15 @@ import javafx.scene.layout.Pane;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LoginController implements Initializable{
+public class EnterController implements Initializable{
 	@FXML private Pane InsidePane;
 	@FXML private Pane apInside;
 	@FXML private AnchorPane apMain;
 	@FXML private Button btnLogin;
 	
+	
 	@FXML 
-	public void handleChangeView(ActionEvent event) {
+	public void connectionPaneView(ActionEvent event) {
 		try 
         {
             Pane newLoadedPane;  
@@ -30,18 +31,36 @@ public class LoginController implements Initializable{
             apInside.getChildren().add(newLoadedPane);
         }
         catch (IOException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EnterController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 	@FXML 
-	public void handleChangeView2(ActionEvent event) {
-        System.out.print("LOGIN");
+	public void loginPaneView(ActionEvent event) {
+		try 
+        {
+            Pane newLoadedPane;  
+            newLoadedPane =  FXMLLoader.load(getClass().getResource("/boundary/guifiles/LoginPane.fxml"));
+            apInside.getChildren().clear();
+            apInside.getChildren().add(newLoadedPane);
+        }
+        catch (IOException ex) {
+            Logger.getLogger(EnterController.class.getName()).log(Level.SEVERE, null, ex);
+        }
        
     }
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub		
+		try 
+        {
+            Pane newLoadedPane;  
+            newLoadedPane =  FXMLLoader.load(getClass().getResource("/boundary/guifiles/LoginPane.fxml"));
+            apInside.getChildren().clear();
+            apInside.getChildren().add(newLoadedPane);
+        }
+        catch (IOException ex) {
+            Logger.getLogger(EnterController.class.getName()).log(Level.SEVERE, null, ex);
+        }		
 	}
 
 	

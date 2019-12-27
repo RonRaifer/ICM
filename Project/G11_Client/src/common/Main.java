@@ -28,7 +28,7 @@ public class Main extends Application{
 	{
 			FXMLLoader loader = new FXMLLoader();
 			Pane root;
-			loader.setLocation(Main.class.getResource("/boundary/guifiles/Login.fxml"));
+			loader.setLocation(Main.class.getResource("/boundary/guifiles/Enter.fxml"));
 			root = loader.load();
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
