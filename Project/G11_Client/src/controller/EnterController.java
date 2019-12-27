@@ -26,7 +26,7 @@ public class EnterController implements Initializable{
 		try 
         {
             Pane newLoadedPane;  
-            newLoadedPane =  FXMLLoader.load(getClass().getResource("/boundary/guifiles/ServerConnection.fxml"));
+            newLoadedPane =  FXMLLoader.load(getClass().getResource("/boundary/guifiles/ConnectionPane.fxml"));
             apInside.getChildren().clear();
             apInside.getChildren().add(newLoadedPane);
         }

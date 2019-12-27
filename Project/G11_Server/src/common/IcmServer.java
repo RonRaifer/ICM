@@ -49,7 +49,7 @@ public class IcmServer extends AbstractServer
    */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client)
 	{
-	   
+	   System.out.println(msg);
 	}
   
 	protected void serverStarted()
