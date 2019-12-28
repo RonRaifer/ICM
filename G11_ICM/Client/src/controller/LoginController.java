@@ -1,13 +1,16 @@
 package controller;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import boundary.GuiManager;
 import common.ClientConnector;
+import common.Main;
 import common.MsgEnum;
 import common.ObjectManager;
 import entity.User;
@@ -15,6 +18,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -22,8 +27,13 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
-public class LoginController implements Initializable{
+public class LoginController implements Initializable, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2471699661908072300L;
 	@FXML
     private Pane insidePane;
     @FXML
@@ -39,20 +49,32 @@ public class LoginController implements Initializable{
     @FXML
     private Label lblStatus;
     
-    ClientConnector client;
-    
+    private ClientConnector client;
+    private static User userReceived;
+    public static String errorMessage;
     @FXML 
-	public void loginClick(ActionEvent event) {	
+	public void loginClick(ActionEvent event) throws InterruptedException, IOException {	
 		if(tbLoginID.getText().isEmpty() || tbPassowrd.getText().isEmpty()) {
 			lblError.setText("Username and Password can't be empty");
 			lblError.setVisible(true);
 		}else {
 			User user = new User(tbLoginID.getText(), tbPassowrd.getText());
+			
 	    	ObjectManager msg = new ObjectManager(user, MsgEnum.LOGIN);
+	    	
 	    	client.handleMessageFromClientUI(msg);
+	    	System.out.println("Asdasdsa");
+	    	//Thread.sleep(1500); //delay to get the message for server.
+	    	//if(userReceived != null) {
+	    	//	GuiManager.guiLoader("Main.fxml",btnLogin);
+			//}
+			//else{
+				lblError.setText(errorMessage);
+				lblError.setVisible(true);
+			//}
 		}
     }
-    
+		
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
     	if (ConnectionController.getClient() != null && ConnectionController.getClient().isConnected()) {
@@ -65,5 +87,8 @@ public class LoginController implements Initializable{
     		lblError.setText("Connect to server first");
     	}
 	}
+    public static void setUserReceived(User received) {
+    	userReceived = received;
+    }
     
 }

@@ -1,7 +1,9 @@
 package common;
 
-public enum MsgEnum {
-	LOGIN,
+import java.io.Serializable;
+
+public enum MsgEnum implements Serializable {
+	LOGIN, LOGIN_ERROR,
 	LOGOUT;
 	
 }

@@ -50,8 +50,15 @@ public class IcmServer extends AbstractServer
    */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client)
 	{
+		System.out.println("asdasd");
 		msgHandler = new MsgHandler();
-		msgHandler.clientMsgHandler(msgHandler, client, conn);
+		
+		try {
+			msgHandler.clientMsgHandler(msgHandler, client, conn);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
   
 	protected void serverStarted()
