@@ -33,10 +33,7 @@ public class ClientConnector extends AbstractClient {
 	   */
 	 public void handleMessageFromServer(Object msg) 
 	 {
-		 if(msg instanceof MsgEnum)
-		    {
-			 	//
-		    }
+		 msgReceivedHandler.msgHandler(msg);
 	 }
 	 
 	 /**

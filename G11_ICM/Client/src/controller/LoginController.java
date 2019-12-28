@@ -7,10 +7,9 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 import common.ClientConnector;
 import common.MsgEnum;
-import common.msgSendHandler;
+import common.ObjectManager;
 import entity.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,10 +47,8 @@ public class LoginController implements Initializable{
 			lblError.setText("Username and Password can't be empty");
 			lblError.setVisible(true);
 		}else {
-			ArrayList<Object> loginParams = new ArrayList<Object>();
-			loginParams.add(tbLoginID.getText());
-			loginParams.add(tbPassowrd.getText());
-	    	msgSendHandler msg = new msgSendHandler(MsgEnum.LOGIN ,"Login", loginParams);
+			User user = new User(tbLoginID.getText(), tbPassowrd.getText());
+	    	ObjectManager msg = new ObjectManager(user, MsgEnum.LOGIN);
 	    	client.handleMessageFromClientUI(msg);
 		}
     }

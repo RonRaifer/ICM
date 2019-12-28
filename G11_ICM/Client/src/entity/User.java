@@ -9,14 +9,18 @@ public class User {
 	private String department;
 	private String password;
 	
-	public User(String idUser, String firstName, String lastName, String email, String role, String department,
-			String password) {
+	public User(String idUser, String firstName, String lastName, String email, String role, String department, String password) {
 		this.idUser = idUser;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.role = role;
 		this.department = department;
+		this.password = password;
+	}
+	
+	public User(String idUser, String password) {
+		this.idUser = idUser;
 		this.password = password;
 	}
 

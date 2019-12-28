@@ -22,6 +22,7 @@ import java.util.ArrayList;
  */
 public class IcmServer extends AbstractServer 
 {	
+	 private MsgHandler msgHandler;
 	 private static Connection conn;
 	 private static DBHandler dbHandler;
  
@@ -49,7 +50,8 @@ public class IcmServer extends AbstractServer
    */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client)
 	{
-	   System.out.println(msg);
+		msgHandler = new MsgHandler();
+		msgHandler.clientMsgHandler(msgHandler, client, conn);
 	}
   
 	protected void serverStarted()
@@ -68,7 +70,36 @@ public class IcmServer extends AbstractServer
       ("Server has stopped listening for connections.");
   }
   
-  //Class methods ***************************************************
+  /**
+   * 
+   */
+  public static DBHandler getDBHandler() {
+  	return dbHandler;
+  }
+
+
+  /**
+   * 
+   */
+  public MsgHandler getMsgHandler() {
+  	return msgHandler;
+  }
+
+
+  /**
+   * 
+   */
+  public static void setDBHandler(DBHandler Handler) {
+  	dbHandler = Handler;
+  }
+
+
+  /**
+   * 
+   */
+  public static void setConnection(Connection con) {
+  	conn = con;
+  }
   
   /**
    * This method is responsible for the creation of 
@@ -102,7 +133,6 @@ public class IcmServer extends AbstractServer
     {
       System.out.println("ERROR - Could not listen for clients!");
     }
-    dbHandler.AAA();
   }
 }
 //End of EchoServer class

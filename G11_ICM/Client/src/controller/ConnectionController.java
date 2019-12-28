@@ -5,8 +5,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import common.ClientConnector;
-import common.ClientConnector.ConnectionDetails;
 import common.ConnectorIF;
+import common.ClientConnector.ConnectionDetails;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
