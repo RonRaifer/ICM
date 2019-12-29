@@ -24,12 +24,12 @@ public class MsgHandler {
 			stmt = conn.createStatement();
 			switch (objectManager.getMsgEnum()) {
 			case LOGIN:
-				//query string for sql search user
+
 				query = "SELECT * FROM user WHERE iduser = '" + objectManager.getUser().getIdUser() + "'" + ";";
 				rs = stmt.executeQuery(query);
-				// If user is exists in DB
+
 				if (rs.next() == true) {
-					// If password is match
+
 					if (rs.getString("password").equals(objectManager.getUser().getPassword())) {
 						user = new User(objectManager.getUser().getIdUser(), rs.getString("password"));
 						objectManager = new ObjectManager(user, objectManager.getMsgEnum().LOGIN);
@@ -43,6 +43,8 @@ public class MsgHandler {
 					}
 				break;
 				}
+			default:
+				break;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
