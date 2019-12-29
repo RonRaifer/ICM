@@ -18,7 +18,7 @@ import javafx.scene.layout.Pane;
 public class ConnectionController implements Initializable, ConnectorIF{
 	public final static int DEFAULT_PORT = 5555;			//default port
 	public final static String DEFAULT_HOST = "localhost";	//default host
-	private static ClientConnector client;							//sever handler
+	public static ClientConnector client;							//sever handler
 
 	@FXML
 	private Pane insidePane;
@@ -50,7 +50,7 @@ public class ConnectionController implements Initializable, ConnectorIF{
 				lblError.setVisible(true);
 			}else {
 				ConnectionDetails.setServerDetails(tbHostName.getText(), Integer.parseInt(tbPort.getText()));
-				this.client = new ClientConnector(this);
+				client = new ClientConnector(this);
 				connectionEstablished(true);
 			}	
 		} catch (IOException e) {
@@ -89,7 +89,8 @@ public class ConnectionController implements Initializable, ConnectorIF{
 	}
 	@Override
 	public void display(String message) {
-		// TODO Auto-generated method stub
+		System.out.println(message);
 		
 	}
+	
 }

@@ -24,25 +24,23 @@ public class MsgHandler {
 			stmt = conn.createStatement();
 			switch (objectManager.getMsgEnum()) {
 			case LOGIN:
-
 				query = "SELECT * FROM user WHERE iduser = '" + objectManager.getUser().getIdUser() + "'" + ";";
 				rs = stmt.executeQuery(query);
-
+				
 				if (rs.next() == true) {
-
 					if (rs.getString("password").equals(objectManager.getUser().getPassword())) {
 						user = new User(objectManager.getUser().getIdUser(), rs.getString("password"));
 						objectManager = new ObjectManager(user, objectManager.getMsgEnum().LOGIN);
-						client.sendToClient(objectManager);
 					} else {
-						objectManager = new ObjectManager("User can't be found", objectManager.getMsgEnum().LOGIN_ERROR);
-						// Error message: user not found
-						if (client != null) { 
-							client.sendToClient(objectManager);
-						}
+						objectManager = new ObjectManager("Password invalid", objectManager.getMsgEnum().LOGIN_ERROR);
 					}
-				break;
 				}
+				else {
+					objectManager = new ObjectManager("User does not exist", objectManager.getMsgEnum().LOGIN_ERROR);
+				}
+				client.sendToClient(objectManager);
+				break;
+				
 			default:
 				break;
 			}

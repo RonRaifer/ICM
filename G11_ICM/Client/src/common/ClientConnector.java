@@ -33,7 +33,6 @@ public class ClientConnector extends AbstractClient {
 	   */
 	 public void handleMessageFromServer(Object msg) 
 	 {
-		 System.out.println("Asdasdsa");
 		 msgReceivedHandler.msgHandler(msg);
 	 }
 	 
@@ -45,7 +44,7 @@ public class ClientConnector extends AbstractClient {
 	public void handleMessageFromClientUI(Object msg)  
 	{
 	   try
-	   {
+	   { 
 		   sendToServer(msg);
 	   }
 	    catch(IOException e)

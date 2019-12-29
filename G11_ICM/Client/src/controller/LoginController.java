@@ -29,11 +29,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class LoginController implements Initializable, Serializable {
+public class LoginController implements Initializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2471699661908072300L;
 	@FXML
     private Pane insidePane;
     @FXML
@@ -59,19 +58,16 @@ public class LoginController implements Initializable, Serializable {
 			lblError.setVisible(true);
 		}else {
 			User user = new User(tbLoginID.getText(), tbPassowrd.getText());
-			
 	    	ObjectManager msg = new ObjectManager(user, MsgEnum.LOGIN);
-	    	
 	    	client.handleMessageFromClientUI(msg);
-	    	System.out.println("Asdasdsa");
-	    	//Thread.sleep(1500); //delay to get the message for server.
-	    	//if(userReceived != null) {
-	    	//	GuiManager.guiLoader("Main.fxml",btnLogin);
-			//}
-			//else{
+	    	Thread.sleep(1500); //delay to get the message for server.
+	    	if(userReceived != null) {
+	    		GuiManager.guiLoader("Menu.fxml");
+			}
+			else{
 				lblError.setText(errorMessage);
 				lblError.setVisible(true);
-			//}
+			}
 		}
     }
 		

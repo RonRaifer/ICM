@@ -50,11 +50,10 @@ public class IcmServer extends AbstractServer
    */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client)
 	{
-		System.out.println("asdasd");
 		msgHandler = new MsgHandler();
 		
 		try {
-			msgHandler.clientMsgHandler(msgHandler, client, conn);
+			msgHandler.clientMsgHandler(msg, client, conn);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -118,7 +117,7 @@ public class IcmServer extends AbstractServer
   public static void main(String[] args) 
   {
     int port = 0; //Port to listen on
-    
+   
     dbHandler = new DBHandler();
     conn = dbHandler.databaseConnect();
     try
