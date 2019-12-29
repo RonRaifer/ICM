@@ -3,12 +3,8 @@ package common;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import ocsf.server.*;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
 
 /**
  * This class overrides some of the methods in the abstract 

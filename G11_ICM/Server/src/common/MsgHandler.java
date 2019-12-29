@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
 import entity.User;
 import common.ObjectManager;
