@@ -2,11 +2,14 @@ package common;
 
 import java.io.IOException;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class Main extends Application{
 
@@ -22,8 +25,7 @@ public class Main extends Application{
 		this.primaryStage = primaryStage;
 		loginWindow();
 	}
-	
-	
+		
 	public void loginWindow() throws IOException
 	{
 			FXMLLoader loader = new FXMLLoader();
@@ -33,6 +35,14 @@ public class Main extends Application{
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
+			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+				@Override
+				public void handle(WindowEvent e) {
+					Platform.exit();
+	                System.exit(0);
+					
+				}	            	
+            });
 			primaryStage.show();
 	}
 
