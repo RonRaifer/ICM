@@ -45,7 +45,7 @@
             <Font size="29.0" />
          </font>
       </Label>
-      <ImageView fitHeight="32.0" fitWidth="164.0" layoutX="355.0" layoutY="322.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="32.0" fitWidth="164.0" layoutX="398.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@img/braudeLogo.png" />
          </image>
@@ -68,7 +68,6 @@
             </Label>
          </items>
       </ToolBar>
-      <Button id="btnExit" layoutX="527.0" layoutY="324.0" mnemonicParsing="false" text="Exit" textFill="RED" />
       <Label layoutX="14.0" layoutY="324.0" text="Server Status:" />
       <Label id="lblConnectionStatus" fx:id="lblStatus" layoutX="92.0" layoutY="324.0" text="Offline" textFill="#ff0202" />
       <Label id="lblError" fx:id="lblError" layoutX="302.0" layoutY="267.0" text="Error Label" textFill="#fc0303" visible="false">
