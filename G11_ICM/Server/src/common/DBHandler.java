@@ -1,5 +1,6 @@
 package common;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -31,21 +32,15 @@ public class DBHandler {
             } 
         return conn;
    	}
-	public void AAA() {
+	public ResultSet executeQ(String query){
 		Statement stmt;
-		  try 
-			{
-				stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM user;");
-				while(rs.next()){
-					System.out.println(" "+ rs.getString(1) + "  " + rs.getString(2));
-				}
-				rs.close();
-				conn.close();
-
-			} catch (SQLException e) 
-			{
-				e.printStackTrace();
-			}
+		ResultSet rs = null;
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
 	}
 }
