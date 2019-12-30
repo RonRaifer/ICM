@@ -23,15 +23,12 @@ public class ConnectionController implements Initializable, ConnectorIF{
 
 	@FXML
 	private Pane insidePane;
-
 	@FXML
 	private TextField tbHostName;
-
 	@FXML
 	private Button btnConnect;
 	@FXML
 	private Button btnDisconnect;
-
 	@FXML
 	private Label lblConnected;
 	@FXML
