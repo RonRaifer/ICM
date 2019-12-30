@@ -8,20 +8,21 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class EnterController implements Initializable{
-	@FXML private Pane InsidePane;
 	@FXML private Pane apInside;
-	@FXML private AnchorPane apMain;
-	@FXML private Button btnLogin;
+	@FXML private BorderPane bpEnter;
+
 	
-	
-	@FXML 
 	public void connectionPaneView(ActionEvent event) {
 		try 
         {
@@ -51,10 +52,11 @@ public class EnterController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
 		try 
         {
             Pane newLoadedPane;  
-            newLoadedPane =  FXMLLoader.load(getClass().getResource("/boundary/guifiles/LoginPane.fxml"));
+            newLoadedPane =  FXMLLoader.load(getClass().getResource("/boundary/guifiles/LoginPane.fxml"));         
             apInside.getChildren().clear();
             apInside.getChildren().add(newLoadedPane);
         }

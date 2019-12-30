@@ -4,16 +4,20 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import boundary.GuiManager;
 import common.ClientConnector;
 import common.ConnectorIF;
 import common.ClientConnector.ConnectionDetails;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 
 public class ConnectionController implements Initializable, ConnectorIF{
 	public final static int DEFAULT_PORT = 5555;			//default port
@@ -32,30 +36,27 @@ public class ConnectionController implements Initializable, ConnectorIF{
 	private Button btnDisconnect;
 
 	@FXML
-	private Label lblError;
-
+	private Label lblConnected;
 	@FXML
 	private TextField tbPort;
-
 	@FXML
-	private Label lblSuccess;
+	private Pane pMessageDown;
 	@FXML
-	private Label lblConnected;
+	private Label lblMessageDown;
 	
 	@FXML
 	public void ConnectClick(ActionEvent event) {	//when click on 'connect'
 		try {
 			if(tbHostName.getText().isEmpty() || tbPort.getText().isEmpty()) {
-				lblError.setText("HostName and Port can't be empty");
-				lblError.setVisible(true);
+				GuiManager.showError(lblMessageDown, pMessageDown, "HostName and Port can't be empty");
 			}else {
 				ConnectionDetails.setServerDetails(tbHostName.getText(), Integer.parseInt(tbPort.getText()));
 				client = new ClientConnector(this);
 				connectionEstablished(true);
+				GuiManager.showSuccess(lblMessageDown, pMessageDown,"Connection Established Successfuly!");
 			}	
 		} catch (IOException e) {
-			lblError.setText("Connection Error");
-			lblError.setVisible(true);
+			GuiManager.showError(lblMessageDown, pMessageDown,"Error: "+ e.getMessage());
 		}
 	}
 	@FXML
@@ -63,8 +64,9 @@ public class ConnectionController implements Initializable, ConnectorIF{
 		try {
     		client.closeConnection();
     		connectionEstablished(false);
+    		GuiManager.showSuccess(lblMessageDown, pMessageDown,"Disconnected Successfuly!");
 		} catch (IOException e) {
-			e.printStackTrace();
+			GuiManager.showError(lblMessageDown, pMessageDown,"Error: "+ e.getMessage());
 		}
 	}
 	public static ClientConnector getClient() {		
@@ -72,16 +74,16 @@ public class ConnectionController implements Initializable, ConnectorIF{
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		pMessageDown.setVisible(false);
 		if (ConnectionController.getClient() != null && ConnectionController.getClient().isConnected()) {
 			connectionEstablished(true);
+			lblConnected.setVisible(true);
 		}
 		tbHostName.setText(ConnectionDetails.getHost());
 		tbPort.setText(Integer.toString(ConnectionDetails.getPort()));
 	}
 	
 	private void connectionEstablished(boolean isConnected) {
-		lblSuccess.setVisible(isConnected);
-		lblConnected.setVisible(isConnected);
 		btnDisconnect.setVisible(isConnected);
 		btnConnect.setDisable(isConnected);
 		tbHostName.setDisable(isConnected);

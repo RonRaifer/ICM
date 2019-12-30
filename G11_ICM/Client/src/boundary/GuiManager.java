@@ -5,15 +5,18 @@ import java.io.IOException;
 import common.Main;
 import controller.MenuController;
 import entity.User;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
 public class GuiManager {
 	public static void guiLoader(String fxmlType) throws IOException {
@@ -66,5 +69,24 @@ public class GuiManager {
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
+	}
+	 public static void showError(Label lblError, Pane pError, String message) {
+		 pError.setStyle("-fx-background-color: #FF5C5C;" + "-fx-background-radius: 20");
+		 lblError.layoutXProperty().bind(pError.widthProperty().subtract(lblError.widthProperty()).divide(2));
+	     lblError.setText(message);
+		 pError.setVisible(true);
+		 PauseTransition pause = new PauseTransition(Duration.seconds(5));
+		 pause.setOnFinished(e -> pError.setVisible(false));
+		 pause.play();
+	}
+	 
+	public static void showSuccess(Label lblSuccess, Pane pSuccess, String message) {
+		 pSuccess.setStyle("-fx-background-color: #01BF27;" + "-fx-background-radius: 20");
+		 lblSuccess.layoutXProperty().bind(pSuccess.widthProperty().subtract(lblSuccess.widthProperty()).divide(2));
+		 lblSuccess.setText(message);
+		 pSuccess.setVisible(true);
+		 PauseTransition pause = new PauseTransition(Duration.seconds(5));
+		 pause.setOnFinished(e -> pSuccess.setVisible(false));
+		 pause.play();
 	}
 }

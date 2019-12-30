@@ -52,17 +52,7 @@
             </Label>
          </items>
       </ToolBar>
-      <Label id="lblError" fx:id="lblError" layoutX="283.0" layoutY="259.0" text="Error Label" textFill="#fc0303" visible="false">
-         <font>
-            <Font name="Arial Bold" size="13.0" />
-         </font>
-      </Label>
       <TextField fx:id="tbPort" focusTraversable="false" layoutX="323.0" layoutY="175.0" prefHeight="27.0" prefWidth="180.0" promptText="Port" />
-      <Label id="lblError" fx:id="lblSuccess" layoutX="319.0" layoutY="245.0" text="Connection Established" textFill="#07b507" visible="false">
-         <font>
-            <Font name="Arial Bold" size="13.0" />
-         </font>
-      </Label>
       <Label fx:id="lblConnected" layoutX="32.0" layoutY="264.0" text="You are connected to the server, you may disconnect and then connect again" visible="false">
          <font>
             <Font name="Arial Bold" size="14.0" />
@@ -73,6 +63,18 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
+      <Pane fx:id="pMessageDown" layoutX="92.0" layoutY="288.0" prefHeight="32.0" prefWidth="399.0">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <Label id="lblError" fx:id="lblMessageDown" alignment="CENTER" layoutX="98.0" layoutY="8.0" text="Error Label" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
    </children>
    <effect>
       <DropShadow />

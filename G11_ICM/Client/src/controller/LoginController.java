@@ -1,12 +1,10 @@
 package controller;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URL;
 import java.util.ResourceBundle;
 import boundary.GuiManager;
 import common.ClientConnector;
-import common.Main;
 import common.MsgEnum;
 import common.ObjectManager;
 import entity.User;
@@ -19,7 +17,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -43,9 +40,11 @@ public class LoginController implements Initializable {
     @FXML
     private Hyperlink hlForgot;
     @FXML
-    private Label lblError;
+    private Label lblMessageDown;
     @FXML
     private Label lblStatus;
+    @FXML
+    private Pane pMessageDown;
     
     private ClientConnector client;
     private Service<Void> loginBackgroud;
@@ -54,8 +53,7 @@ public class LoginController implements Initializable {
     @FXML 
 	public void loginClick(ActionEvent event) throws InterruptedException, IOException {
     	if(tbLoginID.getText().isEmpty() || tbPassowrd.getText().isEmpty()) {
-			lblError.setText("Username and Password can't be empty");
-			lblError.setVisible(true);
+    		GuiManager.showError(lblMessageDown, pMessageDown, "Username and Password can't be empty");
 		}else {
 			loginBackgroud = new Service<Void>() {
     		@Override
@@ -84,8 +82,7 @@ public class LoginController implements Initializable {
 			    		stage.close();
 					}
 					else{
-						lblError.setText(errorMessage);
-						lblError.setVisible(true);
+						GuiManager.showError(lblMessageDown, pMessageDown, errorMessage);
 						apLoading.setVisible(false);
 					}
 	    	});
@@ -99,6 +96,7 @@ public class LoginController implements Initializable {
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
     	apLoading.setVisible(false);
+    	pMessageDown.setVisible(false);
     	if (ConnectionController.getClient() != null && ConnectionController.getClient().isConnected()) {
     		client = ConnectionController.getClient();
     		lblStatus.setTextFill(Color.GREEN);
@@ -106,9 +104,10 @@ public class LoginController implements Initializable {
     	}
     	else {
     		btnLogin.setDisable(true);
-    		lblError.setText("Connect to server first");
+    		GuiManager.showError(lblMessageDown, pMessageDown, "Connect to the server first");
     	}
 	}
+    
     public static void setUserReceived(User received) {
     	userReceived = received;
     }
