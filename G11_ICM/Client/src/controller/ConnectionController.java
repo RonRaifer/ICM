@@ -8,16 +8,13 @@ import boundary.GuiManager;
 import common.ClientConnector;
 import common.ConnectorIF;
 import common.ClientConnector.ConnectionDetails;
-import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.util.Duration;
 
 public class ConnectionController implements Initializable, ConnectorIF{
 	public final static int DEFAULT_PORT = 5555;			//default port
