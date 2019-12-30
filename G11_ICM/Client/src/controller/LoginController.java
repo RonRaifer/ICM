@@ -71,9 +71,9 @@ public class LoginController implements Initializable {
     		}
     	};
 	    	loginBackgroud.setOnRunning((e) -> apLoading.setVisible(true));
-	    	loginBackgroud.setOnSucceeded((e) ->{
+	    	loginBackgroud.setOnSucceeded(e ->{
 		    		if(userReceived != null) {
-			    		Stage stage = (Stage) insidePane.getScene().getWindow();
+			    		Stage stage = (Stage)insidePane.getScene().getWindow();
 						try {
 							GuiManager.guiLoader("Menu.fxml", userReceived);
 						} catch (IOException e1) {

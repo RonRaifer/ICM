@@ -68,8 +68,10 @@ public class MenuController implements Initializable{
 	}
 	
 	private void sceneManager(String fxmlName, Button button) {
-		button.setStyle("-fx-font-weight: bold;" + "-fx-font-size: 14px;" + "-fx-text-fill: DARKSLATEGRAY");
-		clearButton();
+		if(button.equals(btnTemp)) return;
+		button.getStyleClass().add("btnClicked");
+		btnTemp.getStyleClass().clear();
+		btnTemp.getStyleClass().add("button");
 		btnTemp = button;
 		try 
         {
@@ -81,11 +83,5 @@ public class MenuController implements Initializable{
         catch (IOException ex) {
             Logger.getLogger(EnterController.class.getName()).log(Level.SEVERE, null, ex);
         }
-	}
-	private void clearButton() {
-		btnTemp.setStyle("-fx-font: normal bold 90 Langdon; "
-                + "-fx-base: #AE3522; "
-                + "-fx-text-fill: white;");
-		btnTemp.setStyle("-fx-font-weight: regular;" + "-fx-font-size: 14px;" + "-fx-text-fill: BLACK");
 	}
 }

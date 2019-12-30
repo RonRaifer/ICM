@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.geometry.Point3D?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
@@ -10,7 +11,6 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -77,117 +77,116 @@
       </VBox>
    </top>
    <left>
-      <VBox minWidth="-Infinity" prefHeight="654.0" prefWidth="201.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+      <VBox prefHeight="652.0" prefWidth="160.0" style="-fx-background-color: white;" stylesheets="@Main.css" BorderPane.alignment="CENTER">
          <effect>
             <DropShadow color="#868686" height="36.57" radius="19.0825" width="41.76" />
          </effect>
          <children>
-            <AnchorPane prefHeight="149.0" prefWidth="200.0">
+            <AnchorPane prefHeight="146.0" prefWidth="199.0">
                <children>
-                  <ImageView fitHeight="47.0" fitWidth="51.0" layoutX="76.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="47.0" fitWidth="51.0" layoutX="55.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@icons/userico.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="47.0" layoutY="75.0" text="Hello," />
-                  <Label fx:id="lblName" layoutX="83.0" layoutY="76.0" text="Uri Gottlieb">
+                  <Label layoutX="25.0" layoutY="65.0" text="Hello," />
+                  <Label fx:id="lblName" layoutX="61.0" layoutY="66.0" text="Uri Gottlieb">
                      <font>
                         <Font name="Arial Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label layoutX="65.0" layoutY="92.0" text="Role:" />
-                  <Label fx:id="lblRole" layoutX="97.0" layoutY="92.0" text="Student" textFill="#029e02" />
-                  <Separator layoutX="5.0" layoutY="142.0" prefHeight="4.0" prefWidth="188.0" />
-                  <Hyperlink focusTraversable="false" layoutX="78.0" layoutY="109.0" text="Profile" underline="true">
+                  <Label layoutX="42.0" layoutY="82.0" text="Role:" />
+                  <Label fx:id="lblRole" layoutX="74.0" layoutY="82.0" text="Student" textFill="#029e02" />
+                  <Hyperlink focusTraversable="false" layoutX="55.0" layoutY="99.0" text="Profile" underline="true">
                      <font>
                         <Font name="System Italic" size="12.0" />
                      </font>
                   </Hyperlink>
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="162.0" prefWidth="200.0">
-               <children>
-                  <Button fx:id="btnHome" contentDisplay="TOP" graphicTextGap="0.0" layoutY="24.0" mnemonicParsing="false" onAction="#homeClick" prefHeight="55.0" prefWidth="200.0" text="Home" textFill="DARKSLATEGRAY">
-                     <font>
-                        <Font name="Arial Bold" size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@icons/home.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </Button>
-                  <Label layoutX="76.0" layoutY="5.0" text="General" textFill="#868686">
-                     <effect>
-                        <Glow />
-                     </effect>
-                     <font>
-                        <Font name="Arial Bold Italic" size="13.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="btnMessages" contentDisplay="TOP" graphicTextGap="0.0" layoutY="94.0" mnemonicParsing="false" onAction="#messagesClick" prefHeight="31.0" prefWidth="200.0" text="Messages">
-                     <font>
-                        <Font name="Arial" size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@icons/msg.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Label layoutX="135.0" layoutY="138.0" text="[2]" textFill="#f80303" />
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="185.0" prefWidth="201.0">
-               <children>
-                  <Button fx:id="btnNewRequest" contentDisplay="TOP" graphicTextGap="0.0" layoutY="29.0" mnemonicParsing="false" onAction="#newRequestClick" prefHeight="32.0" prefWidth="200.0" text="New Request">
-                     <font>
-                        <Font name="Arial" size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@icons/newRequest.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Label layoutX="71.0" layoutY="8.0" text="Requests" textFill="#868686">
-                     <effect>
-                        <Glow />
-                     </effect>
-                     <font>
-                        <Font name="Arial Bold Italic" size="13.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="btnMyRequests" contentDisplay="TOP" graphicTextGap="0.0" layoutX="1.0" layoutY="99.0" mnemonicParsing="false" onAction="#myRequestsClick" prefHeight="32.0" prefWidth="200.0" text="My Requests">
-                     <font>
-                        <Font name="Arial" size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@icons/search.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </AnchorPane>
+            <Separator minHeight="-Infinity" prefHeight="0.0">
+               <rotationAxis>
+                  <Point3D />
+               </rotationAxis>
+            </Separator>
+            <Button fx:id="btnHome" contentDisplay="TOP" graphicTextGap="0.0" mnemonicParsing="false" onAction="#homeClick" prefHeight="80.0" prefWidth="200.0" text="Home" textFill="DARKSLATEGRAY">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/home.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Separator layoutX="10.0" layoutY="396.0" minHeight="-Infinity" prefHeight="0.0">
+               <rotationAxis>
+                  <Point3D />
+               </rotationAxis>
+            </Separator>
+            <Button fx:id="btnMessages" contentDisplay="TOP" graphicTextGap="0.0" mnemonicParsing="false" onAction="#messagesClick" prefHeight="80.0" prefWidth="200.0" text="Messages">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/msg.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Separator layoutX="10.0" layoutY="236.0" minHeight="-Infinity" prefHeight="0.0">
+               <rotationAxis>
+                  <Point3D />
+               </rotationAxis>
+            </Separator>
+            <Button fx:id="btnNewRequest" contentDisplay="TOP" graphicTextGap="0.0" mnemonicParsing="false" onAction="#newRequestClick" prefHeight="80.0" prefWidth="200.0" text="New Request">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/newRequest.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Separator minHeight="-Infinity" prefHeight="0.0">
+               <rotationAxis>
+                  <Point3D />
+               </rotationAxis>
+            </Separator>
+            <Button fx:id="btnMyRequests" contentDisplay="TOP" graphicTextGap="0.0" mnemonicParsing="false" onAction="#myRequestsClick" prefHeight="80.0" prefWidth="200.0" text="My Requests">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/search.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Separator minHeight="-Infinity" prefHeight="0.0">
+               <rotationAxis>
+                  <Point3D />
+               </rotationAxis>
+            </Separator>
          </children>
       </VBox>
    </left>
    <bottom>
-      <Pane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="41.0" prefWidth="201.0" style="-fx-background-color: white;" BorderPane.alignment="BOTTOM_LEFT">
+      <Pane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="41.0" prefWidth="160.0" style="-fx-background-color: white;" BorderPane.alignment="BOTTOM_LEFT">
          <children>
-            <ImageView fitHeight="43.0" fitWidth="200.0" layoutX="3.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="38.0" fitWidth="160.0" layoutX="1.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@img/braudeLogo.png" />
                </image>

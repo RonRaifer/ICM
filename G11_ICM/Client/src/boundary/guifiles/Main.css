@@ -7,3 +7,25 @@
 	-fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #36C6D3, #27979F);
 	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
 }
+
+.button {
+	-fx-background-color: transparent;
+}
+.button:hover {
+	-fx-background-color: #2F4F4F;
+	-fx-text-fill: #FFFFFF;
+	-fx-font-weight: bold;
+	-fx-font-size: 16px;
+}
+.button:pressed {
+	-fx-background-color: #037AC9;
+}
+.btnClear {
+	-fx-background-color: transparent;
+}
+.btnClicked {
+	-fx-background-color: #2F4F4F;
+	-fx-text-fill: #FFFFFF;
+	-fx-font-weight: bold;
+	-fx-font-size: 16px;
+}
