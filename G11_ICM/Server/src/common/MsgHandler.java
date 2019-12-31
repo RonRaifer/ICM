@@ -11,7 +11,7 @@ import ocsf.server.ConnectionToClient;
 
 public class MsgHandler {
 	DBHandler dbHandler = IcmServer.getDBHandler();
-	ObjectManager objectManager;
+	private ObjectManager objectManager;
 	
 	public void clientMsgHandler(Object msg, ConnectionToClient client, Connection conn) throws IOException, SQLException {
 		objectManager = (ObjectManager)msg;
@@ -19,7 +19,6 @@ public class MsgHandler {
 		String query;
 		String errorMsg;
 		ResultSet rs;
-		
 		switch (objectManager.getMsgEnum()) {
 		case LOGIN:
 			query = "SELECT * FROM user WHERE iduser = '" + objectManager.getUser().getIdUser() + "'" + ";";
@@ -28,17 +27,17 @@ public class MsgHandler {
 				if (rs.getString("password").equals(objectManager.getUser().getPassword())) { //if user and password ok
 					if(!IcmServer.addToConnectedUsers(rs.getString("iduser"))) {//if user already connected - show error message and break
 						errorMsg = "User ID: " + rs.getString("iduser") +  " already connected to ICM.";
-						objectManager = new ObjectManager(errorMsg, objectManager.getMsgEnum().LOGIN_ERROR);
+						objectManager = new ObjectManager(errorMsg, MsgEnum.LOGIN_ERROR);
 					}else {
 						user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
-						objectManager = new ObjectManager(user, objectManager.getMsgEnum().LOGIN);
+						objectManager = new ObjectManager(user, MsgEnum.LOGIN);
 					}
 				} else {
-					objectManager = new ObjectManager("Password invalid", objectManager.getMsgEnum().LOGIN_ERROR);
+					objectManager = new ObjectManager("Password invalid", MsgEnum.LOGIN_ERROR);
 				}
 			}
 			else {
-				objectManager = new ObjectManager("User does not exist", objectManager.getMsgEnum().LOGIN_ERROR);
+				objectManager = new ObjectManager("User does not exist", MsgEnum.LOGIN_ERROR);
 			}
 			client.sendToClient(objectManager);
 			break;
