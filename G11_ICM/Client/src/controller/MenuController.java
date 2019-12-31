@@ -6,16 +6,28 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import boundary.GuiManager;
+import common.MsgEnum;
+import common.ObjectManager;
 import entity.User;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
 public class MenuController implements Initializable{
 	@FXML
@@ -34,17 +46,32 @@ public class MenuController implements Initializable{
     private Button btnMyRequests;
     @FXML
     private AnchorPane apCenterContent;
-    private Button btnTemp;    
+    @FXML
+    private BorderPane bpRoot;
+    @FXML
+    private Stage menuStage;
+    private Button btnTemp;
 	private User user;
+	//private Stage menuStage;
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public void initialize(URL location, ResourceBundle resources) {		
 		btnTemp = new Button();
 		sceneManager("HomePane", btnHome);
 	}
 	
-	public void initData(User user) {
+	public void initData(User user, Stage stage) {
+		this.user = user;
+		menuStage = stage;
 		lblName.setText(user.getFirstName() + " " + user.getLastName());
 		lblRole.setText(user.getRole());
+		Platform.setImplicitExit(false);
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent e) {
+				e.consume();
+				logoutUser();
+			}	            	
+        });
 	}
 	
 	@FXML
@@ -66,6 +93,11 @@ public class MenuController implements Initializable{
     void newRequestClick(ActionEvent event) {
     	sceneManager("NewRequestPane", btnNewRequest);
 	}
+    
+    @FXML
+    void logoutClick(ActionEvent event) {
+    	logoutUser();
+	}
 	
 	private void sceneManager(String fxmlName, Button button) {
 		if(button.equals(btnTemp)) return;
@@ -83,5 +115,36 @@ public class MenuController implements Initializable{
         catch (IOException ex) {
             Logger.getLogger(EnterController.class.getName()).log(Level.SEVERE, null, ex);
         }
+	}
+	private void logoutUser() {
+		ColorAdjust adj = new ColorAdjust(0, -0.2, -0.1, 0);
+        GaussianBlur blur = new GaussianBlur(55); // 55 is just to show edge effect more clearly.
+        adj.setInput(blur);
+        bpRoot.setEffect(adj);
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    	alert.getButtonTypes().remove(ButtonType.OK);
+    	alert.getButtonTypes().add(ButtonType.YES);
+    	alert.setTitle("Exit ICM");
+    	alert.setHeaderText("You are about to exit ICM");
+    	alert.setContentText("Are you sure you want to exit?");
+    	alert.showAndWait();
+    	if (alert.getResult() == ButtonType.YES) {
+    		ObjectManager msg = new ObjectManager(user, MsgEnum.LOGOUT);
+    		ConnectionController.getClient().handleMessageFromClientUI(msg);
+    		PauseTransition pause = new PauseTransition(Duration.seconds(1));
+    		pause.setOnFinished(e -> {
+    			try {
+    				GuiManager.guiLoader("Enter", new Stage());
+    				menuStage.close();
+    			} catch (IOException e1) {
+    				// TODO Auto-generated catch block
+    				e1.printStackTrace();
+    			}
+    		});
+    		pause.play();
+    	}else {
+    		bpRoot.setEffect(null);
+    	}
+		
 	}
 }

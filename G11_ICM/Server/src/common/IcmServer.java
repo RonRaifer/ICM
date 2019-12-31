@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.TreeSet;
+
 import ocsf.server.*;
 
 /**
@@ -21,6 +23,7 @@ public class IcmServer extends AbstractServer
 	 private MsgHandler msgHandler;
 	 private static Connection conn;
 	 private static DBHandler dbHandler;
+	 private static TreeSet<String> loggedUsers;	 
  
   /**
    * The default port to listen on.
@@ -97,7 +100,15 @@ public class IcmServer extends AbstractServer
   public static void setDBHandler(DBHandler Handler) {
   	dbHandler = Handler;
   }
-
+  
+  public static boolean addToConnectedUsers(String userID) {
+	  if(loggedUsers.contains(userID)) return false;
+	  loggedUsers.add(userID);
+	  return true;
+  }
+  public static void removeUserConnected(String userID) {
+	  loggedUsers.remove(userID);
+  }
 
   /**
    * 
@@ -119,6 +130,7 @@ public class IcmServer extends AbstractServer
    
     dbHandler = new DBHandler();
     conn = dbHandler.databaseConnect();
+    loggedUsers = new TreeSet<String>();
     try
     {
       port = Integer.parseInt(args[0]); //Get port from command line

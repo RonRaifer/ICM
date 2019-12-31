@@ -75,7 +75,7 @@ public class LoginController implements Initializable {
 		    		if(userReceived != null) {
 			    		Stage stage = (Stage)insidePane.getScene().getWindow();
 						try {
-							GuiManager.guiLoader("Menu.fxml", userReceived);
+							GuiManager.guiLoader("Menu", userReceived);
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}

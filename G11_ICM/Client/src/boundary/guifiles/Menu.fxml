@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="772.0" prefWidth="868.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuController">
+<BorderPane fx:id="bpRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="772.0" prefWidth="868.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuController">
    <top>
       <VBox prefHeight="75.0" prefWidth="600.0" style="-fx-background-color: #2F4F4F;" BorderPane.alignment="CENTER">
          <children>
@@ -32,7 +32,7 @@
                   </ImageView>
                </left>
                <right>
-                  <Button fx:id="btnLogout" alignment="TOP_RIGHT" mnemonicParsing="false" prefHeight="19.0" prefWidth="105.0" style="-fx-background-color: #2F4F4F;" text="Logout" textFill="#fcf9f9" BorderPane.alignment="CENTER">
+                  <Button fx:id="btnLogout" alignment="TOP_RIGHT" mnemonicParsing="false" onAction="#logoutClick" prefHeight="19.0" prefWidth="105.0" style="-fx-background-color: #2F4F4F;" text="Logout" textFill="#fcf9f9" BorderPane.alignment="CENTER">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
