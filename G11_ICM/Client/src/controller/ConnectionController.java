@@ -58,6 +58,7 @@ public class ConnectionController implements Initializable, ConnectorIF{
 		try {
     		client.closeConnection();
     		connectionEstablished(false);
+    		lblConnected.setVisible(false);
     		GuiManager.showSuccess(lblMessageDown, pMessageDown,"Disconnected Successfuly!");
 		} catch (IOException e) {
 			GuiManager.showError(lblMessageDown, pMessageDown,"Error: "+ e.getMessage());

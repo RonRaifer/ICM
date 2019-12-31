@@ -2,6 +2,7 @@ package boundary;
 
 import java.io.IOException;
 
+import common.Main;
 import controller.MenuController;
 import entity.User;
 import javafx.animation.PauseTransition;
@@ -16,16 +17,14 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 public class GuiManager {
-	public static void guiLoader(String fxmlType) throws IOException {
-		String path = "../boundary/guifiles/";
-		FXMLLoader loader = new FXMLLoader();
-		Stage stage = new Stage();	
+	public static void guiLoader(String fxmlName, Stage stage) throws IOException {
+		String path = "../boundary/guifiles/" + fxmlName + ".fxml";
+		FXMLLoader loader = new FXMLLoader();	
 		try {  
-	            loader.setLocation(controller.MenuController.class.getResource(path + fxmlType));
-				Pane requestsMain = loader.load();
-	            Scene scene = new Scene(requestsMain);
+				loader.setLocation(Main.class.getResource(path));
+				Pane root = loader.load();
+	            Scene scene = new Scene(root);
 	            stage.setScene(scene);
-	            stage.setMaximized(true);
 	            stage.setResizable(false);
 	            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 					@Override
@@ -40,28 +39,20 @@ public class GuiManager {
 	            e.printStackTrace();
 	        }
 	}
-	public static void guiLoader(String fxmlType, User user) throws IOException {
-		String path = "../boundary/guifiles/";
+	public static void guiLoader(String fxmlName, User user) throws IOException {
+		String path = "../boundary/guifiles/" + fxmlName + ".fxml";
 
 		Stage stage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		try {  
-				loader.setLocation(controller.MenuController.class.getResource(path + fxmlType));
+				loader.setLocation(controller.MenuController.class.getResource(path));
 				Pane root = loader.load();
 				MenuController controller = loader.getController();
-				controller.initData(user);
+				controller.initData(user, stage);
 	            Scene scene = new Scene(root);
 	            stage.setScene(scene);
 	            stage.setMaximized(true);
-	            stage.setResizable(false);
-	            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-					@Override
-					public void handle(WindowEvent e) {
-						Platform.exit();
-		                System.exit(0);
-						
-					}	            	
-	            });
+	            stage.setResizable(false);  
 	            stage.show();
 	        } catch (IOException e) {
 	            e.printStackTrace();
