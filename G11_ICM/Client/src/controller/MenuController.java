@@ -61,7 +61,7 @@ public class MenuController implements Initializable{
     private Stage menuStage;
     private Button btnTemp;
 	private User user;
-	//private Stage menuStage;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {		
 		btnTemp = new Button();

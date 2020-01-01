@@ -42,6 +42,8 @@ public class LoginController implements Initializable {
     @FXML
     private Label lblMessageDown;
     @FXML
+    private Label lblLoader;
+    @FXML
     private Label lblStatus;
     @FXML
     private Pane pMessageDown;
@@ -64,7 +66,7 @@ public class LoginController implements Initializable {
     					User user = new User(tbLoginID.getText(), tbPassowrd.getText());
     				    ObjectManager msg = new ObjectManager(user, MsgEnum.LOGIN);
     				    client.handleMessageFromClientUI(msg);
-    				    Thread.sleep(2000);	
+    				    Thread.sleep(1500);					 
 						return null;
     				}
     			};
