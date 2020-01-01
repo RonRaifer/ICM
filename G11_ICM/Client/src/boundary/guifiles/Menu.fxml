@@ -95,13 +95,20 @@
                         <Font name="Arial Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label layoutX="42.0" layoutY="82.0" text="Role:" />
-                  <Label fx:id="lblRole" layoutX="74.0" layoutY="82.0" text="Student" textFill="#029e02" />
-                  <Hyperlink focusTraversable="false" layoutX="55.0" layoutY="99.0" text="Profile" underline="true">
+                  <Hyperlink fx:id="hlProfile" focusTraversable="false" layoutX="59.0" layoutY="108.0" onAction="#profileClick" text="Profile" underline="true">
                      <font>
                         <Font name="System Italic" size="12.0" />
                      </font>
                   </Hyperlink>
+                  <Pane fx:id="pRole" layoutY="82.0" prefHeight="26.0" prefWidth="160.0" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="82.0">
+                     <children>
+                        <Label fx:id="lblRole" layoutX="58.0" layoutY="6.0" text="Student" textFill="#029e02">
+                           <font>
+                              <Font name="Arial" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
                </children>
             </AnchorPane>
             <Separator minHeight="-Infinity" prefHeight="0.0">

@@ -20,11 +20,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
@@ -51,14 +53,18 @@ public class MenuController implements Initializable{
     @FXML
     private Button btnEmployees;
     @FXML
+    private Hyperlink hlProfile;
+    @FXML
     private AnchorPane apCenterContent;
     @FXML
     private BorderPane bpRoot;
     @FXML
+    private Pane pRole;
+    @FXML
     private Stage menuStage;
     private Button btnTemp;
 	private User user;
-	//private Stage menuStage;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {		
 		btnTemp = new Button();
@@ -70,6 +76,7 @@ public class MenuController implements Initializable{
 		menuStage = stage;
 		lblName.setText(user.getFirstName() + " " + user.getLastName());
 		lblRole.setText(user.getRole());
+		lblRole.layoutXProperty().bind(pRole.widthProperty().subtract(lblRole.widthProperty()).divide(2));
 		Platform.setImplicitExit(false);
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
@@ -117,6 +124,18 @@ public class MenuController implements Initializable{
     @FXML
     void employeesClick(ActionEvent event) {
     	sceneManager("EmployeesPane", btnEmployees);
+    }
+    
+    @FXML
+    void profileClick(ActionEvent event) {   	 
+        try {
+        	AnchorPane newLoadedPane; 
+			newLoadedPane =  FXMLLoader.load(getClass().getResource("/boundary/guifiles/ProfilePane.fxml"));
+			 apCenterContent.getChildren().clear();
+		        apCenterContent.getChildren().add(newLoadedPane);
+		} catch (IOException ex) {
+			Logger.getLogger(EnterController.class.getName()).log(Level.SEVERE, null, ex);
+		}
     }
 	
 	private void sceneManager(String fxmlName, Button button) {

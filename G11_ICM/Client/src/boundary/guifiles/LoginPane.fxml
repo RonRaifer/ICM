@@ -85,7 +85,7 @@
       <AnchorPane fx:id="apLoading" layoutX="209.0" layoutY="152.0" prefHeight="93.0" prefWidth="173.0" style="-fx-background-color: white;">
          <children>
             <ProgressIndicator layoutX="60.0" layoutY="10.0" />
-            <Label layoutX="56.0" layoutY="65.0" text="Connecting..." />
+            <Label fx:id="lblLoader" layoutX="56.0" layoutY="65.0" text="Connecting..." />
          </children>
          <effect>
             <DropShadow />
