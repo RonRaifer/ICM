@@ -45,6 +45,12 @@ public class MenuController implements Initializable{
     @FXML
     private Button btnMyRequests;
     @FXML
+    private Button btnProcesses;
+    @FXML
+    private Button btnReports;
+    @FXML
+    private Button btnEmployees;
+    @FXML
     private AnchorPane apCenterContent;
     @FXML
     private BorderPane bpRoot;
@@ -98,6 +104,20 @@ public class MenuController implements Initializable{
     void logoutClick(ActionEvent event) {
     	logoutUser();
 	}
+    
+    @FXML
+    void processesClick(ActionEvent event) {
+    	sceneManager("ProcessesPane", btnProcesses);
+    }
+
+    @FXML
+    void reportsClick(ActionEvent event) {
+    	sceneManager("ReportsPane", btnReports);
+    }
+    @FXML
+    void employeesClick(ActionEvent event) {
+    	sceneManager("EmployeesPane", btnEmployees);
+    }
 	
 	private void sceneManager(String fxmlName, Button button) {
 		if(button.equals(btnTemp)) return;

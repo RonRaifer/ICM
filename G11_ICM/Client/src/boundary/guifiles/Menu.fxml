@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="bpRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="772.0" prefWidth="868.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuController">
+<BorderPane fx:id="bpRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="878.0" prefWidth="883.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuController">
    <top>
       <VBox prefHeight="75.0" prefWidth="600.0" style="-fx-background-color: #2F4F4F;" BorderPane.alignment="CENTER">
          <children>
@@ -180,6 +180,45 @@
                   <Point3D />
                </rotationAxis>
             </Separator>
+            <Button fx:id="btnProcesses" contentDisplay="TOP" graphicTextGap="0.0" layoutX="10.0" layoutY="396.0" mnemonicParsing="false" onAction="#processesClick" prefHeight="80.0" prefWidth="200.0" text="Processes">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/processmanagment.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Separator layoutX="10.0" layoutY="476.0" minHeight="-Infinity" prefHeight="0.0" />
+            <Button fx:id="btnReports" contentDisplay="TOP" graphicTextGap="0.0" layoutX="10.0" layoutY="476.0" mnemonicParsing="false" onAction="#reportsClick" prefHeight="80.0" prefWidth="200.0" text="Reports">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/allReq.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Separator layoutX="10.0" layoutY="556.0" minHeight="-Infinity" prefHeight="0.0" />
+            <Button fx:id="btnEmployees" contentDisplay="TOP" graphicTextGap="0.0" layoutX="10.0" layoutY="556.0" mnemonicParsing="false" onAction="#employeesClick" prefHeight="80.0" prefWidth="200.0" text="Employees">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/usersIco.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Separator layoutX="10.0" layoutY="636.0" minHeight="-Infinity" prefHeight="0.0" />
          </children>
       </VBox>
    </left>
