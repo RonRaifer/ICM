@@ -1,6 +1,8 @@
 package common;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import entity.*;
 
@@ -12,7 +14,27 @@ public class ObjectManager implements Serializable {
 
 	//Entities
 	private User user;
+	private Request req;
+	private List<Document> listOfFiles;
+	private Integer reqIDFromServer;
 	
+	
+	
+
+	public ObjectManager( Integer reqIDFromServer, MsgEnum msgEnum) {
+		
+		this.msgEnum = msgEnum;
+		this.reqIDFromServer = reqIDFromServer;
+	}
+
+	public Integer getReqIDFromServer() {
+		return reqIDFromServer;
+	}
+
+	public void setReqIDFromServer(Integer reqIDFromServer) {
+		this.reqIDFromServer = reqIDFromServer;
+	}
+
 	public ObjectManager(User user, MsgEnum msgEnum) { //user login request
 		this.user = user;
 		this.msgEnum = msgEnum;
@@ -21,6 +43,19 @@ public class ObjectManager implements Serializable {
 	public ObjectManager(String errorMsg, MsgEnum msgEnum) { //for error message
 		this.errorMsg = errorMsg;
 		this.msgEnum = msgEnum;
+	}
+	
+	public ObjectManager(Request req, MsgEnum msgEnum) {
+		this.msgEnum = msgEnum;
+		this.req = req;
+	}
+	public ObjectManager(List<Document> listOfFiles, MsgEnum msgEnum) {
+		this.msgEnum = msgEnum;
+		this.listOfFiles=listOfFiles;
+		
+	}
+	public List<Document> getListOfFiles(){
+		return listOfFiles;
 	}
 	public User getUser() { //get user
 		return user;
@@ -32,6 +67,8 @@ public class ObjectManager implements Serializable {
 		return errorMsg;
 	}
 	
-	
+	public Request getReques() {
+		return req;
+	}
 	
 }

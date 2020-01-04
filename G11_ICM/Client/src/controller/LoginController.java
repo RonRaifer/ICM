@@ -115,4 +115,8 @@ public class LoginController implements Initializable {
     	userReceived = received;
     }
     
+    public static User getLoggedUser() {
+    	return userReceived;
+    }
+    
 }

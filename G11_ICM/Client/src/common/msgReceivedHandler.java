@@ -1,6 +1,7 @@
 package common;
 
 import controller.LoginController;
+import controller.NewRequestController;
 
 //hanler for messages received from server
 public class msgReceivedHandler {	
@@ -15,6 +16,11 @@ public class msgReceivedHandler {
 		case LOGIN_ERROR:
 			LoginController.errorMessage = objectManager.getError();
 			break;
+		case SEND_ID_OF_REQUEST_TO_CLIENT:
+		
+			NewRequestController.setNewID(objectManager.getReqIDFromServer());
+			break;
+			
 		default:
 			break;
 		}
