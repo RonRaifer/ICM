@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="772.0" prefWidth="868.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuController">
+<BorderPane fx:id="bpRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="878.0" prefWidth="883.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuController">
    <top>
       <VBox prefHeight="75.0" prefWidth="600.0" style="-fx-background-color: #2F4F4F;" BorderPane.alignment="CENTER">
          <children>
@@ -32,7 +32,7 @@
                   </ImageView>
                </left>
                <right>
-                  <Button fx:id="btnLogout" alignment="TOP_RIGHT" mnemonicParsing="false" prefHeight="19.0" prefWidth="105.0" style="-fx-background-color: #2F4F4F;" text="Logout" textFill="#fcf9f9" BorderPane.alignment="CENTER">
+                  <Button fx:id="btnLogout" alignment="TOP_RIGHT" mnemonicParsing="false" onAction="#logoutClick" prefHeight="19.0" prefWidth="105.0" style="-fx-background-color: #2F4F4F;" text="Logout" textFill="#fcf9f9" BorderPane.alignment="CENTER">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -95,13 +95,20 @@
                         <Font name="Arial Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label layoutX="42.0" layoutY="82.0" text="Role:" />
-                  <Label fx:id="lblRole" layoutX="74.0" layoutY="82.0" text="Student" textFill="#029e02" />
-                  <Hyperlink focusTraversable="false" layoutX="55.0" layoutY="99.0" text="Profile" underline="true">
+                  <Hyperlink fx:id="hlProfile" focusTraversable="false" layoutX="59.0" layoutY="108.0" onAction="#profileClick" text="Profile" underline="true">
                      <font>
                         <Font name="System Italic" size="12.0" />
                      </font>
                   </Hyperlink>
+                  <Pane fx:id="pRole" layoutY="82.0" prefHeight="26.0" prefWidth="160.0" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="82.0">
+                     <children>
+                        <Label fx:id="lblRole" layoutX="58.0" layoutY="6.0" text="Student" textFill="#029e02">
+                           <font>
+                              <Font name="Arial" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
                </children>
             </AnchorPane>
             <Separator minHeight="-Infinity" prefHeight="0.0">
@@ -180,6 +187,45 @@
                   <Point3D />
                </rotationAxis>
             </Separator>
+            <Button fx:id="btnProcesses" contentDisplay="TOP" graphicTextGap="0.0" layoutX="10.0" layoutY="396.0" mnemonicParsing="false" onAction="#processesClick" prefHeight="80.0" prefWidth="200.0" text="Processes">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/processmanagment.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Separator layoutX="10.0" layoutY="476.0" minHeight="-Infinity" prefHeight="0.0" />
+            <Button fx:id="btnReports" contentDisplay="TOP" graphicTextGap="0.0" layoutX="10.0" layoutY="476.0" mnemonicParsing="false" onAction="#reportsClick" prefHeight="80.0" prefWidth="200.0" text="Reports">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/allReq.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Separator layoutX="10.0" layoutY="556.0" minHeight="-Infinity" prefHeight="0.0" />
+            <Button fx:id="btnEmployees" contentDisplay="TOP" graphicTextGap="0.0" layoutX="10.0" layoutY="556.0" mnemonicParsing="false" onAction="#employeesClick" prefHeight="80.0" prefWidth="200.0" text="Employees">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/usersIco.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Separator layoutX="10.0" layoutY="636.0" minHeight="-Infinity" prefHeight="0.0" />
          </children>
       </VBox>
    </left>

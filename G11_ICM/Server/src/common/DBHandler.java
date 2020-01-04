@@ -1,6 +1,5 @@
 package common;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -23,7 +22,7 @@ public class DBHandler {
         	conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/q3t6Vm6bTC?autoReconnect=true&useSSL=false","q3t6Vm6bTC","hLwAfZ78Fx");
         	//For Local:
             //conn = DriverManager.getConnection("jdbc:mysql://localhost/OBLdb?autoReconnect=true&useSSL=false","root","Aa123456");
-            System.out.println("SQL connection succeed");
+            System.out.println("SQL Connection Succeed.");
      	} catch (SQLException ex) 
      	    {	/* handle any errors*/
             System.out.println("SQLException: " + ex.getMessage());
