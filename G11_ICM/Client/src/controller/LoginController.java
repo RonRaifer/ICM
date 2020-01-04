@@ -54,6 +54,7 @@ public class LoginController implements Initializable {
     public static String errorMessage;
     @FXML 
 	public void loginClick(ActionEvent event) throws InterruptedException, IOException {
+    	userReceived = null;
     	if(tbLoginID.getText().isEmpty() || tbPassowrd.getText().isEmpty()) {
     		GuiManager.showError(lblMessageDown, pMessageDown, "Username and Password can't be empty");
 		}else {
@@ -66,7 +67,7 @@ public class LoginController implements Initializable {
     					User user = new User(tbLoginID.getText(), tbPassowrd.getText());
     				    ObjectManager msg = new ObjectManager(user, MsgEnum.LOGIN);
     				    client.handleMessageFromClientUI(msg);
-    				    Thread.sleep(1500);					 
+    				    Thread.sleep(1500);
 						return null;
     				}
     			};

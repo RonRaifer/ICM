@@ -52,10 +52,12 @@ public class MsgHandler {
 				objectManager = new ObjectManager("User does not exist", MsgEnum.LOGIN_ERROR);
 			}
 			client.sendToClient(objectManager);
+			rs.close();
 			break;
 			
 		case LOGOUT:
 			IcmServer.removeUserConnected(objectManager.getUser().getIdUser()); //remove user from connected list
+			
 			break;
 			
 		default:
