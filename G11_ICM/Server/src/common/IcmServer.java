@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.TreeSet;
 
+import controller.ServerController;
 import ocsf.server.*;
 
 /**
@@ -38,7 +39,10 @@ public class IcmServer extends AbstractServer
    */
 	  public IcmServer(int port) 
 	  {
-	    super(port);
+		  super(port);
+		  dbHandler = new DBHandler();
+	      conn = dbHandler.databaseConnect();
+	      loggedUsers = new TreeSet<String>();  
 	  }
 
   /**
@@ -54,16 +58,15 @@ public class IcmServer extends AbstractServer
 		try {
 			msgHandler.clientMsgHandler(msg, client, conn);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
   
 	protected void serverStarted()
 	{
+		
 	  System.out.println
 	    ("Server listening for connections on port " + getPort());
 	}
@@ -104,10 +107,15 @@ public class IcmServer extends AbstractServer
   public static boolean addToConnectedUsers(String userID) {
 	  if(loggedUsers.contains(userID)) return false;
 	  loggedUsers.add(userID);
+	  System.out.println
+      ("[Login] User ID: " +userID+ " Connected To The System.");
 	  return true;
   }
   public static void removeUserConnected(String userID) {
+	  System.out.println
+      ("[Logout] User ID: " +userID+ " Disconnected From The System.");
 	  loggedUsers.remove(userID);
+	  
   }
 
   /**
@@ -116,40 +124,11 @@ public class IcmServer extends AbstractServer
   public static void setConnection(Connection con) {
   	conn = con;
   }
-  
-  /**
-   * This method is responsible for the creation of 
-   * the server instance (there is no UI in this phase).
-   *
-   * @param args[0] The port number to listen on.  Defaults to 5555 
-   *          if no argument is entered.
-   */
-  public static void main(String[] args) 
-  {
-    int port = 0; //Port to listen on
-   
-    dbHandler = new DBHandler();
-    conn = dbHandler.databaseConnect();
-    loggedUsers = new TreeSet<String>();
-    try
-    {
-      port = Integer.parseInt(args[0]); //Get port from command line
-    }
-    catch(Throwable t)
-    {
-      port = DEFAULT_PORT; //Set port to 5555
-    }
-	
-    IcmServer sv = new IcmServer(port);
-    
-    try 
-    {
-      sv.listen(); //Start listening for connections
-    } 
-    catch (Exception ex) 
-    {
-      System.out.println("ERROR - Could not listen for clients!");
-    }
+  public Connection getConnection() {
+	  	return conn;
   }
+  
+
+
 }
 //End of EchoServer class
