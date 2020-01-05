@@ -3,15 +3,15 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="701.0" prefWidth="814.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MyRequestsController">
+<AnchorPane prefHeight="701.0" prefWidth="814.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MyRequestsController">
    <children>
       <AnchorPane layoutX="17.0" prefHeight="85.0" prefWidth="201.0">
          <children>
@@ -35,16 +35,16 @@
             </Label>
          </children>
       </AnchorPane>
-      <TitledPane collapsible="false" contentDisplay="BOTTOM" layoutX="125.0" layoutY="100.0" prefHeight="168.0" prefWidth="540.0" style="-fx-background-color: white;" text="Search Request">
+      <TitledPane collapsible="false" contentDisplay="BOTTOM" layoutX="61.0" layoutY="100.0" prefHeight="168.0" prefWidth="711.0" style="-fx-background-color: white;" text="Search Request">
          <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="151.0" prefWidth="540.0" style="-fx-background-color: white;">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="140.0" prefWidth="683.0" style="-fx-background-color: white;">
                <children>
-                  <TextField layoutX="14.0" layoutY="67.0" prefHeight="31.0" prefWidth="510.0" promptText="Type Request ID Here" />
+                  <TextField fx:id="tbId" layoutX="14.0" layoutY="67.0" prefHeight="31.0" prefWidth="510.0" promptText="Type Request ID Here" />
                   <Label layoutX="14.0" layoutY="14.0" text="Enter your request number down below. If you do not have an open request, " textFill="#838181" />
                   <Hyperlink layoutX="420.0" layoutY="10.0" text="Create Here" />
                   <Label layoutX="14.0" layoutY="42.0" text="Request ID:" />
-                  <Button layoutX="14.0" layoutY="104.0" mnemonicParsing="false" text="Search" textFill="#00c62b" />
-                  <Button layoutX="479.0" layoutY="104.0" mnemonicParsing="false" text="Clear" />
+                  <Button fx:id="btnSearch" layoutX="14.0" layoutY="104.0" mnemonicParsing="false" onAction="#clickSearch" text="Search" textFill="#00c62b" />
+                  <Button fx:id="btnClear" layoutX="479.0" layoutY="104.0" mnemonicParsing="false" onAction="#clickClear" text="Clear" />
                </children>
             </AnchorPane>
          </content>
@@ -52,63 +52,19 @@
             <Font name="Arial Italic" size="15.0" />
          </font>
       </TitledPane>
-      <TitledPane collapsible="false" contentDisplay="BOTTOM" layoutX="62.0" layoutY="295.0" prefHeight="348.0" prefWidth="690.0" style="-fx-background-color: white;" text="My Requests List">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="151.0" prefWidth="540.0" style="-fx-background-color: white;">
-               <children>
-                  <Pane prefHeight="32.0" prefWidth="535.0">
-                     <children>
-                        <Label layoutX="14.0" layoutY="14.0" text="Request ID">
-                           <font>
-                              <Font name="Arial Bold Italic" size="12.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="184.0" layoutY="14.0" text="System">
-                           <font>
-                              <Font name="Arial Bold Italic" size="12.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="256.0" layoutY="14.0" text="Change Description">
-                           <font>
-                              <Font name="Arial Bold Italic" size="12.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="95.0" layoutY="14.0" text="Date Issued">
-                           <font>
-                              <Font name="Arial Bold Italic" size="12.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="411.0" layoutY="14.0" text="Status">
-                           <font>
-                              <Font name="Arial Bold Italic" size="12.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="475.0" layoutY="14.0" text="Options">
-                           <font>
-                              <Font name="Arial Bold Italic" size="12.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </Pane>
-                  <Label layoutX="32.0" layoutY="32.0" text="1211" />
-                  <Label layoutX="99.0" layoutY="32.0" text="10/12/2019" />
-                  <Label layoutX="185.0" layoutY="32.0" text="Moodle" />
-                  <Label layoutX="238.0" layoutY="32.0" text="Add sorting by course name" />
-                  <Label layoutX="399.0" layoutY="32.0" text="Examination" textFill="#dd7c04" />
-                  <Hyperlink layoutX="481.0" layoutY="28.0" text="View" />
-                  <Label layoutX="32.0" layoutY="53.0" text="2391" />
-                  <Label layoutX="103.0" layoutY="53.0" text="7/12/2019" />
-                  <Label layoutX="188.0" layoutY="53.0" text="Library" />
-                  <Label layoutX="238.0" layoutY="53.0" text="Add option to extend lending" />
-                  <Label layoutX="414.0" layoutY="53.0" text="Closed" textFill="RED" />
-                  <Hyperlink layoutX="481.0" layoutY="49.0" text="View" />
-                  <Pagination layoutX="170.0" layoutY="116.0" maxPageIndicatorCount="1" prefHeight="200.0" prefWidth="200.0" />
-               </children>
-            </AnchorPane>
-         </content>
+      <TitledPane collapsible="false" contentDisplay="BOTTOM" layoutX="62.0" layoutY="295.0" prefHeight="349.0" prefWidth="646.0" style="-fx-background-color: white;" text="My Requests List">
          <font>
             <Font name="Arial Italic" size="15.0" />
          </font>
+         <graphic>
+            <TableView fx:id="requestTbl" prefHeight="332.0" prefWidth="685.0">
+              <columns>
+                <TableColumn fx:id="idColumn" prefWidth="228.0" text="Request ID" />
+                <TableColumn fx:id="dateColumn" prefWidth="228.0" text="Expected date" />
+                  <TableColumn fx:id="stageColumn" prefWidth="228.0" text="Current stage" />
+              </columns>
+            </TableView>
+         </graphic>
       </TitledPane>
    </children>
 </AnchorPane>
