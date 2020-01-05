@@ -41,7 +41,9 @@ public class IcmServer extends AbstractServer
 	  {
 		  super(port);
 		  dbHandler = new DBHandler();
+		  
 	      conn = dbHandler.databaseConnect();
+	      
 	      loggedUsers = new TreeSet<String>();  
 	  }
 
