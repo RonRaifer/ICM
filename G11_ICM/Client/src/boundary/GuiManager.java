@@ -9,9 +9,12 @@ import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
@@ -25,6 +28,8 @@ public class GuiManager {
 				Pane root = loader.load();
 	            Scene scene = new Scene(root);
 	            stage.setScene(scene);
+	            stage.getIcons().add(new Image("/boundary/guifiles/img/icmLogo.png"));
+	            stage.setTitle("ICM -> ");
 	            stage.setResizable(false);
 	            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 					@Override
@@ -39,7 +44,7 @@ public class GuiManager {
 	            e.printStackTrace();
 	        }
 	}
-	public static void guiLoader(String fxmlName, User user) throws IOException {
+	/*public static void guiLoader(String fxmlName, User user) throws IOException {
 		String path = "../boundary/guifiles/" + fxmlName + ".fxml";
 
 		Stage stage = new Stage();
@@ -51,8 +56,33 @@ public class GuiManager {
 				controller.initData(user, stage);
 	            Scene scene = new Scene(root);
 	            stage.setScene(scene);
-	            stage.setMaximized(true);
 	            stage.setResizable(false);  
+	            stage.setMaximized(true);
+	            stage.show();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	}*/
+	public static void guiLoader(String fxmlName, User user) throws IOException {
+		String path = "../boundary/guifiles/" + fxmlName + ".fxml";
+		Screen screen = Screen.getPrimary();
+		Rectangle2D bounds = screen.getVisualBounds();
+
+		
+		Stage stage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		try {  
+				loader.setLocation(controller.MenuController.class.getResource(path));
+				Pane root = loader.load();
+				MenuController controller = loader.getController();
+				controller.initData(user, stage);
+	            Scene scene = new Scene(root);
+	            stage.setScene(scene);
+	            stage.setResizable(false);  
+	            stage.setX(bounds.getMinX());
+	    		stage.setY(bounds.getMinY());
+	    		stage.setWidth(bounds.getWidth());
+	    		stage.setHeight(bounds.getHeight());
 	            stage.show();
 	        } catch (IOException e) {
 	            e.printStackTrace();

@@ -8,8 +8,11 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,19 +22,16 @@ public class EnterController implements Initializable{
 
 	
 	public void connectionPaneView(ActionEvent event) {
-		try 
-        {
-            Pane newLoadedPane;  
-            newLoadedPane =  FXMLLoader.load(getClass().getResource("/boundary/guifiles/ConnectionPane.fxml"));
-            apInside.getChildren().clear();
-            apInside.getChildren().add(newLoadedPane);
-        }
-        catch (IOException ex) {
-            Logger.getLogger(EnterController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+		sceneManager("ConnectionPane", "ICM -> Connection");
     }
 	@FXML 
 	public void loginPaneView(ActionEvent event) {
+		sceneManager("LoginPane", "ICM -> Login");
+       
+    }
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
 		try 
         {
             Pane newLoadedPane;  
@@ -42,23 +42,22 @@ public class EnterController implements Initializable{
         catch (IOException ex) {
             Logger.getLogger(EnterController.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
-    }
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		
+	}
+	
+	private void sceneManager(String fxmlName, String windowTitle) {
+		Stage stage = (Stage)apInside.getScene().getWindow();
+		stage.setTitle(windowTitle);
 		try 
         {
+			
             Pane newLoadedPane;  
-            newLoadedPane =  FXMLLoader.load(getClass().getResource("/boundary/guifiles/LoginPane.fxml"));         
+            newLoadedPane =  FXMLLoader.load(getClass().getResource("/boundary/guifiles/"+fxmlName+".fxml"));
             apInside.getChildren().clear();
             apInside.getChildren().add(newLoadedPane);
         }
         catch (IOException ex) {
             Logger.getLogger(EnterController.class.getName()).log(Level.SEVERE, null, ex);
-        }		
+        }
 	}
-
 	
 }

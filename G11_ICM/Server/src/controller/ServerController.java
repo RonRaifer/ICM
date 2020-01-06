@@ -48,15 +48,16 @@ public class ServerController {
 	            ps = new PrintStream(console, true);	            	   
 	            System.setOut(ps);
 	            System.setErr(ps);
-	            
+
 	            int port = 0; //Port to listen on
 		       	try{port = 5555; } //Get port from command line
 		       	catch(Throwable t) {port = DEFAULT_PORT;} //Set port to 5555
-
+		       	
 	    		sv = new IcmServer(port); //create the server with port
+	    		Thread.sleep(1000);
 		        try {sv.listen();} //Start listening for connections
 		        catch (Exception ex) {System.out.println("ERROR - Could not listen for clients!");}
-
+		        
 	            return null;
 	          }
 	        };
@@ -66,7 +67,13 @@ public class ServerController {
 	    	  setButtonConnectionState("Kill");
 	    	  System.out.println("[Server Is ON]");
 	      });
-	   service.restart();     
+	      service.setOnRunning(e -> {
+	    	  System.out.println("[Starting Server....]");
+	      });
+	      service.setOnFailed(e -> {
+	    	  System.out.println("[Could Not Connect To Server]");
+	      });
+	   service.restart();  
 	}
 	
 	public void initData(String address) {
