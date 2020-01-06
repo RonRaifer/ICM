@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Accordion?>
-<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="701.0" prefWidth="814.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MessagesController">
+<AnchorPane prefHeight="701.0" prefWidth="814.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MessagesController">
    <children>
       <AnchorPane layoutX="17.0" prefHeight="85.0" prefWidth="201.0">
          <children>
@@ -32,38 +33,18 @@
             </Label>
          </children>
       </AnchorPane>
-      <TitledPane collapsible="false" contentDisplay="BOTTOM" layoutX="65.0" layoutY="105.0" prefHeight="190.0" prefWidth="685.0" style="-fx-background-color: white;" text="Messages Waiting For Action [2]">
+      <TitledPane collapsible="false" contentDisplay="BOTTOM" layoutX="65.0" layoutY="105.0" prefHeight="329.0" prefWidth="685.0" style="-fx-background-color: white;" text="Messages Waiting For Action [2]">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="226.0" prefWidth="540.0" style="-fx-background-color: white;">
                <children>
-                  <Accordion layoutX="14.0" layoutY="10.0" prefHeight="142.0" prefWidth="512.0">
-                     <panes>
-                        <TitledPane animated="false" text="Dear Uri, we have done handling your request (id: 3391). Decision: Approved">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="104.0" prefWidth="510.0">
-                                 <children>
-                                    <Label layoutX="14.0" layoutY="13.0" text="Dear Uri," />
-                                    <Label layoutX="14.0" layoutY="30.0" text="We have done reviewing your change request." />
-                                    <Label layoutX="14.0" layoutY="47.0" text="The change you requested has been done." />
-                                    <Hyperlink layoutX="10.0" layoutY="61.0" text="Approve" underline="true" />
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                        </TitledPane>
-                        <TitledPane animated="false" prefHeight="117.0" prefWidth="512.0" text="Dear Uri, we have done handling your request (id: 1221). Decision: Rejected">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="104.0" prefWidth="510.0">
-                                 <children>
-                                    <Label layoutX="14.0" layoutY="14.0" text="Dear Uri," />
-                                    <Label layoutX="14.0" layoutY="31.0" text="We have done reviewing your change request." />
-                                    <Label layoutX="14.0" layoutY="48.0" text="Unfortunately, we could not make the requested change since it is not necessary." />
-                                    <Hyperlink layoutX="10.0" layoutY="61.0" text="Approve" underline="true" />
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                        </TitledPane>
-                     </panes>
-                  </Accordion>
+                  <Accordion layoutX="14.0" layoutY="10.0" prefHeight="142.0" prefWidth="512.0" />
+                  <TableView fx:id="tblMessages" layoutX="541.0" layoutY="-34.0" prefHeight="162.0" prefWidth="683.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn fx:id="dateColumn" prefWidth="162.99996948242188" text="Date" />
+                      <TableColumn fx:id="titleColumn" prefWidth="268.0000305175781" text="Title" />
+                        <TableColumn fx:id="optionsColumn" prefWidth="227.0" text="Options" />
+                    </columns>
+                  </TableView>
                </children>
             </AnchorPane>
          </content>
@@ -71,38 +52,11 @@
             <Font name="Arial Italic" size="15.0" />
          </font>
       </TitledPane>
-      <TitledPane collapsible="false" contentDisplay="BOTTOM" layoutX="65.0" layoutY="320.0" prefHeight="190.0" prefWidth="685.0" style="-fx-background-color: white;" text="Messages Archive [2]">
+      <TitledPane collapsible="false" contentDisplay="BOTTOM" layoutX="65.0" layoutY="454.0" prefHeight="190.0" prefWidth="685.0" style="-fx-background-color: white;" text="Messages Archive [2]">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="226.0" prefWidth="540.0" style="-fx-background-color: white;">
                <children>
-                  <Accordion layoutX="14.0" layoutY="10.0" prefHeight="142.0" prefWidth="512.0">
-                     <panes>
-                        <TitledPane animated="false" text="Dear Uri, we have done handling your request (id: 11). Decision: Approved">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="104.0" prefWidth="510.0">
-                                 <children>
-                                    <Label layoutX="14.0" layoutY="13.0" text="Dear Uri," />
-                                    <Label layoutX="14.0" layoutY="30.0" text="We have done reviewing your change request." />
-                                    <Label layoutX="14.0" layoutY="47.0" text="The change you requested has been done." />
-                                    <Hyperlink layoutX="15.0" layoutY="61.0" text="Delete" underline="true" />
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                        </TitledPane>
-                        <TitledPane animated="false" prefHeight="117.0" prefWidth="512.0" text="Dear Uri, we have done handling your request (id: 21). Decision: Rejected">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="104.0" prefWidth="510.0">
-                                 <children>
-                                    <Label layoutX="14.0" layoutY="14.0" text="Dear Uri," />
-                                    <Label layoutX="14.0" layoutY="31.0" text="We have done reviewing your change request." />
-                                    <Label layoutX="14.0" layoutY="48.0" text="Unfortunately, we could not make the requested change since it requiers to much changes." />
-                                    <Hyperlink layoutX="465.0" layoutY="61.0" text="Delete" underline="true" />
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                        </TitledPane>
-                     </panes>
-                  </Accordion>
+                  <Accordion layoutX="14.0" layoutY="10.0" prefHeight="142.0" prefWidth="512.0" />
                </children>
             </AnchorPane>
          </content>

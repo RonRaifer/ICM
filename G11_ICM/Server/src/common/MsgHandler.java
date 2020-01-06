@@ -163,7 +163,10 @@ public class MsgHandler {
 			System.out.println("File added sucessefuly");
 			break;
 			
-			
+		case VIEW_MESSAGES: 	
+			query = "SELECT * FROM Messages WHERE iduser = '" + objectManager.getUser().getIdUser() + "'" + ";";
+			rs = dbHandler.executeQ(query);
+			break;
 		default:
 			break;
 		}
