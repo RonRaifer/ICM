@@ -3,13 +3,17 @@ package common;
 import java.sql.SQLException;
 
 import controller.LoginController;
+
+import controller.MessagesController;
+
 import controller.MyRequestsController;
+
 import controller.NewRequestController;
 
 //hanler for messages received from server
 public class msgReceivedHandler {	
 	
-	public static void msgHandler(Object msg) {
+	public static void msgHandler(Object msg) throws InterruptedException {
 		ObjectManager objectManager = (ObjectManager)msg;
 		switch(objectManager.getMsgEnum()) 
 		{
@@ -23,6 +27,10 @@ public class msgReceivedHandler {
 		
 			NewRequestController.setNewID(objectManager.getReqIDFromServer());
 			break;
+
+		case	SEND_MESSAGES_TO_CLIENT:
+			MessagesController.setTable(objectManager.getUser());
+
 		
 		case SEND_RS_NOT_STARTED_TO_CLIENT:
 			
@@ -38,6 +46,7 @@ public class msgReceivedHandler {
 			}
 			MyRequestsController.setRsStarted(objectManager.getRs());
 			break;
+
 			
 		default:
 			break;

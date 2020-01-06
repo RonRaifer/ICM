@@ -6,10 +6,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+
+import java.util.ArrayList;
+
 import java.util.Arrays;
+
 import java.sql.ResultSet;
 
 import entity.Document;
+import entity.Messages;
 import entity.User;
 import common.ObjectManager;
 import ocsf.server.ConnectionToClient;
@@ -194,10 +199,49 @@ public class MsgHandler {
 			
 			break;
 			
+		case VIEW_MESSAGES: 	
+			query = "SELECT * FROM Messages WHERE iduser = '" + objectManager.getUser().getIdUser() + "'" + ";";
+			rs = dbHandler.executeQ(query);
+			if (rs.next()==false)
+			{
+				break;
+			}
+			client.sendToClient(new ObjectManager(rsToCollection(rs),MsgEnum.SEND_MESSAGES_TO_CLIENT));
 			
 			
+
+			break;
+
+
 		default:
 			break;
 		}
 	}
+	public ArrayList<ArrayList<String>> rsToCollection(ResultSet rs){
+	       
+        ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
+       
+       
+       
+        try {
+            //case of empty rs
+            if(!rs.next())
+                return result;
+           
+            while(rs.next()) {
+                ArrayList<String> temp = new ArrayList<String>();
+                for(int i = 1; i<rs.getMetaData().getColumnCount();i++) {
+                    temp.add(rs.getString(i));
+                }
+               
+                result.add(temp);
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+       
+        return result;
+       
+    }
 }

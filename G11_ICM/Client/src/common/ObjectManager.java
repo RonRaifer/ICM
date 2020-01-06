@@ -18,6 +18,7 @@ public class ObjectManager implements Serializable {
 	private Request req;
 	private List<Document> listOfFiles;
 	private Integer reqIDFromServer;
+	private ArrayList<ArrayList<String>> listOfMessages;
 	private ResultSet rs;
 	
 	
@@ -71,9 +72,19 @@ public class ObjectManager implements Serializable {
 		this.listOfFiles=listOfFiles;
 		
 	}
+	public ObjectManager(ArrayList<ArrayList<String>> listOfMessages, MsgEnum msgEnum) {
+		this.msgEnum = msgEnum;
+		this.listOfMessages = listOfMessages;
+	}
+	
+
 	public List<Document> getListOfFiles(){
 		return listOfFiles;
 	}
+	public ArrayList<ArrayList<String>> listOfMessages(){
+		return listOfMessages;
+	}
+
 	public User getUser() { //get user
 		return user;
 	}
