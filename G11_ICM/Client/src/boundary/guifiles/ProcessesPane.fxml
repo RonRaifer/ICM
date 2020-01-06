@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="701.0" prefWidth="814.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MessagesController">
+<AnchorPane prefHeight="728.0" prefWidth="1074.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MessagesController">
    <children>
       <AnchorPane layoutX="17.0" prefHeight="85.0" prefWidth="201.0">
          <children>
@@ -31,17 +31,39 @@
             </Label>
          </children>
       </AnchorPane>
-      <TitledPane collapsible="false" contentDisplay="BOTTOM" layoutX="65.0" layoutY="105.0" prefHeight="190.0" prefWidth="685.0" style="-fx-background-color: white;" text="Processes">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="226.0" prefWidth="540.0" style="-fx-background-color: white;">
-               <children>
-                  <Accordion layoutX="14.0" layoutY="10.0" prefHeight="142.0" prefWidth="512.0" />
-               </children>
-            </AnchorPane>
-         </content>
-         <font>
-            <Font name="Arial Italic" size="15.0" />
-         </font>
-      </TitledPane>
+      <TabPane layoutX="25.0" layoutY="97.0" prefHeight="604.0" prefWidth="1017.0" stylesheets="@Main.css" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="All">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+          <Tab text="Evaluation">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+            <Tab text="Examination and Decision">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+            <Tab text="Execution">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+            <Tab text="Closing">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+            <Tab text="Closed">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
    </children>
 </AnchorPane>

@@ -89,7 +89,8 @@ public class NewRequestController implements Initializable{
     
     @FXML
     private TextArea taFiles;
-
+    
+    
     
     //attributes
     private static Request req = new Request(); 
@@ -100,10 +101,24 @@ public class NewRequestController implements Initializable{
 	private Service<Void> addReqBackground;
 	private static  Integer idfromserver;
     
+	/**
+	 * when clear button is clicked this function is called.
+	 * @param event
+	 * @throws InterruptedException
+	 * @throws IOException
+	 */
     public void clearClick(ActionEvent event) throws InterruptedException, IOException {
     	clearAll();
     }
     
+    /**
+     * this function is called when user click "upload files" button.
+     * it shows file-chooser dialog with the following file-formats allowed:
+     * *pdf, *jpg, *txt
+     * @param event
+     * @throws InterruptedException
+     * @throws IOException
+     */
     public void fileClick(ActionEvent event) throws InterruptedException, IOException {
     	
     	
@@ -140,6 +155,15 @@ public class NewRequestController implements Initializable{
     	
     	
     }
+    /**
+     * this function create the request.
+     * *if fields are empty, it lets the user know
+     * *if send the server the request info and the files the user picked
+     * 
+     * @param event
+     * @throws InterruptedException
+     * @throws IOException
+     */
     public void createClick(ActionEvent event) throws InterruptedException, IOException {
     	
     	if(!checkFormFields().contentEquals("Empty")){
@@ -173,11 +197,17 @@ public class NewRequestController implements Initializable{
         
         req.setIdReq(idfromserver.toString());
         
-        //handleing files
+        //Handling files
 
         //in case of no files
         if(files.isEmpty())
+        {
+        	clearAll();
+        	
         	return;
+        }
+        	
+        	
         
 
         //converting the Files we got to Document that has MyFiles
@@ -205,7 +235,8 @@ public class NewRequestController implements Initializable{
     
     /**
      * Check the forms fields.
-     * @return "Empty" if all fields are filled, otherwise reutrn a string that describes the missing fields  
+     * @return "Empty" if all fields are filled, otherwise return a string that describes 
+     * the missing fields  
      */
 	public String checkFormFields() {
 		
@@ -256,13 +287,16 @@ public class NewRequestController implements Initializable{
     	taFiles.clear();
     	files.removeAll(files);
     	myDocuments.removeAll(myDocuments);
+    	cbSystem.getSelectionModel().clearSelection();
     	
     	
     }
     /**
-     * @return a String that has the paths of all attached files
+     * initialize the current view and its fields, including:
+     * setting the combo-box
+     * getting current date and putting it at the top-right
+     * disable editing of files-path text area
      */
-    
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
