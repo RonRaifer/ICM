@@ -1,6 +1,7 @@
 package common;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +18,25 @@ public class ObjectManager implements Serializable {
 	private Request req;
 	private List<Document> listOfFiles;
 	private Integer reqIDFromServer;
+	private ResultSet rs;
 	
 	
 	
+	
+
+	public ResultSet getRs() {
+		return rs;
+	}
+
+	public void setRs(ResultSet rs) {
+		this.rs = rs;
+	}
+
+	public ObjectManager( ResultSet rs,MsgEnum msgEnum) {
+		
+		this.msgEnum = msgEnum;
+		this.rs = rs;
+	}
 
 	public ObjectManager( Integer reqIDFromServer, MsgEnum msgEnum) {
 		
