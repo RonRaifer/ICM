@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="701.0" prefWidth="814.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MessagesController">
+<AnchorPane prefHeight="728.0" prefWidth="1074.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MessagesController">
    <children>
       <AnchorPane layoutX="17.0" prefHeight="85.0" prefWidth="201.0">
          <children>
@@ -36,7 +31,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <TabPane layoutX="73.0" layoutY="97.0" prefHeight="563.0" prefWidth="685.0" style="-fx-background-color: WHITE; -fx-border-color: grey;" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="25.0" layoutY="97.0" prefHeight="604.0" prefWidth="1017.0" stylesheets="@Main.css" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="All">
             <content>
