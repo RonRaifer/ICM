@@ -150,7 +150,7 @@ public class MsgHandler {
 						BufferedOutputStream bos = new BufferedOutputStream(fos);
 						bos.write(ff.getMybytearray(), 0, ff.getSize());
 						bos.close();
-						
+						System.out.println("File added sucessefuly to: "+serverFilesPath);
 						
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -160,8 +160,10 @@ public class MsgHandler {
 				
 				
 			}
-			System.out.println("File added sucessefuly");
+			
 			break;
+		case GET_REQUESTS_BY_ID:
+			
 			
 			
 		default:
