@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.sql.ResultSet;
 
 import entity.Document;
@@ -163,6 +164,35 @@ public class MsgHandler {
 			
 			break;
 		case GET_REQUESTS_BY_ID:
+			
+			//started requests query
+			String requestStageQuery = "SELECT r.idrequest, rh.executionTime, rh.currentStage FROM " + 
+					"request r INNER JOIN request_handling rh ON r.idrequest = rh.idrequest AND r.iduser ="
+					+" '"+objectManager.getError()+"'";
+			
+			System.out.println(requestStageQuery);
+			
+			ResultSet stageRS = dbHandler.executeQ(requestStageQuery);
+			
+			
+			
+			
+			System.out.println(stageRS.next());
+			
+			ObjectManager stageRSToClient = new ObjectManager(stageRS, MsgEnum.SEND_RS_STARTED_TO_CLIENT);
+			client.sendToClient(stageRSToClient);
+			
+			
+			//request that arent opened
+			String NotStartedRequestQuery = "SELECT idreqest FROM request WHERE (RequestStatus = 'not started' OR RequestStatus = 'frozen') AND iduser = "+"'"+objectManager.getError()+"'";
+			System.out.println(NotStartedRequestQuery);
+			ResultSet NotStartedRS = dbHandler.executeQ(NotStartedRequestQuery);
+			System.out.println(NotStartedRS.next());
+			ObjectManager NotStartedRSToClient = new ObjectManager(NotStartedRS, MsgEnum.SEND_RS_NOT_STARTED_TO_CLIENT);
+			client.sendToClient(stageRSToClient);
+			
+			
+			break;
 			
 			
 			

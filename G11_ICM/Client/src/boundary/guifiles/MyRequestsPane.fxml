@@ -52,12 +52,12 @@
             <Font name="Arial Italic" size="15.0" />
          </font>
       </TitledPane>
-      <TitledPane collapsible="false" contentDisplay="BOTTOM" layoutX="62.0" layoutY="295.0" prefHeight="349.0" prefWidth="646.0" style="-fx-background-color: white;" text="My Requests List">
+      <TitledPane collapsible="false" contentDisplay="BOTTOM" layoutX="62.0" layoutY="295.0" prefHeight="386.0" prefWidth="709.0" style="-fx-background-color: white;" text="My Requests List">
          <font>
             <Font name="Arial Italic" size="15.0" />
          </font>
          <graphic>
-            <TableView fx:id="requestTbl" prefHeight="332.0" prefWidth="685.0">
+            <TableView fx:id="requestTbl" prefHeight="309.0" prefWidth="685.0">
               <columns>
                 <TableColumn fx:id="idColumn" prefWidth="228.0" text="Request ID" />
                 <TableColumn fx:id="dateColumn" prefWidth="228.0" text="Expected date" />
@@ -65,6 +65,9 @@
               </columns>
             </TableView>
          </graphic>
+         <content>
+            <Label fx:id="lblStageInfo" prefHeight="17.0" prefWidth="680.0" text="Label" />
+         </content>
       </TitledPane>
    </children>
 </AnchorPane>
