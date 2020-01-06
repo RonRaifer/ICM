@@ -19,8 +19,7 @@ public class Messages implements Serializable{
 	private String titleMessage;
 	private String contentMessage;
 	private String status;
-	
-	
+	private String dateMessage;
 	
 	
 	public String getIdMessage() {
@@ -53,6 +52,12 @@ public class Messages implements Serializable{
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	public String getDateMessage() {
+		return dateMessage;
+	}
+	public void setDateMessage(String dateMessage) {
+		this.dateMessage = dateMessage;
+	}
 	
 	public List<String> getAll(){
 		List<String> list = new ArrayList<>();
@@ -62,9 +67,10 @@ public class Messages implements Serializable{
 		list.add(titleMessage);
 		list.add(contentMessage);
 		list.add(status);
-		
+		list.add(dateMessage);
 		return list;
 	}
+	
 	
 	
 	
