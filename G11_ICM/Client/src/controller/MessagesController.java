@@ -17,7 +17,7 @@ import javafx.scene.control.TableView;
 public class MessagesController
 {
 		@FXML
-		private TableView<Messages> tblMessages;
+		private static TableView<Messages> tblMessages;
 
 	    @FXML
 	    private TableColumn<Messages, String> dateColumn;
@@ -29,11 +29,12 @@ public class MessagesController
 	    private TableColumn<Messages, String> optionsColumn;
 	    
 	    
-	    private ClientConnector client;
-	    private ObservableList<Messages> List;
-	    private ArrayList<Messages> arralistofmessages;
+	    private static ClientConnector client;
+	    private static ObservableList<Messages> List;
+	    private static ArrayList<Messages> arralistofmessages;
 	    
-	    public void setTable(User user) throws InterruptedException{
+	    public static void setTable(User user) throws InterruptedException
+	    {
 	    	client = ConnectionController.getClient();
 	    	ObjectManager viewMesages = new ObjectManager(user, MsgEnum.VIEW_MESSAGES);
 	    	client.handleMessageFromClientUI(viewMesages);

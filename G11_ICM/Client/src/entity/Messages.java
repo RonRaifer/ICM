@@ -20,7 +20,7 @@ public class Messages implements Serializable{
 	private String contentMessage;
 	private String status;
 	private String dateMessage;
-	
+	private String type;
 	
 	public String getIdMessage() {
 		return idMessage;
@@ -58,6 +58,12 @@ public class Messages implements Serializable{
 	public void setDateMessage(String dateMessage) {
 		this.dateMessage = dateMessage;
 	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	
 	public List<String> getAll(){
 		List<String> list = new ArrayList<>();
@@ -68,8 +74,10 @@ public class Messages implements Serializable{
 		list.add(contentMessage);
 		list.add(status);
 		list.add(dateMessage);
+		list.add(type);
 		return list;
 	}
+	
 	
 	
 	

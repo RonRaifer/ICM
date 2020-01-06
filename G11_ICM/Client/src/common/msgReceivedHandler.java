@@ -1,12 +1,13 @@
 package common;
 
 import controller.LoginController;
+import controller.MessagesController;
 import controller.NewRequestController;
 
 //hanler for messages received from server
 public class msgReceivedHandler {	
 	
-	public static void msgHandler(Object msg) {
+	public static void msgHandler(Object msg) throws InterruptedException {
 		ObjectManager objectManager = (ObjectManager)msg;
 		switch(objectManager.getMsgEnum()) 
 		{
@@ -20,6 +21,8 @@ public class msgReceivedHandler {
 		
 			NewRequestController.setNewID(objectManager.getReqIDFromServer());
 			break;
+		case	SEND_MESSAGES_TO_CLIENT:
+			MessagesController.setTable(objectManager.getUser());
 			
 		default:
 			break;
