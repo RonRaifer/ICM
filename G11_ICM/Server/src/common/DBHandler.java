@@ -19,7 +19,7 @@ public class DBHandler {
         try 
         {
         	//on develop
-        	//conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/q3t6Vm6bTC?autoReconnect=true&useSSL=true","q3t6Vm6bTC","hLwAfZ78Fx");
+        	conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/q3t6Vm6bTC?autoReconnect=true&useSSL=true","q3t6Vm6bTC","hLwAfZ78Fx");
         	//For Local:
             conn = DriverManager.getConnection("jdbc:mysql://localhost/icm?serverTimezone=IST","root","Aa123456");
             System.out.println("SQL Connection Succeed.");
