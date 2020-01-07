@@ -1,6 +1,7 @@
 package common;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import controller.LoginController;
 
@@ -9,10 +10,12 @@ import controller.MessagesController;
 import controller.MyRequestsController;
 
 import controller.NewRequestController;
+import entity.Messages;
 
 //hanler for messages received from server
 public class msgReceivedHandler {	
 	
+	@SuppressWarnings("unchecked")
 	public static void msgHandler(Object msg) throws InterruptedException {
 		ObjectManager objectManager = (ObjectManager)msg;
 		switch(objectManager.getMsgEnum()) 
@@ -28,9 +31,10 @@ public class msgReceivedHandler {
 			NewRequestController.setNewID(objectManager.getReqIDFromServer());
 			break;
 
-		case	SEND_MESSAGES_TO_CLIENT:
-			MessagesController.setTable(objectManager.getUser());
-
+		case SEND_MESSAGES_TO_CLIENT:
+			//MessagesController.setTable(objectManager.getUser());
+			MessagesController.setListOfMessages((ArrayList<Messages>)objectManager.getArray());
+			break;
 		
 		case SEND_RS_NOT_STARTED_TO_CLIENT:
 			

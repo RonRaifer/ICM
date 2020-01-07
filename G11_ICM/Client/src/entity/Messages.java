@@ -21,7 +21,15 @@ public class Messages implements Serializable{
 	private String status;
 	private String dateMessage;
 	private String type;
-	
+	public Messages(String idMessage, String idUser, String titleMessage, String contentMessage, String status, String dateMessage, String type) {
+		this.idMessage = idMessage;
+		this.idUser = idUser;
+		this.titleMessage = titleMessage;
+		this.contentMessage = contentMessage;
+		this.status = status;
+		this.dateMessage = dateMessage;
+		this.type = type;
+	}
 	public String getIdMessage() {
 		return idMessage;
 	}
