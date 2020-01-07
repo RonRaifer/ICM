@@ -8,6 +8,7 @@ import common.ClientConnector;
 import common.MsgEnum;
 import common.ObjectManager;
 import entity.Employee;
+import entity.Messages;
 import entity.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,34 +17,48 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class EmployeesController implements Initializable{
 	@FXML
-	private TableView<Employee> tblEmployees;
+	private TableView<User> tblEmployees;
 	@FXML
-	private TableColumn<Employee, String> col_id;
+	private TableColumn<User, String> col_id;
 	@FXML
-	private TableColumn<Employee, String> col_name;
+	private TableColumn<User, String> col_name;
 	@FXML
-	private TableColumn<Employee, String> col_department;
+	private TableColumn<User, String> col_department;
+	@FXML
+	private TableColumn<User, String> col_type;
+	
 	
 	ClientConnector client;
-	public static ArrayList<Employee> arralistOfEmployees = null;
-	private ObservableList<Employee> list = null;
+	public static ArrayList<User> arralistOfEmployees = null;
+	private ObservableList<User> List = null;
+	
+	public static void setListOfEmployees(ArrayList<User> array) {
+		arralistOfEmployees = new ArrayList<>(array);
+    	
+    }
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		client = ConnectionController.getClient();
     	ObjectManager viewEmployees = new ObjectManager(arralistOfEmployees, MsgEnum.VIEW_EMPLOYEES);
-    	client.handleMessageFromClientUI(viewEmployees);
+		ConnectionController.getClient().handleMessageFromClientUI(viewEmployees);
+		col_id.setCellValueFactory(new PropertyValueFactory<>("iduser"));
+		col_name.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+		col_department.setCellValueFactory(new PropertyValueFactory<>("Department"));
+		col_type.setCellValueFactory(new PropertyValueFactory<>("role")); 	//type of employee. Worker/Information Engineer/Manager
     	try {
 			Thread.sleep(1000);
+			List = FXCollections.observableArrayList(arralistOfEmployees);
+			tblEmployees.setItems(List);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	list = FXCollections.observableArrayList(arralistOfEmployees);
+    	
 		
 	}
 }

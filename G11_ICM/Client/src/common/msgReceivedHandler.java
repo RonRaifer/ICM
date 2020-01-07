@@ -3,6 +3,7 @@ package common;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import controller.EmployeesController;
 import controller.LoginController;
 
 import controller.MessagesController;
@@ -11,6 +12,7 @@ import controller.MyRequestsController;
 
 import controller.NewRequestController;
 import entity.Messages;
+import entity.User;
 
 //hanler for messages received from server
 public class msgReceivedHandler {	
@@ -50,7 +52,10 @@ public class msgReceivedHandler {
 			}
 			MyRequestsController.setRsStarted(objectManager.getRs());
 			break;
-
+			
+		case VIEW_EMPLOYEES:
+			EmployeesController.setListOfEmployees((ArrayList<User>)objectManager.getArray());
+			break;
 			
 		default:
 			break;
