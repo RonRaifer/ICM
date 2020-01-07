@@ -9,9 +9,9 @@ public class Employee extends User{
 	
 	private String empRole;
 	
-	public Employee(String idUser, String firstName, String lastName, String email, String role, String department) {
+	public Employee(String idUser, String firstName, String lastName, String email, String role, String department, String empRole) {
 		super(idUser, firstName, lastName, email, role, department);
-		// TODO Auto-generated constructor stub
+		this.empRole = empRole;
 	}
 	public void setEmployeeRole(String empRole) {
 		this.empRole = empRole;

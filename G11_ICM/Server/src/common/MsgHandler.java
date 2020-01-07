@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.sql.ResultSet;
 
 import entity.Document;
+import entity.Employee;
 import entity.Messages;
 import entity.User;
 import common.ObjectManager;
@@ -208,6 +209,24 @@ public class MsgHandler {
 			}
 			if(messagesArray.isEmpty()) System.out.println("No Messages For User"); //change this to send error OR handle this in client side.
 			else client.sendToClient(new ObjectManager(messagesArray,MsgEnum.SEND_MESSAGES_TO_CLIENT));
+			break;
+			
+		case VIEW_EMPLOYEES:
+			ArrayList<User> employeesArray = new ArrayList<User>();
+			query = "SELECT * FROM user WHERE role = 'Worker';"; //for users
+			rs = dbHandler.executeQ(query);
+			ResultSet rs2; //for employee
+			while(rs.next() == true) {
+				rs2 = dbHandler.executeQ("SELECT * FROM employee WHERE iduser = '" + rs.getString("iduser") + "'" + ";");
+				if(rs2.next() == true) {
+					employeesArray.add(new User(rs.getString("iduser"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("email"), rs2.getString("employeeTitle"), rs.getString("department")));
+				}
+				else {
+					employeesArray.add(new User(rs.getString("iduser"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("email"), rs.getString("role"), rs.getString("department")));
+				}
+			}
+			if(employeesArray.isEmpty()) System.out.println("No Employees"); //change this to send error OR handle this in client side.
+			else client.sendToClient(new ObjectManager(employeesArray,MsgEnum.VIEW_EMPLOYEES));
 			break;
 
 		default:
