@@ -78,13 +78,14 @@ public class MenuController implements Initializable{
 		lblRole.setText(user.getRole());
 		lblRole.layoutXProperty().bind(pRole.widthProperty().subtract(lblRole.widthProperty()).divide(2));
 		Platform.setImplicitExit(false);
-		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+		menuStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent e) {
 				e.consume();
 				logoutUser();
 			}	            	
         });
+		
 	}
 	
 	@FXML
@@ -170,7 +171,7 @@ public class MenuController implements Initializable{
     	if (alert.getResult() == ButtonType.YES) {
     		ObjectManager msg = new ObjectManager(user, MsgEnum.LOGOUT);
     		ConnectionController.getClient().handleMessageFromClientUI(msg);
-    		PauseTransition pause = new PauseTransition(Duration.seconds(1));
+    		PauseTransition pause = new PauseTransition(Duration.seconds(2));
     		pause.setOnFinished(e -> {
     			try {
     				GuiManager.guiLoader("Enter", new Stage());
