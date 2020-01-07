@@ -1,7 +1,9 @@
 package controller;
 
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import common.ClientConnector;
 import common.MsgEnum;
@@ -11,13 +13,15 @@ import entity.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
-public class MessagesController
+public class MessagesController implements Initializable
 {
 		@FXML
-		private static TableView<Messages> tblMessages;
+		private TableView<Messages> tblMessages;
 
 	    @FXML
 	    private TableColumn<Messages, String> dateColumn;
@@ -30,23 +34,29 @@ public class MessagesController
 	    
 	    
 	    private static ClientConnector client;
-	    private static ObservableList<Messages> List;
+	    private static ObservableList<Messages> List = FXCollections.observableArrayList();
 	    private static ArrayList<Messages> arralistofmessages;
 	    
-	    public static void setTable(User user) throws InterruptedException
-	    {
-	    	client = ConnectionController.getClient();
-	    	ObjectManager viewMesages = new ObjectManager(user, MsgEnum.VIEW_MESSAGES);
-	    	client.handleMessageFromClientUI(viewMesages);
-	    	Thread.sleep(1000);
-	    	 List = FXCollections.observableArrayList(arralistofmessages);
-			
-			//col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-			//col_board.setCellValueFactory(new PropertyValueFactory<>("board"));
-			//col_handler.setCellValueFactory(new PropertyValueFactory<>("handler"));
-			//col_status.setCellValueFactory(new PropertyValueFactory<>("status"));
-			
-			tblMessages.setItems(List);	
+	    public static void setListOfMessages(ArrayList<Messages> array) {
+	    	arralistofmessages = new ArrayList<>(array);
+	    	
+	    }
+		@Override
+		public void initialize(URL arg0, ResourceBundle arg1) {
+	    	ObjectManager viewMesages = new ObjectManager(LoginController.getLoggedUser(), MsgEnum.VIEW_MESSAGES);
+	    	ConnectionController.getClient().handleMessageFromClientUI(viewMesages);
+	    	
+	    	dateColumn.setCellValueFactory(new PropertyValueFactory<>("dateMessage"));
+			titleColumn.setCellValueFactory(new PropertyValueFactory<>("titleMessage"));
+			optionsColumn.setCellValueFactory(new PropertyValueFactory<>("idMessage"));
+	    	try {
+				Thread.sleep(1500);
+				List = FXCollections.observableArrayList(arralistofmessages);
+				tblMessages.setItems(List);
+				
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	    
 	    

@@ -33,7 +33,11 @@ public class ClientConnector extends AbstractClient {
 	   */
 	 public void handleMessageFromServer(Object msg) 
 	 {
-		 msgReceivedHandler.msgHandler(msg);
+		 try {
+			msgReceivedHandler.msgHandler(msg);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	 }
 	 
 	 /**

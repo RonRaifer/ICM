@@ -199,49 +199,19 @@ public class MsgHandler {
 			
 			break;
 			
-		case VIEW_MESSAGES: 	
+		case VIEW_MESSAGES:
+			ArrayList<Messages> messagesArray = new ArrayList<Messages>();
 			query = "SELECT * FROM Messages WHERE iduser = '" + objectManager.getUser().getIdUser() + "'" + ";";
 			rs = dbHandler.executeQ(query);
-			if (rs.next()==false)
-			{
-				break;
+			while(rs.next() == true) {
+				messagesArray.add(new Messages(rs.getString("idMessage"), rs.getString("idUser"), rs.getString("titleMessage"), rs.getString("contentMessage"), rs.getString("dateMessage"), rs.getString("status"), rs.getString("type")));
 			}
-			client.sendToClient(new ObjectManager(rsToCollection(rs),MsgEnum.SEND_MESSAGES_TO_CLIENT));
-			
-			
-
+			if(messagesArray.isEmpty()) System.out.println("No Messages For User"); //change this to send error OR handle this in client side.
+			else client.sendToClient(new ObjectManager(messagesArray,MsgEnum.SEND_MESSAGES_TO_CLIENT));
 			break;
-
 
 		default:
 			break;
 		}
 	}
-	public ArrayList<ArrayList<String>> rsToCollection(ResultSet rs){
-	       
-        ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
-       
-       
-       
-        try {
-            //case of empty rs
-            if(!rs.next())
-                return result;
-           
-            while(rs.next()) {
-                ArrayList<String> temp = new ArrayList<String>();
-                for(int i = 1; i<rs.getMetaData().getColumnCount();i++) {
-                    temp.add(rs.getString(i));
-                }
-               
-                result.add(temp);
-            }
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-       
-        return result;
-       
-    }
 }
