@@ -24,6 +24,20 @@ public class Request implements Serializable{
 	private String opentDate;
 	private String idUser;
 	private String status;
+	private String currentStage;
+	private String stageDueDate;
+	
+	
+	
+	public Request(String id,String duedate, String stage) {
+		idReq=id;
+		
+		stageDueDate = duedate;
+		currentStage=stage;
+	}
+	public Request() {
+		
+	}
 	
 	
 	public String getIdReq() {
@@ -82,6 +96,18 @@ public class Request implements Serializable{
 	}
 	
 	
+	public String getCurrentStage() {
+		return currentStage;
+	}
+	public void setCurrentStage(String currentStage) {
+		this.currentStage = currentStage;
+	}
+	public String getStageDueDate() {
+		return stageDueDate;
+	}
+	public void setStageDueDate(String stageDueDate) {
+		this.stageDueDate = stageDueDate;
+	}
 	public List<String> getAll(){
 		List<String> list = new ArrayList<>();
 		list.add(idReq);

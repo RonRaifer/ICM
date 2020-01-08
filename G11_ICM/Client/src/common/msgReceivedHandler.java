@@ -12,6 +12,7 @@ import controller.MyRequestsController;
 
 import controller.NewRequestController;
 import entity.Messages;
+import entity.Request;
 import entity.User;
 
 //hanler for messages received from server
@@ -38,19 +39,14 @@ public class msgReceivedHandler {
 			MessagesController.setListOfMessages((ArrayList<Messages>)objectManager.getArray());
 			break;
 		
-		case SEND_RS_NOT_STARTED_TO_CLIENT:
+		case SEND_RS_NOT_STARTED_TO_CLIENT:		
 			
-			MyRequestsController.setRsNotStarted(objectManager.getRs());
+			MyRequestsController.setRsNotStarted( (ArrayList<Request>) objectManager.getArray());
 			break;
 		
 		case SEND_RS_STARTED_TO_CLIENT:
-			try {
-				System.out.println(objectManager.getRs().next());
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			MyRequestsController.setRsStarted(objectManager.getRs());
+			
+			MyRequestsController.setRsStarted( (ArrayList<Request>) objectManager.getArray());
 			break;
 			
 		case VIEW_EMPLOYEES:

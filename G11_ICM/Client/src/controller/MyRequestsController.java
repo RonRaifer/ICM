@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import common.ClientConnector;
 import common.MsgEnum;
 import common.ObjectManager;
+import entity.Request;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,6 +21,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
 
 public class MyRequestsController implements Initializable{
 	 @FXML
@@ -38,110 +41,164 @@ public class MyRequestsController implements Initializable{
 	    private Button btnClear;
 
 	    @FXML
-	    private TableView<?> requestTbl;
+	    private TableView<Request> requestTbl;
 
 	    @FXML
-	    private TableColumn<?, ?> idColumn;
+	    private TableColumn<Request, String> idColumn;
 
 	    @FXML
-	    private TableColumn<?, ?> dateColumn;
+	    private TableColumn<Request, String> dateColumn;
 
 	    @FXML
-	    private TableColumn<?, ?> stageColumn;
+	    private TableColumn<Request, String> stageColumn;
 	    
 	    @FXML
 	    private Label lblStageInfo;
 
 	    
 	    //attributes
-	    private static ResultSet rsNotStarted;
-	    private static ResultSet rsStarted;
+	    private static ArrayList<Request> rsNotStarted;
+	    private static ArrayList<Request> rsStarted;
+	    private ClientConnector client = ConnectionController.getClient();
+	    private static ObservableList<Request> List = FXCollections.observableArrayList();
+	    private ArrayList<Request> bothRS = new ArrayList<Request>();
 	    
 	    
-	    
-	    
+	    /**
+	     * clear the search text box
+	     * @param event
+	     */
 	    @FXML
 	    void clickClear(ActionEvent event) {
 	    	tbId.clear();
 	    }
 
+	    /**
+	     * search for request in the table.
+	     * set the label accordingly, and jump to the required request in the table
+	     * 
+	     * possible inputs for the label:
+	     * "You dont have any requests"
+	     * "Empty input, please enter request ID"
+	     * "You dont have such request"
+	     * 
+	     * 
+	     * @param event
+	     */
 	    @FXML
 	    void clickSearch(ActionEvent event) {
+	    	
+	    	String id = tbId.getText();
+	    	
+	    	//user dont have requests
+	    	if(bothRS.isEmpty()) {
+	    		
+	    		lblStageInfo.setText("You dont have any requests");
+	    		lblStageInfo.setVisible(true);
+	    		return;
+	    	}
+	    	
+	    	//input is empty
+	    	if(id.isEmpty()) {
+	    		
+	    		lblStageInfo.setText("Empty input, please enter request ID");
+	    		lblStageInfo.setVisible(true);
+	    		return;
+	    	}
+	    	
+	    	//searching for the request
+	    	Request temp = null;
+	    	for(Request rq : bothRS)
+	    	{
+	    		if(rq.getIdReq().equals(id)) {
+	    			temp = rq;
+	    			break;
+	    		}
+	    	}
+	    	
+	    	//if request wasnt found
+	    	if(temp==null) {
+	    		lblStageInfo.setText("You dont have such request");
+	    		lblStageInfo.setVisible(true);
+	    		return;
+	    	}
+	    	
+	    	//jumping to the request in the table in case it exists
+	    	lblStageInfo.setVisible(false);
+	    	
+	    	requestTbl.getSelectionModel().select(temp);
+	    	requestTbl.requestFocus();
+	    	requestTbl.scrollTo(temp);
+	    	
 
 	    }
-
+	    
+	    
+	    /**
+	     * sending request to the server, and filling the table with the results
+	     */
 		@Override
 		public void initialize(URL arg0, ResourceBundle arg1) {
-			
+			lblStageInfo.setVisible(false);
+			lblStageInfo.setTextFill(Color.RED);
 			//sending id of user to server
-			ObjectManager requestsMsg = new ObjectManager(LoginController.getLoggedUser().getIdUser(), MsgEnum.GET_REQUESTS_BY_ID);
-			client.handleMessageFromClientUI(requestsMsg);
+			ObjectManager requestsMsg1 = new ObjectManager(LoginController.getLoggedUser().getIdUser(), MsgEnum.GET_REQUESTS_BY_ID_STARTED);
+			client.handleMessageFromClientUI(requestsMsg1);
+			
+			idColumn.setCellValueFactory(new PropertyValueFactory<>("idReq"));
+			dateColumn.setCellValueFactory(new PropertyValueFactory<>("stageDueDate"));
+			stageColumn.setCellValueFactory(new PropertyValueFactory<>("currentStage"));
+			
+			ObjectManager requestsMsg2 = new ObjectManager(LoginController.getLoggedUser().getIdUser(), MsgEnum.GET_REQUESTS_BY_ID_NOSTARTED);
+			client.handleMessageFromClientUI(requestsMsg2);
 			
 			try {
-				Thread.sleep(2000);
+				
+				Thread.sleep(1500);
+				
+				bothRS.addAll(rsStarted);
+				bothRS.addAll(rsNotStarted);
+				
+				//the user does not have requests
+				if(bothRS.isEmpty())
+				{
+					requestTbl.setPlaceholder(new Label("You dont have any requests"));
+					return;
+				}
+				
+				List = FXCollections.observableArrayList(bothRS);
+				requestTbl.setItems(List);
+				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
 			//taking care of started requests 
-			try {
-				
-				//if the user doesnt have any requests, exiting this function
-				if(!rsNotStarted.next()&&!rsStarted.next()) {
-				requestTbl.setPlaceholder(new Label("You dont have any requests"));
-					
-					return;
-				}
-				
-				while(rsStarted.next()) {
-					
-					//the column we will add to the table
-					ArrayList<String> col = new ArrayList<>();
-					
-					//id column
-					col.add(rsStarted.getString(1));
-					
-					//date column
-					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-					LocalDate localDate = LocalDate.now();
-					col.add(dtf.format(localDate.plusDays(rsStarted.getLong(2))));
-					
-					//stage column
-					col.add(rsStarted.getString(3));
-					
-					ObservableList obList = FXCollections.observableList(col);
-					requestTbl.setItems(obList);
-					
-					
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
 			
 			
 			
 			
 		}
 
-		public static ResultSet getRs() {
-			return rsNotStarted;
+		/**
+		 * let other classes set the not started requests list
+		 * @param requestarray
+		 */
+		
+		public static void setRsNotStarted(ArrayList<Request> requestarray) {
+			rsNotStarted =  requestarray;
+		}
+		
+		/**
+		 * let other classes set the started requests list
+		 * @param requestarray
+		 */
+		public static void setRsStarted(ArrayList<Request> requestarray) {
+			rsStarted = requestarray;
 		}
 
-		public static void setRsNotStarted(ResultSet rs) {
-			MyRequestsController.rsNotStarted = rs;
-		}
-		public static ResultSet getRsStarted() {
-			return rsStarted;
-		}
-
-		public static void setRsStarted(ResultSet rsStarted) {
-			MyRequestsController.rsStarted = rsStarted;
-		}
-
-		private ClientConnector client = ConnectionController.getClient();
+		
 
 
 }
