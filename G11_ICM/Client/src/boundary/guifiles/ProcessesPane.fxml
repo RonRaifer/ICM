@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="728.0" prefWidth="1074.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MessagesController">
+<AnchorPane prefHeight="728.0" prefWidth="1020.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProcessesController">
    <children>
       <AnchorPane layoutX="17.0" prefHeight="85.0" prefWidth="201.0">
          <children>
@@ -31,39 +37,125 @@
             </Label>
          </children>
       </AnchorPane>
-      <TabPane layoutX="25.0" layoutY="97.0" prefHeight="604.0" prefWidth="1017.0" stylesheets="@Main.css" tabClosingPolicy="UNAVAILABLE">
+      <Label layoutX="43.0" layoutY="89.0" text="All" />
+      <TabPane fx:id="tabPane" layoutX="25.0" layoutY="97.0" prefHeight="604.0" prefWidth="1029.0" stylesheets="@Main.css" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="All">
+          <Tab fx:id="tabAll" text="All">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="473.0" prefWidth="600.0">
+                     <children>
+                        <TableView fx:id="tblAll" layoutX="-3.0" layoutY="-2.0" prefHeight="489.0" prefWidth="683.0">
+                          <columns>
+                            <TableColumn fx:id="colID1" prefWidth="123.0" text="ID" />
+                            <TableColumn fx:id="colDate1" prefWidth="112.0" text="Due date" />
+                              <TableColumn prefWidth="123.0" text="Stage" />
+                          </columns>
+                        </TableView>
+                     </children></AnchorPane>
             </content>
           </Tab>
-          <Tab text="Evaluation">
+          <Tab fx:id="tabEvaluation" text="Evaluation">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tblEvaluation" layoutX="-1.0" prefHeight="472.0" prefWidth="695.0">
+                          <columns>
+                            <TableColumn fx:id="colID2" prefWidth="75.0" text="ID" />
+                            <TableColumn fx:id="colState" prefWidth="156.0" text="Current State" />
+                              <TableColumn fx:id="colRequest" minWidth="9.0" prefWidth="156.0" text="Request" />
+                              <TableColumn fx:id="colPurpose" minWidth="9.0" prefWidth="156.0" text="Purpose" />
+                              <TableColumn fx:id="colComment" minWidth="9.0" prefWidth="158.0" text="Comment" />
+                          </columns>
+                        </TableView>
+                        <Button fx:id="btnEvalue" layoutX="710.0" layoutY="434.0" mnemonicParsing="false" text="Evalue" />
+                        <Label layoutX="710.0" layoutY="42.0" text="Location of change:" />
+                        <Label layoutX="710.0" layoutY="88.0" prefHeight="39.0" prefWidth="105.0" text="Description of change:" wrapText="true" />
+                        <Label layoutX="710.0" layoutY="178.0" text="Result" />
+                        <Label layoutX="710.0" layoutY="274.0" text="Risk:" />
+                        <Label layoutX="710.0" layoutY="362.0" text="Time evaluation:" />
+                        <TextField fx:id="tbLocation" layoutX="827.0" layoutY="42.0" prefHeight="25.0" prefWidth="182.0" />
+                        <TextArea fx:id="tbDescription" layoutX="827.0" layoutY="88.0" prefHeight="85.0" prefWidth="182.0" />
+                        <Separator layoutX="699.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="478.0" prefWidth="10.0" />
+                        <TextArea fx:id="tbResult" layoutX="827.0" layoutY="178.0" prefHeight="85.0" prefWidth="182.0" />
+                        <TextArea fx:id="tbRisk" layoutX="827.0" layoutY="274.0" prefHeight="69.0" prefWidth="182.0" />
+                        <TextArea fx:id="tbTime" layoutX="827.0" layoutY="362.0" prefHeight="69.0" prefWidth="182.0" />
+                        <Label layoutX="784.0" layoutY="6.0" text="Evaluation Report:" underline="true">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblErr" layoutX="827.0" layoutY="438.0" text="Error" textFill="#d30b0b" />
+                     </children></AnchorPane>
             </content>
           </Tab>
-            <Tab text="Examination and Decision">
+            <Tab fx:id="tabExamine" text="Review">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView prefHeight="474.0" prefWidth="90.0">
+                          <columns>
+                            <TableColumn fx:id="colID3" prefWidth="89.0" text="ID" />
+                          </columns>
+                        </TableView>
+                        <TextArea layoutX="90.0" prefHeight="474.0" prefWidth="395.0" />
+                        <Label layoutX="153.0" layoutY="-1.0" text="Evaluation Report Information:" underline="true">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="604.0" layoutY="58.0" mnemonicParsing="false" text="More information" textFill="#e10505" />
+                        <Button layoutX="505.0" layoutY="58.0" mnemonicParsing="false" text="Approve" textFill="#0cdd48" />
+                        <Button layoutX="635.0" layoutY="128.0" mnemonicParsing="false" text="Reject" textFill="#e40808" />
+                        <Button layoutX="505.0" layoutY="134.0" mnemonicParsing="false" text="Approve" textFill="#08e455" />
+                        <Label layoutX="546.0" layoutY="101.0" text="Leader Decision" />
+                        <Label layoutX="550.0" layoutY="21.0" text="Team decision" />
+                     </children></AnchorPane>
                </content>
             </Tab>
-            <Tab text="Execution">
+            <Tab fx:id="tabExecute" text="Execution">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView prefHeight="360.0" prefWidth="404.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="ID" />
+                            <TableColumn prefWidth="328.0" text="Change Needed" />
+                          </columns>
+                        </TableView>
+                        <Button layoutY="434.0" mnemonicParsing="false" text="Finish" textFill="#0ae160" />
+                        <TextArea layoutX="118.0" layoutY="368.0" prefHeight="70.0" prefWidth="287.0" />
+                        <Label layoutX="14.0" layoutY="368.0" text="Change Done:" />
+                     </children></AnchorPane>
                </content>
             </Tab>
-            <Tab text="Closing">
+            <Tab fx:id="tabClosing" text="Checking">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView prefHeight="323.0" prefWidth="381.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="ID" />
+                            <TableColumn prefWidth="305.0" text="Change Done" />
+                          </columns>
+                        </TableView>
+                        <Button layoutX="14.0" layoutY="434.0" mnemonicParsing="false" text="Approve" textFill="#09da6b" />
+                        <Button layoutX="165.0" layoutY="434.0" mnemonicParsing="false" text="Reject" textFill="#eb0909" />
+                        <Label layoutX="14.0" layoutY="335.0" text="Failure information:" />
+                        <TextArea layoutX="136.0" layoutY="335.0" prefHeight="85.0" prefWidth="245.0" />
+                     </children></AnchorPane>
                </content>
             </Tab>
-            <Tab text="Closed">
+            <Tab fx:id="tabClose" text="Closing">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                </content>
             </Tab>
         </tabs>
       </TabPane>
+      <Label layoutX="104.0" layoutY="89.0" text="Evaluation" />
+      <Label layoutX="174.0" layoutY="89.0" text="Review" />
+      <Label layoutX="229.0" layoutY="89.0" text="Execution" />
+      <Label layoutX="308.0" layoutY="89.0" text="Checking" />
+      <Label layoutX="377.0" layoutY="89.0" text="Closing" />
    </children>
 </AnchorPane>
