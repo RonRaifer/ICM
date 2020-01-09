@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="728.0" prefWidth="1020.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProcessesController">
+<AnchorPane prefHeight="728.0" prefWidth="1142.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProcessesController">
    <children>
       <AnchorPane layoutX="17.0" prefHeight="85.0" prefWidth="201.0">
          <children>
@@ -37,14 +37,13 @@
             </Label>
          </children>
       </AnchorPane>
-      <Label layoutX="43.0" layoutY="89.0" text="All" />
-      <TabPane fx:id="tabPane" layoutX="25.0" layoutY="97.0" prefHeight="604.0" prefWidth="1029.0" stylesheets="@Main.css" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabPane" layoutX="28.0" layoutY="85.0" prefHeight="607.0" prefWidth="1089.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="tabAll" text="All">
             <content>
-              <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="473.0" prefWidth="600.0">
+              <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="560.0" prefWidth="972.0">
                      <children>
-                        <TableView fx:id="tblAll" layoutX="-3.0" layoutY="-2.0" prefHeight="489.0" prefWidth="683.0">
+                        <TableView fx:id="tblAll" layoutX="6.0" layoutY="19.0" prefHeight="541.0" prefWidth="708.0">
                           <columns>
                             <TableColumn fx:id="colID1" prefWidth="123.0" text="ID" />
                             <TableColumn fx:id="colDate1" prefWidth="112.0" text="Due date" />
@@ -58,7 +57,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="tblEvaluation" layoutX="-1.0" prefHeight="472.0" prefWidth="695.0">
+                        <TableView fx:id="tblEvaluation" layoutX="-1.0" layoutY="15.0" prefHeight="472.0" prefWidth="667.0">
                           <columns>
                             <TableColumn fx:id="colID2" prefWidth="75.0" text="ID" />
                             <TableColumn fx:id="colState" prefWidth="156.0" text="Current State" />
@@ -67,24 +66,24 @@
                               <TableColumn fx:id="colComment" minWidth="9.0" prefWidth="158.0" text="Comment" />
                           </columns>
                         </TableView>
-                        <Button fx:id="btnEvalue" layoutX="710.0" layoutY="434.0" mnemonicParsing="false" text="Evalue" />
+                        <Button fx:id="btnEvalue" layoutX="709.0" layoutY="434.0" mnemonicParsing="false" text="Evalue" />
                         <Label layoutX="710.0" layoutY="42.0" text="Location of change:" />
-                        <Label layoutX="710.0" layoutY="88.0" prefHeight="39.0" prefWidth="105.0" text="Description of change:" wrapText="true" />
+                        <Label layoutX="710.0" layoutY="88.0" prefHeight="39.0" prefWidth="143.0" text="Description of change:" wrapText="true" />
                         <Label layoutX="710.0" layoutY="178.0" text="Result" />
                         <Label layoutX="710.0" layoutY="274.0" text="Risk:" />
                         <Label layoutX="710.0" layoutY="362.0" text="Time evaluation:" />
-                        <TextField fx:id="tbLocation" layoutX="827.0" layoutY="42.0" prefHeight="25.0" prefWidth="182.0" />
-                        <TextArea fx:id="tbDescription" layoutX="827.0" layoutY="88.0" prefHeight="85.0" prefWidth="182.0" />
-                        <Separator layoutX="699.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="478.0" prefWidth="10.0" />
-                        <TextArea fx:id="tbResult" layoutX="827.0" layoutY="178.0" prefHeight="85.0" prefWidth="182.0" />
-                        <TextArea fx:id="tbRisk" layoutX="827.0" layoutY="274.0" prefHeight="69.0" prefWidth="182.0" />
-                        <TextArea fx:id="tbTime" layoutX="827.0" layoutY="362.0" prefHeight="69.0" prefWidth="182.0" />
+                        <TextField fx:id="tbLocation" layoutX="840.0" layoutY="44.0" prefHeight="25.0" prefWidth="182.0" />
+                        <TextArea fx:id="tbDescription" layoutX="840.0" layoutY="90.0" prefHeight="85.0" prefWidth="182.0" />
+                        <Separator layoutX="683.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="478.0" prefWidth="10.0" />
+                        <TextArea fx:id="tbResult" layoutX="840.0" layoutY="180.0" prefHeight="85.0" prefWidth="182.0" />
+                        <TextArea fx:id="tbRisk" layoutX="840.0" layoutY="276.0" prefHeight="69.0" prefWidth="182.0" />
+                        <TextArea fx:id="tbTime" layoutX="840.0" layoutY="364.0" prefHeight="69.0" prefWidth="182.0" />
                         <Label layoutX="784.0" layoutY="6.0" text="Evaluation Report:" underline="true">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblErr" layoutX="827.0" layoutY="438.0" text="Error" textFill="#d30b0b" />
+                        <Label fx:id="lblErr" layoutX="852.0" layoutY="438.0" text="Error" textFill="#d30b0b" />
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -147,15 +146,10 @@
             </Tab>
             <Tab fx:id="tabClose" text="Closing">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="442.0" prefWidth="1030.0" />
                </content>
             </Tab>
         </tabs>
       </TabPane>
-      <Label layoutX="104.0" layoutY="89.0" text="Evaluation" />
-      <Label layoutX="174.0" layoutY="89.0" text="Review" />
-      <Label layoutX="229.0" layoutY="89.0" text="Execution" />
-      <Label layoutX="308.0" layoutY="89.0" text="Checking" />
-      <Label layoutX="377.0" layoutY="89.0" text="Closing" />
    </children>
 </AnchorPane>
