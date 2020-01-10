@@ -316,6 +316,7 @@ public class MsgHandler {
 			}
 			client.sendToClient(new ObjectManager(processesArray, MsgEnum.VIEW_PROCESSES));
 			break;	
+			
 		case VIEW_PROCESSES_TO_BE_DETERMINED:
 			ArrayList<RequestHandling> processesTimeArray = new ArrayList<RequestHandling>();
 			query = "SELECT * FROM request_handling WHERE executionTime is NULL or executionTime ='';"; // for process handling
