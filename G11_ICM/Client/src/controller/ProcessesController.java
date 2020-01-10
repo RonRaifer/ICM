@@ -26,7 +26,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class ProcessesController implements Initializable {
+public class ProcessesController implements Initializable{
 
     @FXML
     private Label lblPageName;
@@ -58,6 +58,7 @@ public class ProcessesController implements Initializable {
     private TableView<RequestHandling> tblTimeDetermine1;
 
     @FXML
+
     private TableColumn<RequestHandling, String> col_requestId1;
 
     @FXML
@@ -74,6 +75,7 @@ public class ProcessesController implements Initializable {
 
     @FXML
     private Button btnTimeRequest;
+
 
     @FXML
     private Tab tabEvaluation;
@@ -129,7 +131,7 @@ public class ProcessesController implements Initializable {
     @FXML
     private Tab tabClose;
     
-    
+
   //attribute
     private static ArrayList<RequestHandling> arralistOfProcesses = null;
     private static ArrayList<RequestHandling> arralistOfTimeRequests = null;
@@ -195,5 +197,6 @@ public class ProcessesController implements Initializable {
     		}
         }
     } 
-    
+
+
 }

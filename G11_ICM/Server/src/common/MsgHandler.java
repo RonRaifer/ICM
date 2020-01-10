@@ -210,6 +210,28 @@ public class MsgHandler {
 			
 			break;
 			
+		case PRO_ALL_TBL:
+			String allQuery = "SELECT idrequest , executionTime, currentStage FROM request_handling WHERE idCharge ="+
+							"'"+objectManager.getError() + "'";
+			
+			ResultSet allQueryRS = dbHandler.executeQ(allQuery);
+			
+			ArrayList<Request> allList = new ArrayList<>();
+
+			while (allQueryRS.next()) {
+				
+				String id = allQueryRS.getString(1);
+				String expectedDate = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(LocalDate.now().plusDays(allQueryRS.getLong(2)));
+				String stage = allQueryRS.getString(3);
+				Request temp = new Request(id, expectedDate,stage); 
+				allList.add(temp);
+			}
+
+			//sending the result to the client
+			ObjectManager allMsg = new ObjectManager(allList, MsgEnum.SET_TBL1);
+			client.sendToClient(allMsg);
+			
+			
 		case GET_REQUESTS_BY_ID_NOSTARTED:
 			
 			//------------------------------------------------------------------------------//

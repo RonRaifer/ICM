@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="728.0" prefWidth="1142.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProcessesController">
+<AnchorPane prefHeight="728.0" prefWidth="1142.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProcessesController">
    <children>
       <AnchorPane layoutX="17.0" prefHeight="85.0" prefWidth="201.0">
          <children>
@@ -73,7 +73,7 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-          <Tab fx:id="tabEvaluation" text="Evaluation">
+          <Tab fx:id="tabEvaluation" onSelectionChanged="#clickEva" text="Evaluation">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -86,7 +86,7 @@
                               <TableColumn fx:id="colComment" minWidth="9.0" prefWidth="158.0" text="Comment" />
                           </columns>
                         </TableView>
-                        <Button fx:id="btnEvalue" layoutX="709.0" layoutY="434.0" mnemonicParsing="false" text="Evalue" />
+                        <Button fx:id="btnEvalue" layoutX="709.0" layoutY="434.0" mnemonicParsing="false" text="Evaluate" />
                         <Label layoutX="710.0" layoutY="42.0" text="Location of change:" />
                         <Label layoutX="710.0" layoutY="88.0" prefHeight="39.0" prefWidth="143.0" text="Description of change:" wrapText="true" />
                         <Label layoutX="710.0" layoutY="178.0" text="Result" />
@@ -107,7 +107,7 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-            <Tab fx:id="tabExamine" text="Review">
+            <Tab fx:id="tabExamine" onSelectionChanged="#clickReview" text="Review">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -131,7 +131,7 @@
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab fx:id="tabExecute" text="Execution">
+            <Tab fx:id="tabExecute" onSelectionChanged="#clickExecute" text="Execution">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -147,7 +147,7 @@
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab fx:id="tabClosing" text="Checking">
+            <Tab fx:id="tabClosing" onSelectionChanged="#clickChecking" text="Checking">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
