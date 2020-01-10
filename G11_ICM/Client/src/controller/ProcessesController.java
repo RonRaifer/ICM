@@ -65,7 +65,9 @@ public class ProcessesController implements Initializable{
     private TableColumn<RequestHandling, String> col_stage1;
 
     @FXML
-    private TableColumn<RequestHandling, String> col_status1;
+    private TableColumn<RequestHandling, String> col_dueDate;
+    @FXML
+    private TableColumn<RequestHandling, String> col_timeLeft;
 
    // @FXML
   //  private TextArea tbTime;
@@ -164,7 +166,7 @@ public class ProcessesController implements Initializable{
     			
     			col_requestId1.setCellValueFactory(new PropertyValueFactory<>("idrequest"));
     			col_stage1.setCellValueFactory(new PropertyValueFactory<>("currentStage"));
-    			col_status1.setCellValueFactory(new PropertyValueFactory<>("status"));
+    			col_dueDate.setCellValueFactory(new PropertyValueFactory<>("executionTime"));
     			List = FXCollections.observableArrayList(arralistOfProcesses);
     			tblTimeDetermine1.setItems(List);
     		} catch (InterruptedException e) {

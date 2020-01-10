@@ -309,8 +309,10 @@ public class MsgHandler {
 			ArrayList<RequestHandling> processesArray = new ArrayList<RequestHandling>();
 			query = "SELECT * FROM request_handling;"; // for process handling
 			rs = dbHandler.executeQ(query);
+
 			while(rs.next() == true) {
-				processesArray.add(new RequestHandling(rs.getString("idrequest"), rs.getString("idCharge"), rs.getString("executionTime"), rs.getString("currentStage"), rs.getString("status")));
+				String expectedDate = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(LocalDate.now().plusDays(rs.getLong("executionTime")));
+				processesArray.add(new RequestHandling(rs.getString("idrequest"), rs.getString("idCharge"), expectedDate, rs.getString("currentStage"), rs.getString("status")));
 			}
 			client.sendToClient(new ObjectManager(processesArray, MsgEnum.VIEW_PROCESSES));
 			break;	
