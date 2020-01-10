@@ -8,11 +8,15 @@ import common.ClientConnector;
 import common.MsgEnum;
 import common.ObjectManager;
 import entity.Request;
+import entity.RequestHandling;
+import entity.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -20,6 +24,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ProcessesController implements Initializable {
 
@@ -34,30 +39,62 @@ public class ProcessesController implements Initializable {
 
     @FXML
     private Tab tabAll;
+    @FXML
+    private Tab tabTimeDetermine;
 
     @FXML
-    private TableView<?> tblAll;
+    private TableView<RequestHandling> tblTimeDetermine;
+
+    @FXML
+    private TableColumn<RequestHandling, String> col_requestId;
+
+    @FXML
+    private TableColumn<RequestHandling, String> col_stage;
+
+    @FXML
+    private TableColumn<RequestHandling, String> col_status;
+    //delete later
+    @FXML
+    private TableView<RequestHandling> tblTimeDetermine1;
+
+    @FXML
+    private TableColumn<RequestHandling, String> col_requestId1;
+
+    @FXML
+    private TableColumn<RequestHandling, String> col_stage1;
+
+    @FXML
+    private TableColumn<RequestHandling, String> col_status1;
+
+   // @FXML
+  //  private TextArea tbTime;
+
+    @FXML
+    private Hyperlink hlShowDetails;
+
+    @FXML
+    private Button btnTimeRequest;
 
     @FXML
     private Tab tabEvaluation;
 
     @FXML
-    private TableView<Request> tblEvaluation;
+    private TableView<?> tblEvaluation;
 
     @FXML
-    private TableColumn<Request, String> colID;
+    private TableColumn<?, ?> colID2;
 
     @FXML
-    private TableColumn<Request, String> colState;
+    private TableColumn<?, ?> colState;
 
     @FXML
-    private TableColumn<Request, String> colRequest;
+    private TableColumn<?, ?> colRequest;
 
     @FXML
-    private TableColumn<Request, String> colPurpose;
+    private TableColumn<?, ?> colPurpose;
 
     @FXML
-    private TableColumn<Request, String> colComment;
+    private TableColumn<?, ?> colComment;
 
     @FXML
     private Button btnEvalue;
@@ -75,13 +112,13 @@ public class ProcessesController implements Initializable {
     private TextArea tbRisk;
 
     @FXML
-    private TextArea tbTime;
-
-    @FXML
     private Label lblErr;
 
     @FXML
     private Tab tabExamine;
+
+    @FXML
+    private TableColumn<?, ?> colID3;
 
     @FXML
     private Tab tabExecute;
@@ -94,30 +131,69 @@ public class ProcessesController implements Initializable {
     
     
   //attribute
-    private static ArrayList<Request> evaluationList;
-    private ClientConnector client = ConnectionController.getClient();
-    private static ObservableList<Request> List = FXCollections.observableArrayList();
+    private static ArrayList<RequestHandling> arralistOfProcesses = null;
+    private static ArrayList<RequestHandling> arralistOfTimeRequests = null;
+	private ObservableList<RequestHandling> List = null;
+	
+	public static void setListOfProcesses(ArrayList<RequestHandling> array) {
+		arralistOfProcesses = new ArrayList<>(array);
+    }
+	public static void setListOfTimeRequests(ArrayList<RequestHandling> array) {
+		arralistOfTimeRequests = new ArrayList<>(array);
+    }
     
-    
-    
-
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
 		lblErr.setVisible(false);
 		
-		
-		
-	}
-    
-    
-    
-    
-    
-    
-    
 
-    
-    
+	}
+	@FXML
+    void event(Event ev) {
+       if (tabAll.isSelected()) {
+        	ObjectManager viewProcesses = new ObjectManager(arralistOfProcesses, MsgEnum.VIEW_PROCESSES);
+    		ConnectionController.getClient().handleMessageFromClientUI(viewProcesses);
+    		
+
+        	try {
+    			Thread.sleep(1000);
+    			//if(arralistOfProcesses.isEmpty()) tabPane.getTabs().remove(tabAll); //for later
+
+    			
+    			col_requestId1.setCellValueFactory(new PropertyValueFactory<>("idrequest"));
+    			col_stage1.setCellValueFactory(new PropertyValueFactory<>("currentStage"));
+    			col_status1.setCellValueFactory(new PropertyValueFactory<>("status"));
+    			List = FXCollections.observableArrayList(arralistOfProcesses);
+    			tblTimeDetermine1.setItems(List);
+    		} catch (InterruptedException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+        }
+
+    } 
+	@FXML
+	void event2(Event ev) {
+        if (tabTimeDetermine.isSelected()) {
+        	ObjectManager timeRequests = new ObjectManager(arralistOfProcesses, MsgEnum.VIEW_PROCESSES_TO_BE_DETERMINED);
+    		ConnectionController.getClient().handleMessageFromClientUI(timeRequests);
+    		
+
+        	try {
+    			Thread.sleep(1000);
+    			//if(arralistOfProcesses.isEmpty()) tabPane.getTabs().remove(tabAll); //for later
+
+    			
+    			col_requestId.setCellValueFactory(new PropertyValueFactory<>("idrequest"));
+    			col_stage.setCellValueFactory(new PropertyValueFactory<>("currentStage"));
+    			col_status.setCellValueFactory(new PropertyValueFactory<>("status"));
+    			List = FXCollections.observableArrayList(arralistOfTimeRequests);
+    			tblTimeDetermine.setItems(List);
+    		} catch (InterruptedException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+        }
+    } 
     
 }

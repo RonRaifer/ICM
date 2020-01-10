@@ -14,10 +14,12 @@ import java.util.Arrays;
 
 import java.sql.ResultSet;
 
+import entity.ActionsNeeded;
 import entity.Document;
 import entity.Employee;
 import entity.Messages;
 import entity.Request;
+import entity.RequestHandling;
 import entity.User;
 import common.ObjectManager;
 import ocsf.server.ConnectionToClient;
@@ -106,6 +108,14 @@ public class MsgHandler {
 
 			// executing the query
 			dbHandler.executeUpdate(qr.toString());
+			query = "SELECT iduser FROM systems WHERE systemName = '" + objectManager.getReques().getSystem() + "'" + ";";
+			rs = dbHandler.executeQ(query);
+			if(!rs.next()) System.out.println("No Charge for this system\n");
+			else{
+				query = "INSERT INTO actions_needed VALUES ("+Integer.valueOf(objectManager.getReques().getIdReq())+", '" 
+						+ rs.getString("iduser") + "', 'Evaluation', 'Approve Evaluator');";
+				dbHandler.executeUpdate(query);
+			}
 			System.out.println("Request added to request table\n");
 			client.sendToClient(new ObjectManager(new Integer(rowcount), MsgEnum.SEND_ID_OF_REQUEST_TO_CLIENT));
 			// sending the id of the request to the client
@@ -263,7 +273,34 @@ public class MsgHandler {
 			else
 				client.sendToClient(new ObjectManager(employeesArray, MsgEnum.VIEW_EMPLOYEES));
 			break;
-
+		case VIEW_ACTIONS: //for process waiting time approval and employee approval
+			ArrayList<ActionsNeeded> actionsArray = new ArrayList<ActionsNeeded>();
+			query = "SELECT * FROM actions_needed;"; // for users
+			rs = dbHandler.executeQ(query);
+			while(rs.next() == true) {
+				actionsArray.add(new ActionsNeeded(rs.getString("idrequest"), rs.getString("idCharge"), rs.getString("stage"),rs.getString("actionsNeeded")));
+			}
+			client.sendToClient(new ObjectManager(actionsArray, MsgEnum.VIEW_ACTIONS));
+			break;
+			
+		case VIEW_PROCESSES:
+			ArrayList<RequestHandling> processesArray = new ArrayList<RequestHandling>();
+			query = "SELECT * FROM request_handling;"; // for process handling
+			rs = dbHandler.executeQ(query);
+			while(rs.next() == true) {
+				processesArray.add(new RequestHandling(rs.getString("idrequest"), rs.getString("idCharge"), rs.getString("executionTime"), rs.getString("currentStage"), rs.getString("status")));
+			}
+			client.sendToClient(new ObjectManager(processesArray, MsgEnum.VIEW_PROCESSES));
+			break;	
+		case VIEW_PROCESSES_TO_BE_DETERMINED:
+			ArrayList<RequestHandling> processesTimeArray = new ArrayList<RequestHandling>();
+			query = "SELECT * FROM request_handling WHERE executionTime is NULL or executionTime ='';"; // for process handling
+			rs = dbHandler.executeQ(query);
+			while(rs.next() == true) {
+				processesTimeArray.add(new RequestHandling(rs.getString("idrequest"), rs.getString("idCharge"), rs.getString("executionTime"), rs.getString("currentStage"), rs.getString("status")));
+			}
+			client.sendToClient(new ObjectManager(processesTimeArray, MsgEnum.VIEW_PROCESSES_TO_BE_DETERMINED));
+			break;	
 		default:
 			break;
 		}

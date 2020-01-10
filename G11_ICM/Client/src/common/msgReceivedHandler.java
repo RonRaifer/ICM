@@ -11,8 +11,12 @@ import controller.MessagesController;
 import controller.MyRequestsController;
 
 import controller.NewRequestController;
+import controller.ProcessInspectorController;
+import controller.ProcessesController;
+import entity.ActionsNeeded;
 import entity.Messages;
 import entity.Request;
+import entity.RequestHandling;
 import entity.User;
 
 //hanler for messages received from server
@@ -52,6 +56,15 @@ public class msgReceivedHandler {
 		case VIEW_EMPLOYEES:
 			EmployeesController.setListOfEmployees((ArrayList<User>)objectManager.getArray());
 			break;
+		case VIEW_ACTIONS:
+			ProcessInspectorController.setListOfActions((ArrayList<ActionsNeeded>)objectManager.getArray());
+			break;
+		case VIEW_PROCESSES:
+			ProcessesController.setListOfProcesses((ArrayList<RequestHandling>)objectManager.getArray());
+			break;
+		case VIEW_PROCESSES_TO_BE_DETERMINED:
+			ProcessesController.setListOfTimeRequests((ArrayList<RequestHandling>)objectManager.getArray());
+			break;	
 			
 		default:
 			break;

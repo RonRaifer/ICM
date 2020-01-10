@@ -115,7 +115,11 @@ public class MenuController implements Initializable{
     
     @FXML
     void processesClick(ActionEvent event) {
-    	sceneManager("ProcessesPane", btnProcesses);
+    	if(user.getRole().compareTo("Inspector") == 0) { //if user is Inspector
+    		sceneManager("ProcessPaneInspector", btnProcesses); 
+    	}
+    	else {sceneManager("ProcessesPane", btnProcesses);}
+    	
     }
 
     @FXML
