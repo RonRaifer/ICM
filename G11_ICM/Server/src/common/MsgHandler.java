@@ -305,7 +305,7 @@ public class MsgHandler {
 			}
 			client.sendToClient(new ObjectManager(actionsArray, MsgEnum.VIEW_ACTIONS));
 			break;
-			
+
 		case VIEW_PROCESSES:
 			ArrayList<RequestHandling> processesArray = new ArrayList<RequestHandling>();
 			query = "SELECT * FROM request_handling;"; // for process handling
