@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
@@ -14,7 +19,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="728.0" prefWidth="1142.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProcessesController">
+<AnchorPane prefHeight="728.0" prefWidth="1142.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProcessesController">
    <children>
       <AnchorPane layoutX="17.0" prefHeight="85.0" prefWidth="201.0">
          <children>
@@ -44,11 +49,12 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="442.0" prefWidth="1030.0">
                      <children>
-                        <TableView fx:id="tblTimeDetermine1" layoutX="26.0" layoutY="19.0" prefHeight="541.0" prefWidth="359.0">
+                       <TableView fx:id="tblTimeDetermine1" layoutX="26.0" layoutY="19.0" prefHeight="541.0" prefWidth="485.0">
                            <columns>
-                              <TableColumn fx:id="col_requestId1" prefWidth="123.0" text="Request ID" />
-                              <TableColumn fx:id="col_stage1" prefWidth="112.0" text="Stage" />
-                              <TableColumn fx:id="col_status1" prefWidth="123.0" text="Status" />
+                              <TableColumn fx:id="col_requestId1" prefWidth="96.0" text="Request ID" />
+                              <TableColumn fx:id="col_stage1" prefWidth="139.0" text="Stage" />
+                              <TableColumn fx:id="col_dueDate" prefWidth="123.0" text="Due Date" />
+                              <TableColumn fx:id="col_timeLeft" prefWidth="123.0" text="Time Left" />
                            </columns>
                         </TableView>
                      </children></AnchorPane>
@@ -73,7 +79,7 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-          <Tab fx:id="tabEvaluation" onSelectionChanged="#clickEva" text="Evaluation">
+          <Tab fx:id="tabEvaluation" text="Evaluation">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -107,7 +113,7 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-            <Tab fx:id="tabExamine" onSelectionChanged="#clickReview" text="Review">
+            <Tab fx:id="tabExamine" text="Review">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -131,7 +137,7 @@
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab fx:id="tabExecute" onSelectionChanged="#clickExecute" text="Execution">
+            <Tab fx:id="tabExecute" text="Execution">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -147,7 +153,7 @@
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab fx:id="tabClosing" onSelectionChanged="#clickChecking" text="Checking">
+            <Tab fx:id="tabClosing" text="Checking">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>

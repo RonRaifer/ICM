@@ -49,14 +49,9 @@ public class msgReceivedHandler {
 			break;
 		
 		case SEND_RS_STARTED_TO_CLIENT:
-			
 			MyRequestsController.setRsStarted( (ArrayList<Request>) objectManager.getArray());
 			break;
 			
-			
-		case SET_TBL1:
-			ProcessesController.setTbl1((ArrayList<Request>) objectManager.getArray());
-			break;
 		case VIEW_EMPLOYEES:
 			EmployeesController.setListOfEmployees((ArrayList<User>)objectManager.getArray());
 			break;

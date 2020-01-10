@@ -210,26 +210,7 @@ public class MsgHandler {
 			
 			break;
 			
-		case PRO_ALL_TBL:
-			String allQuery = "SELECT idrequest , executionTime, currentStage FROM request_handling WHERE idCharge ="+
-							"'"+objectManager.getError() + "'";
-			
-			ResultSet allQueryRS = dbHandler.executeQ(allQuery);
-			
-			ArrayList<Request> allList = new ArrayList<>();
-
-			while (allQueryRS.next()) {
-				
-				String id = allQueryRS.getString(1);
-				String expectedDate = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(LocalDate.now().plusDays(allQueryRS.getLong(2)));
-				String stage = allQueryRS.getString(3);
-				Request temp = new Request(id, expectedDate,stage); 
-				allList.add(temp);
-			}
-
-			//sending the result to the client
-			ObjectManager allMsg = new ObjectManager(allList, MsgEnum.SET_TBL1);
-			client.sendToClient(allMsg);
+		
 			
 			
 		case GET_REQUESTS_BY_ID_NOSTARTED:
@@ -295,6 +276,7 @@ public class MsgHandler {
 			else
 				client.sendToClient(new ObjectManager(employeesArray, MsgEnum.VIEW_EMPLOYEES));
 			break;
+			
 		case VIEW_ACTIONS: //for process waiting time approval and employee approval
 			ArrayList<ActionsNeeded> actionsArray = new ArrayList<ActionsNeeded>();
 			query = "SELECT * FROM actions_needed;"; // for users
@@ -304,16 +286,19 @@ public class MsgHandler {
 			}
 			client.sendToClient(new ObjectManager(actionsArray, MsgEnum.VIEW_ACTIONS));
 			break;
-			
+
 		case VIEW_PROCESSES:
 			ArrayList<RequestHandling> processesArray = new ArrayList<RequestHandling>();
 			query = "SELECT * FROM request_handling;"; // for process handling
 			rs = dbHandler.executeQ(query);
+
 			while(rs.next() == true) {
-				processesArray.add(new RequestHandling(rs.getString("idrequest"), rs.getString("idCharge"), rs.getString("executionTime"), rs.getString("currentStage"), rs.getString("status")));
+				String expectedDate = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(LocalDate.now().plusDays(rs.getLong("executionTime")));
+				processesArray.add(new RequestHandling(rs.getString("idrequest"), rs.getString("idCharge"), expectedDate, rs.getString("currentStage"), rs.getString("status")));
 			}
 			client.sendToClient(new ObjectManager(processesArray, MsgEnum.VIEW_PROCESSES));
 			break;	
+			
 		case VIEW_PROCESSES_TO_BE_DETERMINED:
 			ArrayList<RequestHandling> processesTimeArray = new ArrayList<RequestHandling>();
 			query = "SELECT * FROM request_handling WHERE executionTime is NULL or executionTime ='';"; // for process handling
