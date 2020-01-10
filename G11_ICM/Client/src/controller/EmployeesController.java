@@ -32,14 +32,11 @@ public class EmployeesController implements Initializable{
 	@FXML
 	private TableColumn<User, String> col_type;
 	
-	
-	ClientConnector client;
 	public static ArrayList<User> arralistOfEmployees = null;
 	private ObservableList<User> List = null;
 	
 	public static void setListOfEmployees(ArrayList<User> array) {
 		arralistOfEmployees = new ArrayList<>(array);
-    	
     }
 	
 	@Override
