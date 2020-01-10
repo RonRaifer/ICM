@@ -8,12 +8,15 @@ import common.ClientConnector;
 import common.MsgEnum;
 import common.ObjectManager;
 import entity.Request;
+import entity.RequestHandling;
+import entity.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -36,18 +39,43 @@ public class ProcessesController implements Initializable{
 
     @FXML
     private Tab tabAll;
+    @FXML
+    private Tab tabTimeDetermine;
 
     @FXML
-    private TableView<Request> tblAll;
+    private TableView<RequestHandling> tblTimeDetermine;
 
     @FXML
-    private TableColumn<Request, String> colID1;
+    private TableColumn<RequestHandling, String> col_requestId;
 
     @FXML
-    private TableColumn<Request, String> colDate1;
+    private TableColumn<RequestHandling, String> col_stage;
 
     @FXML
-    private TableColumn<Request, String> colStage1;
+    private TableColumn<RequestHandling, String> col_status;
+    //delete later
+    @FXML
+    private TableView<RequestHandling> tblTimeDetermine1;
+
+    @FXML
+
+    private TableColumn<RequestHandling, String> col_requestId1;
+
+    @FXML
+    private TableColumn<RequestHandling, String> col_stage1;
+
+    @FXML
+    private TableColumn<RequestHandling, String> col_status1;
+
+   // @FXML
+  //  private TextArea tbTime;
+
+    @FXML
+    private Hyperlink hlShowDetails;
+
+    @FXML
+    private Button btnTimeRequest;
+
 
     @FXML
     private Tab tabEvaluation;
@@ -86,9 +114,6 @@ public class ProcessesController implements Initializable{
     private TextArea tbRisk;
 
     @FXML
-    private TextArea tbTime;
-
-    @FXML
     private Label lblErr;
 
     @FXML
@@ -106,94 +131,72 @@ public class ProcessesController implements Initializable{
     @FXML
     private Tab tabClose;
     
+
+  //attribute
+    private static ArrayList<RequestHandling> arralistOfProcesses = null;
+    private static ArrayList<RequestHandling> arralistOfTimeRequests = null;
+	private ObservableList<RequestHandling> List = null;
+	
+	public static void setListOfProcesses(ArrayList<RequestHandling> array) {
+		arralistOfProcesses = new ArrayList<>(array);
+    }
+	public static void setListOfTimeRequests(ArrayList<RequestHandling> array) {
+		arralistOfTimeRequests = new ArrayList<>(array);
+    }
     
-    //attribute
-  //attributes
-    private static ArrayList<Request> tbl1;
-    private static ArrayList<Request> tbl2;
-    private ClientConnector client = ConnectionController.getClient();
-    private static ObservableList<Request> List = FXCollections.observableArrayList();
-
-    @FXML
-    void clickAll(ActionEvent event) {
-    	
-    	String id = LoginController.getLoggedUser().getIdUser();
-    	ObjectManager obm = new ObjectManager(id, MsgEnum.PRO_ALL_TBL);
-    	client.handleMessageFromClientUI(obm);
-    	
-    	try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	
-    	colID1.setCellValueFactory(new PropertyValueFactory<>("idReq"));
-		colDate1.setCellValueFactory(new PropertyValueFactory<>("stageDueDate"));
-		colStage1.setCellValueFactory(new PropertyValueFactory<>("currentStage"));
-		
-		List = FXCollections.observableArrayList(tbl1);
-		tblAll.setItems(List);
-		
-    	
-    	
-    }
-
-    @FXML
-    void clickChecking(ActionEvent event) {
-
-    }
-
-    @FXML
-    void clickEva(ActionEvent event) {
-
-    }
-
-    @FXML
-    void clickExecute(ActionEvent event) {
-
-    }
-
-    @FXML
-    void clickReview(ActionEvent event) {
-
-    }
-
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
+		lblErr.setVisible(false);
 		
-		//need to check if if is inspector, if it is not - disable closing tab
-		//can also hide unessecery buttons in other tabs here
-		
-		
-		
-		
-		//end of checking what user it is
-		
-		
-		//calling clickAll function
-		clickAll(null);
-		
-		
-	}
 
-	public static ArrayList<Request> getTbl1() {
-		return tbl1;
 	}
+	@FXML
+    void event(Event ev) {
+       if (tabAll.isSelected()) {
+        	ObjectManager viewProcesses = new ObjectManager(arralistOfProcesses, MsgEnum.VIEW_PROCESSES);
+    		ConnectionController.getClient().handleMessageFromClientUI(viewProcesses);
+    		
 
-	public static void setTbl1(ArrayList<Request> tbl1) {
-		ProcessesController.tbl1 = tbl1;
-	}
+        	try {
+    			Thread.sleep(1000);
+    			//if(arralistOfProcesses.isEmpty()) tabPane.getTabs().remove(tabAll); //for later
 
-	public static ArrayList<Request> getTbl2() {
-		return tbl2;
-	}
+    			
+    			col_requestId1.setCellValueFactory(new PropertyValueFactory<>("idrequest"));
+    			col_stage1.setCellValueFactory(new PropertyValueFactory<>("currentStage"));
+    			col_status1.setCellValueFactory(new PropertyValueFactory<>("status"));
+    			List = FXCollections.observableArrayList(arralistOfProcesses);
+    			tblTimeDetermine1.setItems(List);
+    		} catch (InterruptedException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+        }
 
-	public static void setTbl2(ArrayList<Request> tbl2) {
-		ProcessesController.tbl2 = tbl2;
-	}
-    
-    
+    } 
+	@FXML
+	void event2(Event ev) {
+        if (tabTimeDetermine.isSelected()) {
+        	ObjectManager timeRequests = new ObjectManager(arralistOfProcesses, MsgEnum.VIEW_PROCESSES_TO_BE_DETERMINED);
+    		ConnectionController.getClient().handleMessageFromClientUI(timeRequests);
+    		
+
+        	try {
+    			Thread.sleep(1000);
+    			//if(arralistOfProcesses.isEmpty()) tabPane.getTabs().remove(tabAll); //for later
+
+    			
+    			col_requestId.setCellValueFactory(new PropertyValueFactory<>("idrequest"));
+    			col_stage.setCellValueFactory(new PropertyValueFactory<>("currentStage"));
+    			col_status.setCellValueFactory(new PropertyValueFactory<>("status"));
+    			List = FXCollections.observableArrayList(arralistOfTimeRequests);
+    			tblTimeDetermine.setItems(List);
+    		} catch (InterruptedException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+        }
+    } 
+
 
 }
