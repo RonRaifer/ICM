@@ -11,6 +11,7 @@ import controller.MessagesController;
 import controller.MyRequestsController;
 
 import controller.NewRequestController;
+import controller.ProcessesController;
 import entity.Messages;
 import entity.Request;
 import entity.User;
@@ -49,6 +50,10 @@ public class msgReceivedHandler {
 			MyRequestsController.setRsStarted( (ArrayList<Request>) objectManager.getArray());
 			break;
 			
+			
+		case SET_TBL1:
+			ProcessesController.setTbl1((ArrayList<Request>) objectManager.getArray());
+			break;
 		case VIEW_EMPLOYEES:
 			EmployeesController.setListOfEmployees((ArrayList<User>)objectManager.getArray());
 			break;
