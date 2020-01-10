@@ -295,6 +295,7 @@ public class MsgHandler {
 			else
 				client.sendToClient(new ObjectManager(employeesArray, MsgEnum.VIEW_EMPLOYEES));
 			break;
+			
 		case VIEW_ACTIONS: //for process waiting time approval and employee approval
 			ArrayList<ActionsNeeded> actionsArray = new ArrayList<ActionsNeeded>();
 			query = "SELECT * FROM actions_needed;"; // for users
