@@ -1,8 +1,11 @@
 package controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import common.ClientConnector;
 import common.MsgEnum;
@@ -14,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -25,23 +29,17 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 public class ProcessesController implements Initializable{
 
     @FXML
-    private Label lblPageName;
-
-    @FXML
-    private Label lblPageNavigationName;
-
-    @FXML
     private TabPane tabPane;
-
     @FXML
     private Tab tabAll;
     @FXML
     private Tab tabTimeDetermine;
-
     @FXML
     private TableView<RequestHandling> tblTimeDetermine;
 
@@ -53,12 +51,15 @@ public class ProcessesController implements Initializable{
 
     @FXML
     private TableColumn<RequestHandling, String> col_status;
+    @FXML
+    private AnchorPane apActions;
+    @FXML
+    private Label lblPickMsg;
     //delete later
     @FXML
     private TableView<RequestHandling> tblTimeDetermine1;
 
     @FXML
-
     private TableColumn<RequestHandling, String> col_requestId1;
 
     @FXML
@@ -77,28 +78,6 @@ public class ProcessesController implements Initializable{
 
     @FXML
     private Button btnTimeRequest;
-
-
-    @FXML
-    private Tab tabEvaluation;
-
-    @FXML
-    private TableView<?> tblEvaluation;
-
-    @FXML
-    private TableColumn<?, ?> colID2;
-
-    @FXML
-    private TableColumn<?, ?> colState;
-
-    @FXML
-    private TableColumn<?, ?> colRequest;
-
-    @FXML
-    private TableColumn<?, ?> colPurpose;
-
-    @FXML
-    private TableColumn<?, ?> colComment;
 
     @FXML
     private Button btnEvalue;
@@ -134,7 +113,7 @@ public class ProcessesController implements Initializable{
     private Tab tabClose;
     
 
-  //attribute
+    //attribute
     private static ArrayList<RequestHandling> arralistOfProcesses = null;
     private static ArrayList<RequestHandling> arralistOfTimeRequests = null;
 	private ObservableList<RequestHandling> List = null;
@@ -148,21 +127,24 @@ public class ProcessesController implements Initializable{
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		lblErr.setVisible(false);
-		
 
 	}
+	
 	@FXML
-    void event(Event ev) {
+    private void onItemClick(MouseEvent event) {
+		actionsView(tblTimeDetermine1.getSelectionModel().getSelectedItem().getCurrentStage());
+	}
+	@FXML
+    void tabAllClick(Event ev) {
        if (tabAll.isSelected()) {
         	ObjectManager viewProcesses = new ObjectManager(arralistOfProcesses, MsgEnum.VIEW_PROCESSES);
     		ConnectionController.getClient().handleMessageFromClientUI(viewProcesses);
-    		
+    		apActions.getChildren().clear();
+    		apActions.getChildren().add(lblPickMsg);
 
         	try {
     			Thread.sleep(1000);
     			//if(arralistOfProcesses.isEmpty()) tabPane.getTabs().remove(tabAll); //for later
-
     			
     			col_requestId1.setCellValueFactory(new PropertyValueFactory<>("idrequest"));
     			col_stage1.setCellValueFactory(new PropertyValueFactory<>("currentStage"));
@@ -177,7 +159,7 @@ public class ProcessesController implements Initializable{
 
     } 
 	@FXML
-	void event2(Event ev) {
+	void tabTimeClick(Event ev) {
         if (tabTimeDetermine.isSelected()) {
         	ObjectManager timeRequests = new ObjectManager(arralistOfProcesses, MsgEnum.VIEW_PROCESSES_TO_BE_DETERMINED);
     		ConnectionController.getClient().handleMessageFromClientUI(timeRequests);
@@ -186,7 +168,6 @@ public class ProcessesController implements Initializable{
         	try {
     			Thread.sleep(1000);
     			//if(arralistOfProcesses.isEmpty()) tabPane.getTabs().remove(tabAll); //for later
-
     			
     			col_requestId.setCellValueFactory(new PropertyValueFactory<>("idrequest"));
     			col_stage.setCellValueFactory(new PropertyValueFactory<>("currentStage"));
@@ -199,6 +180,17 @@ public class ProcessesController implements Initializable{
     		}
         }
     } 
-
+	private void actionsView(String stageToShow) {
+		try 
+        {
+            AnchorPane newLoadedPane;  
+            newLoadedPane =  FXMLLoader.load(getClass().getResource("/boundary/guifiles/" + stageToShow + "Pane.fxml"));
+            apActions.getChildren().clear();
+            apActions.getChildren().add(newLoadedPane);
+        }
+        catch (IOException ex) {
+            Logger.getLogger(EnterController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+	}
 
 }

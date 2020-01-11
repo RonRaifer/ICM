@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="528.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ExecutionController">
+   <children>
+      <Label layoutX="76.0" layoutY="455.0" text="Change Done:" />
+      <TextArea layoutX="180.0" layoutY="455.0" prefHeight="70.0" prefWidth="287.0" />
+      <Button layoutX="62.0" layoutY="521.0" mnemonicParsing="false" text="Finish" textFill="#0ae160" />
+      <TableView layoutX="62.0" layoutY="87.0" prefHeight="360.0" prefWidth="404.0">
+         <columns>
+            <TableColumn prefWidth="75.0" text="ID" />
+            <TableColumn prefWidth="328.0" text="Change Needed" />
+         </columns>
+      </TableView>
+      <Label layoutX="180.0" layoutY="49.0" text="Changes Execution:" underline="true">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
