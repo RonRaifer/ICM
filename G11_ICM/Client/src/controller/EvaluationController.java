@@ -68,7 +68,7 @@ public class EvaluationController implements Initializable{
 		EvaluationController.previousReport = previousReport;
 	}
 
-	@FXML
+    @FXML
     void clickEvaluate(ActionEvent event) {
     	
     	if(checkInput()) {
@@ -100,7 +100,7 @@ public class EvaluationController implements Initializable{
     	lblErr.setTextFill(Color.GREEN);
     	lblErr.setText("Evaluation report added successfully!");
     	clearAll();
-    	
+
     }
 
     @FXML
