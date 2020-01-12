@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import controller.EmployeesController;
+import controller.EvaluationController;
 import controller.LoginController;
 
 import controller.MessagesController;
@@ -67,6 +68,10 @@ public class msgReceivedHandler {
 			break;	
 		case VIEW_REQUEST: //Gets Request by the idrequest send by user
 			RequestViewController.setRequest((Request)objectManager.getReques());
+			break;
+			
+		case CLIENT_EV_REP:
+			EvaluationController.setReport(objectManager.getEvReport());
 			break;
 		default:
 			break;

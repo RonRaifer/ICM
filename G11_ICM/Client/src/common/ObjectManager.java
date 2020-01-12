@@ -20,7 +20,18 @@ public class ObjectManager implements Serializable {
 	private Integer reqIDFromServer;
 	private ResultSet rs;
 	private ArrayList<?> array;
+	private boolean evFlag;
   private EvaluationReport evReport;
+
+  
+  
+	public boolean isEvFlag() {
+	return evFlag;
+}
+
+public void setEvFlag(boolean evFlag) {
+	this.evFlag = evFlag;
+}
 
 	public ResultSet getRs() {
 		return rs;

@@ -47,7 +47,27 @@ public class EvaluationController implements Initializable{
 
     //attributes
     private ClientConnector client = ConnectionController.getClient();
-   
+    private static boolean previousReport;
+    private static EvaluationReport report;
+	
+    
+    
+    public static EvaluationReport getReport() {
+		return report;
+	}
+
+	public static void setReport(EvaluationReport report) {
+		EvaluationController.report = report;
+	}
+
+	public static boolean isPreviousReport() {
+		return previousReport;
+	}
+
+	public static void setPreviousReport(boolean previousReport) {
+		EvaluationController.previousReport = previousReport;
+	}
+
     @FXML
     void clickEvaluate(ActionEvent event) {
     	
@@ -79,6 +99,8 @@ public class EvaluationController implements Initializable{
     	lblErr.setVisible(true);
     	lblErr.setTextFill(Color.GREEN);
     	lblErr.setText("Evaluation report added successfully!");
+    	clearAll();
+
     }
 
     @FXML
@@ -90,6 +112,28 @@ public class EvaluationController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		lblErr.setVisible(false);
+		
+		
+		//checking if there is previous evaluation report
+		ObjectManager msg = new ObjectManager(ProcessesController.getSelectedID(), MsgEnum.CHECK_PRE_EV);
+		client.handleMessageFromClientUI(msg);
+		
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(report!=null) {
+			tbDescription.setText(report.getDescription());
+			tbLocation.setText(report.getLocation());
+			tbResult.setText(report.getResult());
+			tbRisk.setText(report.getRisk());
+			tbTime.setText(report.getTime());
+			return;
+		}
+		
 		
 	}
 	
