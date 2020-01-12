@@ -20,6 +20,9 @@ public class ObjectManager implements Serializable {
 	private Integer reqIDFromServer;
 	private ResultSet rs;
 	private ArrayList<?> array;
+	private EvaluationReport evReport;
+	
+	
 
 
 	public ResultSet getRs() {
@@ -34,6 +37,11 @@ public class ObjectManager implements Serializable {
 		
 		this.msgEnum = msgEnum;
 		this.rs = rs;
+	}
+	
+	public ObjectManager(EvaluationReport evReport, MsgEnum msgEnum) {
+		this.msgEnum = msgEnum;
+		this.evReport = evReport;
 	}
 
 	public ObjectManager( Integer reqIDFromServer, MsgEnum msgEnum) {
@@ -97,6 +105,16 @@ public class ObjectManager implements Serializable {
 	public Request getReques() {
 		return req;
 	}
+
+	public EvaluationReport getEvReport() {
+		return evReport;
+	}
+
+	public void setEvReport(EvaluationReport evReport) {
+		this.evReport = evReport;
+	}
+	
+	
 	
 	
 }
