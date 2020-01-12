@@ -11,7 +11,7 @@ public class ObjectManager implements Serializable {
 
 	private static final long serialVersionUID = 261834733778535924L;
 	private MsgEnum msgEnum;
-	private String errorMsg;
+	private String msgString;
 
 	//Entities
 	private User user;
@@ -20,10 +20,7 @@ public class ObjectManager implements Serializable {
 	private Integer reqIDFromServer;
 	private ResultSet rs;
 	private ArrayList<?> array;
-	private EvaluationReport evReport;
-	
-	
-
+  private EvaluationReport evReport;
 
 	public ResultSet getRs() {
 		return rs;
@@ -33,18 +30,16 @@ public class ObjectManager implements Serializable {
 		this.rs = rs;
 	}
 
-	public ObjectManager( ResultSet rs,MsgEnum msgEnum) {
+	public ObjectManager(ResultSet rs,MsgEnum msgEnum) {
 		
 		this.msgEnum = msgEnum;
 		this.rs = rs;
 	}
-	
-	public ObjectManager(EvaluationReport evReport, MsgEnum msgEnum) {
+  public ObjectManager(EvaluationReport evReport, MsgEnum msgEnum) {
 		this.msgEnum = msgEnum;
 		this.evReport = evReport;
 	}
-
-	public ObjectManager( Integer reqIDFromServer, MsgEnum msgEnum) {
+	public ObjectManager(Integer reqIDFromServer, MsgEnum msgEnum) {
 		
 		this.msgEnum = msgEnum;
 		this.reqIDFromServer = reqIDFromServer;
@@ -63,8 +58,8 @@ public class ObjectManager implements Serializable {
 		this.msgEnum = msgEnum;
 	}
 	
-	public ObjectManager(String errorMsg, MsgEnum msgEnum) { //for error message
-		this.errorMsg = errorMsg;
+	public ObjectManager(String msgString, MsgEnum msgEnum) { //for any string handler
+		this.msgString = msgString;
 		this.msgEnum = msgEnum;
 	}
 	
@@ -98,23 +93,19 @@ public class ObjectManager implements Serializable {
 	public MsgEnum getMsgEnum() { //get MsgEnum
 		return msgEnum;
 	}
-	public String getError() {
-		return errorMsg;
+	public String getMsgString() {
+		return msgString;
 	}
 	
 	public Request getReques() {
 		return req;
 	}
-
-	public EvaluationReport getEvReport() {
+  public EvaluationReport getEvReport() {
 		return evReport;
 	}
 
 	public void setEvReport(EvaluationReport evReport) {
 		this.evReport = evReport;
 	}
-	
-	
-	
-	
+
 }

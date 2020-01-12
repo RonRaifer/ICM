@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import common.Main;
 import controller.MenuController;
+import controller.RequestViewController;
 import entity.User;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
@@ -44,25 +45,7 @@ public class GuiManager {
 	            e.printStackTrace();
 	        }
 	}
-	/*public static void guiLoader(String fxmlName, User user) throws IOException {
-		String path = "../boundary/guifiles/" + fxmlName + ".fxml";
-
-		Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		try {  
-				loader.setLocation(controller.MenuController.class.getResource(path));
-				Pane root = loader.load();
-				MenuController controller = loader.getController();
-				controller.initData(user, stage);
-	            Scene scene = new Scene(root);
-	            stage.setScene(scene);
-	            stage.setResizable(false);  
-	            stage.setMaximized(true);
-	            stage.show();
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	}*/
+	
 	public static void guiLoader(String fxmlName, User user) throws IOException {
 		String path = "../boundary/guifiles/" + fxmlName + ".fxml";
 		Screen screen = Screen.getPrimary();
@@ -83,6 +66,22 @@ public class GuiManager {
 	    		stage.setY(bounds.getMinY());
 	    		stage.setWidth(bounds.getWidth());
 	    		stage.setHeight(bounds.getHeight());
+	            stage.show();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	}
+	public static void popUpLoader(String fxmlName, String requestId) throws IOException {
+		String path = "../boundary/guifiles/" + fxmlName + "Popup.fxml";		
+		Stage stage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		try {  
+				RequestViewController.initData(requestId);
+				loader.setLocation(RequestViewController.class.getResource(path));
+				Pane root = loader.load();
+	            Scene scene = new Scene(root);
+	            stage.setScene(scene);
+	            stage.setScene(scene);
 	            stage.show();
 	        } catch (IOException e) {
 	            e.printStackTrace();
