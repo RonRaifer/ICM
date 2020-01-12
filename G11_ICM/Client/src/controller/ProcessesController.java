@@ -117,6 +117,7 @@ public class ProcessesController implements Initializable{
     private static ArrayList<RequestHandling> arralistOfProcesses = null;
     private static ArrayList<RequestHandling> arralistOfTimeRequests = null;
 	private ObservableList<RequestHandling> List = null;
+	private static String selectedID; 
 	
 	public static void setListOfProcesses(ArrayList<RequestHandling> array) {
 		arralistOfProcesses = new ArrayList<>(array);
@@ -125,6 +126,13 @@ public class ProcessesController implements Initializable{
 		arralistOfTimeRequests = new ArrayList<>(array);
     }
     
+	
+	public static String getSelectedID() {
+		return selectedID;
+	}
+	public static void setSelectedID(String selectedID) {
+		ProcessesController.selectedID = selectedID;
+	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
@@ -132,6 +140,7 @@ public class ProcessesController implements Initializable{
 	
 	@FXML
     private void onItemClick(MouseEvent event) {
+		selectedID = tblTimeDetermine1.getSelectionModel().getSelectedItem().getIdrequest();
 		actionsView(tblTimeDetermine1.getSelectionModel().getSelectedItem().getCurrentStage());
 	}
 	@FXML
