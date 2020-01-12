@@ -123,6 +123,8 @@ public class MsgHandler {
 			// sending the id of the request to the client
 
 			break;
+			
+		
 		case ADD_FILES:
 
 			// files part
@@ -242,18 +244,39 @@ public class MsgHandler {
 			
 		case ADD_EV_REPORT:
 			EvaluationReport rpt = objectManager.getEvReport();
+			String flag;
 			
-			String str1 = "INSERT INTO evaluation_report VALUES('";
-			str1+=rpt.getIdReq()+"','";
-			str1+=rpt.getLocation()+"','";
-			str1+=rpt.getDescription()+"','";
-			str1+=rpt.getResult()+"','";
-			str1+=rpt.getRisk()+"','";
-			str1+=rpt.getTime()+"')";
+			if(dbHandler.executeQ("SELECT * FROM evaluation_report WHERE idreq = '"+
+							rpt.getIdReq()+"'").next())
+
+			{
+				//UPDATE `evaluation_report` SET `location` = 'loc12', `description` = 'des12', `result` = 'res12', `risk` = 'risk1		risk3', `time` = 'time2' WHERE (`idreq` = '1');
+				String existEv ="UPDATE `evaluation_report` SET `location` = '"+rpt.getLocation()+"',";
+				existEv+="`description` = '"+rpt.getDescription()+"',";
+				existEv+="`result` = '"+rpt.getResult()+"',";
+				existEv+="`risk` = '"+rpt.getRisk()+"',";
+				existEv+="`time` = '"+rpt.getTime()+"' WHERE (`idreq` = '"+rpt.getIdReq()+"')";
+				dbHandler.executeUpdate(existEv);
+			}
+			else {
+				
+				String str1 = "INSERT INTO evaluation_report VALUES('";
+				str1+=rpt.getIdReq()+"','";
+				str1+=rpt.getLocation()+"','";
+				str1+=rpt.getDescription()+"','";
+				str1+=rpt.getResult()+"','";
+				str1+=rpt.getRisk()+"','";
+				str1+=rpt.getTime()+"')";
+				
+				dbHandler.executeUpdate(str1);
+				
+			}
+				
+			System.out.println("Evaluation report for Request #"+rpt.getIdReq()+"added successfully!");
 			
-			dbHandler.executeUpdate(str1);
-			
-			System.out.println("Evaluation report added successfully!");
+			query = "UPDATE request_handling SET executionTime = '7' , idCharge = '' , currentStage = 'Review' WHERE (`idrequest` = '"+rpt.getIdReq()+"')";
+			dbHandler.executeUpdate(query);
+			System.out.println("Stage updated: Evaluation > Review, in Request #"+rpt.getIdReq());
 			break;
 
 		case VIEW_MESSAGES:
@@ -339,6 +362,32 @@ public class MsgHandler {
 				System.out.println("No such request for id"); // change this to send error OR handle this in client side.
 			else
 				client.sendToClient(new ObjectManager(req, MsgEnum.VIEW_REQUEST));
+			break;
+			
+		case CHECK_PRE_EV:
+			String str3 = "SELECT * FROM evaluation_report WHERE idreq = '"+
+							objectManager.getMsgString()+"'";
+			ResultSet rs3 = dbHandler.executeQ(str3);
+			
+			if(rs3.next()) {
+				EvaluationReport er3 = new EvaluationReport();
+				er3.setLocation(rs3.getString(2));
+				er3.setDescription(rs3.getString(3));
+				er3.setResult(rs3.getString(4));
+				er3.setRisk(rs3.getString(5));
+				er3.setTime(rs3.getString(6));
+				
+				client.sendToClient(new ObjectManager(er3, MsgEnum.CLIENT_EV_REP));
+				
+			}
+			else {
+				EvaluationReport erNull = null;
+				client.sendToClient(new ObjectManager(erNull,MsgEnum.CLIENT_EV_REP));
+			} 
+			
+			
+			
+			
 			break;
 		default:
 			break;
