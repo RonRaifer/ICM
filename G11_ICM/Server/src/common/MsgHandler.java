@@ -17,11 +17,13 @@ import java.sql.ResultSet;
 import entity.ActionsNeeded;
 import entity.Document;
 import entity.Employee;
+import entity.EvaluationReport;
 import entity.Messages;
 import entity.Request;
 import entity.RequestHandling;
 import entity.User;
 import common.ObjectManager;
+import controller.EvaluationController;
 import ocsf.server.ConnectionToClient;
 
 public class MsgHandler {
@@ -236,6 +238,22 @@ public class MsgHandler {
 			ObjectManager obm2 = new ObjectManager(result2, MsgEnum.SEND_RS_NOT_STARTED_TO_CLIENT);
 			client.sendToClient(obm2);
 			
+			break;
+			
+		case ADD_EV_REPORT:
+			EvaluationReport rpt = objectManager.getEvReport();
+			
+			String str1 = "INSERT INTO evaluation_report VALUES('";
+			str1+=rpt.getIdReq()+"','";
+			str1+=rpt.getLocation()+"','";
+			str1+=rpt.getDescription()+"','";
+			str1+=rpt.getResult()+"','";
+			str1+=rpt.getRisk()+"','";
+			str1+=rpt.getTime()+"')";
+			
+			dbHandler.executeUpdate(str1);
+			
+			System.out.println("Evaluation report added successfully!");
 			break;
 
 		case VIEW_MESSAGES:
