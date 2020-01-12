@@ -47,10 +47,7 @@ public class EvaluationController implements Initializable{
 
     //attributes
     private ClientConnector client = ConnectionController.getClient();
-
-	
-    
-    
+   
     @FXML
     void clickEvaluate(ActionEvent event) {
     	
@@ -82,7 +79,6 @@ public class EvaluationController implements Initializable{
     	lblErr.setVisible(true);
     	lblErr.setTextFill(Color.GREEN);
     	lblErr.setText("Evaluation report added successfully!");
-    	
     }
 
     @FXML
