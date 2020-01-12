@@ -82,6 +82,7 @@ public class EvaluationController implements Initializable{
     	lblErr.setVisible(true);
     	lblErr.setTextFill(Color.GREEN);
     	lblErr.setText("Evaluation report added successfully!");
+    	
     }
 
     @FXML
