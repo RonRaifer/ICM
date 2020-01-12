@@ -13,6 +13,7 @@ import controller.MyRequestsController;
 import controller.NewRequestController;
 import controller.ProcessInspectorController;
 import controller.ProcessesController;
+import controller.RequestViewController;
 import entity.ActionsNeeded;
 import entity.Messages;
 import entity.Request;
@@ -31,7 +32,7 @@ public class msgReceivedHandler {
 			LoginController.setUserReceived(objectManager.getUser());
 			break;
 		case LOGIN_ERROR:
-			LoginController.errorMessage = objectManager.getError();
+			LoginController.errorMessage = objectManager.getMsgString();
 			break;
 		case SEND_ID_OF_REQUEST_TO_CLIENT:
 		
@@ -64,7 +65,9 @@ public class msgReceivedHandler {
 		case VIEW_PROCESSES_TO_BE_DETERMINED:
 			ProcessesController.setListOfTimeRequests((ArrayList<RequestHandling>)objectManager.getArray());
 			break;	
-			
+		case VIEW_REQUEST: //Gets Request by the idrequest send by user
+			RequestViewController.setRequest((Request)objectManager.getReques());
+			break;
 		default:
 			break;
 		}

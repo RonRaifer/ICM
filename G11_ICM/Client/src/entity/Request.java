@@ -27,7 +27,18 @@ public class Request implements Serializable{
 	private String currentStage;
 	private String stageDueDate;
 	
-	
+	public Request(String idReq, String curState, String requestedChange, String purpose, String comments,
+			String system, String opentDate, String idUser, String status) {
+		this.idReq = idReq;
+		this.curState = curState;
+		this.requestedChange = requestedChange;
+		this.purpose = purpose;
+		this.comments = comments;
+		this.system = system;
+		this.opentDate = opentDate;
+		this.idUser = idUser;
+		this.status = status;
+	}
 	
 	public Request(String id,String duedate, String stage) {
 		idReq=id;

@@ -189,7 +189,7 @@ public class MsgHandler {
 			// started requests query
 			String requestStageQuery = "SELECT r.idrequest, rh.executionTime, rh.currentStage FROM "
 					+ "request r INNER JOIN request_handling rh ON r.idrequest = rh.idrequest AND r.iduser =" + " '"
-					+ objectManager.getError() + "'";
+					+ objectManager.getMsgString() + "'";
 
 			ResultSet stageRS = dbHandler.executeQ(requestStageQuery);
 
@@ -219,7 +219,7 @@ public class MsgHandler {
 			
 			// request that arent opened
 			String NotStartedRequestQuery = "SELECT idrequest FROM request WHERE (RequestStatus = 'not started') AND iduser = "
-					+ "'" + objectManager.getError() + "'";
+					+ "'" + objectManager.getMsgString() + "'";
 			ResultSet NotStartedRS = dbHandler.executeQ(NotStartedRequestQuery);
 
 			
@@ -308,6 +308,20 @@ public class MsgHandler {
 			}
 			client.sendToClient(new ObjectManager(processesTimeArray, MsgEnum.VIEW_PROCESSES_TO_BE_DETERMINED));
 			break;	
+			
+		case VIEW_REQUEST:
+			Request req = null;
+			query = "SELECT * FROM request WHERE idrequest = '" + objectManager.getMsgString() + "'" + ";";
+			rs = dbHandler.executeQ(query);
+			if (rs.next() == true) {
+				req = new Request(rs.getString("idrequest"), rs.getString("currentState"), rs.getString("changeRequested"), rs.getString("requestPurpose"), rs.getString("comments"),
+						rs.getString("ITSystem"), rs.getString("submissionDate"), rs.getString("iduser"), rs.getString("RequestStatus"));
+			}
+			if (req == null)
+				System.out.println("No such request for id"); // change this to send error OR handle this in client side.
+			else
+				client.sendToClient(new ObjectManager(req, MsgEnum.VIEW_REQUEST));
+			break;
 		default:
 			break;
 		}
