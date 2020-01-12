@@ -1,8 +1,10 @@
 package controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import boundary.GuiManager;
 import common.ClientConnector;
 import common.MsgEnum;
 import common.ObjectManager;
@@ -84,8 +86,8 @@ public class EvaluationController implements Initializable{
     }
 
     @FXML
-    void clickInfo(ActionEvent event) {
-
+    void clickInfo(ActionEvent event) throws IOException { //raise popup with selected request details
+    	GuiManager.popUpLoader("RequestView", ProcessesController.getSelectedID());
     }
 
 	@Override

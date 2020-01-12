@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="528.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EvaluationController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="528.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EvaluationController">
    <children>
       <Label fx:id="lblErr" layoutX="251.0" layoutY="471.0" text="Error" textFill="#d30b0b" />
       <Label layoutX="183.0" layoutY="39.0" text="Evaluation Report:" underline="true">
@@ -27,6 +27,6 @@
       <Label layoutX="109.0" layoutY="121.0" prefHeight="39.0" prefWidth="143.0" text="Description of change:" wrapText="true" />
       <Label layoutX="109.0" layoutY="75.0" text="Location of change:" />
       <Button fx:id="btnEvalue" layoutX="108.0" layoutY="467.0" mnemonicParsing="false" onAction="#clickEvaluate" text="Evaluate" />
-      <Hyperlink fx:id="hyperReqInfo" layoutX="14.0" layoutY="43.0" onAction="#clickInfo" text="(?) Request info" />
+      <Hyperlink fx:id="hyperReqInfo" layoutX="14.0" layoutY="43.0" onAction="#clickInfo" text="Request info" />
    </children>
 </AnchorPane>
