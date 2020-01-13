@@ -415,6 +415,28 @@ public class MsgHandler {
 			
 			System.out.println("Request #"+objectManager.getMsgString()+" moved from: Review > Evaluation");
 			break;
+			
+		case GET_CHANGE_INFO:
+			query = "SELECT description FROM evaluation_report WHERE idreq = '"+objectManager.getMsgString()+"'";
+			rs = dbHandler.executeQ(query);
+			rs.next();
+			String  infoANDfailure = rs.getString(1);
+			query = "SELECT failure FROM checking_failure WHERE idrequest = '"+objectManager.getMsgString()+"'";
+			rs = dbHandler.executeQ(query);
+			if(rs.next())
+				infoANDfailure+="\n\nFailure: "+rs.getString(1);
+			
+			objectManager = new ObjectManager(infoANDfailure, MsgEnum.SET_INFO_EXECUATION);
+			client.sendToClient(objectManager);
+			break;
+		
+		case EXECUTION_DONE:
+			query = "UPDATE request_handling SET currentStage = 'Checking' , executionTime = '7' WHERE idrequest = '"+objectManager.getMsgString()+"'";
+			dbHandler.executeUpdate(query);
+			System.out.println("Request #"+objectManager.getMsgString()+" moved from: Execution > Checking");
+			
+			
+			break;
 		default:
 			break;
 		}

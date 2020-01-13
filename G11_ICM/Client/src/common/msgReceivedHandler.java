@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import controller.EmployeesController;
 import controller.EvaluationController;
+import controller.ExecutionController;
 import controller.LoginController;
 
 import controller.MessagesController;
@@ -78,6 +79,9 @@ public class msgReceivedHandler {
 			
 		case SET_EV_IN_REVIEW:
 			ReviewController.setReport(objectManager.getEvReport());
+			break;
+		case SET_INFO_EXECUATION:
+			ExecutionController.setInfo(objectManager.getMsgString());
 			break;
 		default:
 			break;
