@@ -389,6 +389,25 @@ public class MsgHandler {
 			
 			
 			break;
+			
+		case GET_EV_REPORT:
+			query = "SELECT * FROM evaluation_report WHERE idreq = '"+objectManager.getMsgString()+"'";
+			rs = dbHandler.executeQ(query);
+			
+			EvaluationReport report = new EvaluationReport();
+			rs.next();
+			report.setLocation(rs.getString(2));
+			report.setDescription(rs.getString(3));
+			report.setResult(rs.getString(4));
+			report.setRisk(rs.getString(5));
+			report.setTime(rs.getString(6));
+			
+			objectManager = new ObjectManager(report, MsgEnum.SET_EV_IN_REVIEW);
+			client.sendToClient(objectManager);
+			
+			
+			
+			break;
 		default:
 			break;
 		}

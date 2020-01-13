@@ -15,11 +15,13 @@ import controller.NewRequestController;
 import controller.ProcessInspectorController;
 import controller.ProcessesController;
 import controller.RequestViewController;
+import controller.ReviewController;
 import entity.ActionsNeeded;
 import entity.Messages;
 import entity.Request;
 import entity.RequestHandling;
 import entity.User;
+import sun.reflect.generics.visitor.Reifier;
 
 //hanler for messages received from server
 public class msgReceivedHandler {	
@@ -72,6 +74,10 @@ public class msgReceivedHandler {
 			
 		case CLIENT_EV_REP:
 			EvaluationController.setReport(objectManager.getEvReport());
+			break;
+			
+		case SET_EV_IN_REVIEW:
+			ReviewController.setReport(objectManager.getEvReport());
 			break;
 		default:
 			break;
