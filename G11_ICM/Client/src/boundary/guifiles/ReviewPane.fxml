@@ -22,5 +22,6 @@
       <Button fx:id="btnApprove" layoutX="14.0" layoutY="438.0" mnemonicParsing="false" onAction="#clickApprove" prefHeight="25.0" prefWidth="75.0" text="Approve" textFill="#07e490" />
       <Button fx:id="btnInfo" layoutX="430.0" layoutY="438.0" mnemonicParsing="false" onAction="#clickInfo" prefHeight="25.0" prefWidth="75.0" text="More Info" textFill="#4809e3" />
       <Button fx:id="btnReject" layoutX="102.0" layoutY="438.0" mnemonicParsing="false" onAction="#clickReject" prefHeight="25.0" prefWidth="75.0" text="Reject" textFill="#e30909" />
+      <Label fx:id="lblStatus" layoutX="24.0" layoutY="486.0" text="Error" textFill="#e10606" />
    </children>
 </AnchorPane>

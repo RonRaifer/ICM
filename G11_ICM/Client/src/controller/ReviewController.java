@@ -1,5 +1,6 @@
 package controller;
 
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -12,6 +13,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.paint.Color;
+import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 
 public class ReviewController implements Initializable {
@@ -27,6 +30,10 @@ public class ReviewController implements Initializable {
 
     @FXML
     private Button btnReject;
+    
+    @FXML
+    private Label lblStatus;
+
 
     //attributes
     private ClientConnector client = ConnectionController.getClient();
@@ -44,22 +51,40 @@ public class ReviewController implements Initializable {
 
 	@FXML
     void clickApprove(ActionEvent event) {
-
+		//need to send message to review leader
     }
 
+	@FXML
+    void clickReject(ActionEvent event) {
+    	//need to send message to review leader
+    }
+	
     @FXML
     void clickInfo(ActionEvent event) {
-
+    	ObjectManager msg = new ObjectManager(ProcessesController.getSelectedID(), MsgEnum.MORE_INFO_REVIEW);
+    	client.handleMessageFromClientUI(msg);
+    	
+    	try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	lblStatus.setVisible(true);
+    	lblStatus.setTextFill(Color.GREEN);
+    	lblStatus.setText("Request is now in Evaluation stage again");
+    	
+    	tbReport.clear();
+    	
     }
 
-    @FXML
-    void clickReject(ActionEvent event) {
-
-    }
+    
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
+		lblStatus.setVisible(false);
 		ObjectManager msg = new ObjectManager(ProcessesController.getSelectedID(), MsgEnum.GET_EV_REPORT);
 		client.handleMessageFromClientUI(msg);
 		

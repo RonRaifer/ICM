@@ -272,7 +272,7 @@ public class MsgHandler {
 				
 			}
 				
-			System.out.println("Evaluation report for Request #"+rpt.getIdReq()+"added successfully!");
+			System.out.println("Evaluation report for Request #"+rpt.getIdReq()+" added successfully!");
 			
 			query = "UPDATE request_handling SET executionTime = '7' , idCharge = '' , currentStage = 'Review' WHERE (`idrequest` = '"+rpt.getIdReq()+"')";
 			dbHandler.executeUpdate(query);
@@ -407,6 +407,13 @@ public class MsgHandler {
 			
 			
 			
+			break;
+		
+		case MORE_INFO_REVIEW:
+			query = "UPDATE request_handling SET currentStage = 'Evaluation' , idCharge = '', executionTime = '' WHERE idrequest = '"+objectManager.getMsgString()+"'";
+			dbHandler.executeUpdate(query);
+			
+			System.out.println("Request #"+objectManager.getMsgString()+" moved from: Review > Evaluation");
 			break;
 		default:
 			break;
