@@ -125,7 +125,7 @@ public class ProcessesController implements Initializable{
 	public static void setListOfTimeRequests(ArrayList<RequestHandling> array) {
 		arralistOfTimeRequests = new ArrayList<>(array);
     }
-    
+	
 	
 	public static String getSelectedID() {
 		return selectedID;
@@ -141,6 +141,7 @@ public class ProcessesController implements Initializable{
 	@FXML
     private void onItemClick(MouseEvent event) {
 		selectedID = tblTimeDetermine1.getSelectionModel().getSelectedItem().getIdrequest();
+		
 		actionsView(tblTimeDetermine1.getSelectionModel().getSelectedItem().getCurrentStage());
 	}
 	@FXML
