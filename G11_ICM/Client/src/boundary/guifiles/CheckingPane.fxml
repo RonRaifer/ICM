@@ -13,7 +13,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <TextArea fx:id="tbFailure" layoutX="14.0" layoutY="110.0" prefHeight="122.0" prefWidth="313.0" />
+      <TextArea fx:id="tbFailure" editable="true" layoutX="14.0" layoutY="110.0" prefHeight="122.0" prefWidth="313.0" />
       <Label layoutX="14.0" layoutY="82.0" text="Failure info:" underline="true">
          <font>
             <Font size="15.0" />
