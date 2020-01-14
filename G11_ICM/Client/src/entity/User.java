@@ -38,6 +38,12 @@ public class User implements Serializable{
 		this.idUser = idUser;
 		this.password = password;
 	}
+	
+	public User(String idUser, String firstName, String lastName) { //to show only specific data
+		this.idUser = idUser;
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
 
 	public String getIdUser() {
 		return idUser;
