@@ -83,6 +83,8 @@ public class msgReceivedHandler {
 		case SET_INFO_EXECUATION:
 			ExecutionController.setInfo(objectManager.getMsgString());
 			break;
+		case VIEW_EMPLOYEES_TO_APPOINT:
+			ProcessInspectorController.setListOfEmployees((ArrayList<User>)objectManager.getArray());
 		default:
 			break;
 		}

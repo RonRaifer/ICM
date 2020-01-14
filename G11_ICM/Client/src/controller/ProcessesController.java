@@ -122,6 +122,7 @@ public class ProcessesController implements Initializable{
 	public static void setListOfProcesses(ArrayList<RequestHandling> array) {
 		arralistOfProcesses = new ArrayList<>(array);
     }
+	
 	public static void setListOfTimeRequests(ArrayList<RequestHandling> array) {
 		arralistOfTimeRequests = new ArrayList<>(array);
     }

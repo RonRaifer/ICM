@@ -110,14 +110,16 @@ public class MsgHandler {
 
 			// executing the query
 			dbHandler.executeUpdate(qr.toString());
-			query = "SELECT iduser FROM systems WHERE systemName = '" + objectManager.getReques().getSystem() + "'" + ";";
+			
+			query = "SELECT iduser FROM systems WHERE systemName = '" + objectManager.getReques().getSystem() + "'" + ";"; //Prepare the Evaluator appoint by the Inspector
 			rs = dbHandler.executeQ(query);
-			if(!rs.next()) System.out.println("No Charge for this system\n");
-			else{
+			if(!rs.next()) //in case there is no system charge, just set charge to null
+				query = "INSERT INTO actions_needed VALUES ("+Integer.valueOf(objectManager.getReques().getIdReq())+", 'None', 'Evaluation', 'Evaluator Appointment');";
+			else{ //if system has charge, appoint him as default.
 				query = "INSERT INTO actions_needed VALUES ("+Integer.valueOf(objectManager.getReques().getIdReq())+", '" 
-						+ rs.getString("iduser") + "', 'Evaluation', 'Approve Evaluator');";
-				dbHandler.executeUpdate(query);
+						+ rs.getString("iduser") + "', 'Evaluation', 'Evaluator Appointment');";
 			}
+			dbHandler.executeUpdate(query); //execute the insert query
 			System.out.println("Request added to request table\n");
 			client.sendToClient(new ObjectManager(new Integer(rowcount), MsgEnum.SEND_ID_OF_REQUEST_TO_CLIENT));
 			// sending the id of the request to the client
@@ -437,6 +439,21 @@ public class MsgHandler {
 			
 			
 			break;
+		//Show employees [information engineers in Information Technology department] without role who can be appointed to stages charge
+		case VIEW_EMPLOYEES_TO_APPOINT:
+			ArrayList<User> employeeArray = new ArrayList<>();
+			query = "SELECT e.iduser, u.firstName, u.lastName, e.role FROM employee e, user u WHERE e.iduser=u.iduser AND e.role IS NULL;"; //Select only employees who have no roles.
+			rs = dbHandler.executeQ(query);
+			
+			while (rs.next() == true) {
+				employeeArray.add(new User(rs.getString("iduser"), rs.getString("firstName"), rs.getString("lastName")));
+			}
+			if (employeeArray.isEmpty())
+				System.out.println("No Information Engineers To Appoint"); // change this to send error OR handle this in client side.
+			else
+				client.sendToClient(new ObjectManager(employeeArray, MsgEnum.VIEW_EMPLOYEES_TO_APPOINT));
+			break;
+
 		default:
 			break;
 		}
