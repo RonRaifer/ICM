@@ -60,11 +60,12 @@
          <content>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <TableView fx:id="requestTbl" prefHeight="358.0" prefWidth="711.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="requestTbl" prefHeight="358.0" prefWidth="707.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn fx:id="idColumn" prefWidth="228.0" text="Request ID" />
-                      <TableColumn fx:id="dateColumn" prefWidth="228.0" text="Expected date" />
-                        <TableColumn fx:id="stageColumn" prefWidth="228.0" text="Current stage" />
+                      <TableColumn fx:id="idColumn" prefWidth="132.0" text="Request ID" />
+                      <TableColumn fx:id="dateColumn" prefWidth="188.0" text="Expected date" />
+                        <TableColumn fx:id="stageColumn" minWidth="0.0" prefWidth="202.0" text="Current stage" />
+                        <TableColumn fx:id="col_options" prefWidth="157.0" text="Options" />
                     </columns>
                   </TableView>
                </children>
