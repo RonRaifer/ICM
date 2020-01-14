@@ -1,4 +1,5 @@
 package controller;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,10 +8,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import boundary.GuiManager;
 import common.ClientConnector;
 import common.MsgEnum;
 import common.ObjectManager;
 import entity.Request;
+import entity.User;
+import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,6 +23,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -51,7 +57,8 @@ public class MyRequestsController implements Initializable{
 
 	    @FXML
 	    private TableColumn<Request, String> stageColumn;
-	    
+	    @FXML
+		private TableColumn<Request, Request> col_options;
 	    @FXML
 	    private Label lblStageInfo;
 
@@ -151,7 +158,37 @@ public class MyRequestsController implements Initializable{
 			
 			ObjectManager requestsMsg2 = new ObjectManager(LoginController.getLoggedUser().getIdUser(), MsgEnum.GET_REQUESTS_BY_ID_NOSTARTED);
 			client.handleMessageFromClientUI(requestsMsg2);
-			
+			col_options.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+			col_options.setCellFactory(param -> new TableCell<Request, Request>() { 
+				@FXML
+			    private final Button btn = new Button("View");
+
+			    protected void updateItem(Request req, boolean empty) {
+			        super.updateItem(req, empty);
+
+			        if (req == null) {
+			            setGraphic(null);
+			            return;
+			        }
+
+			        setGraphic(btn);
+			        btn.setOnAction(
+			            event -> {
+			            	Platform.runLater(new Runnable() {
+			            	    @Override
+			            	    public void run() {
+			            	    	try {
+										GuiManager.popUpLoader("RequestView", req.getIdReq());
+									} catch (IOException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+			            	    }
+			            	});
+			            }
+			        );
+			    }
+			});
 			try {
 				
 				Thread.sleep(1500);

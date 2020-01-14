@@ -44,7 +44,6 @@ public class msgReceivedHandler {
 			break;
 
 		case SEND_MESSAGES_TO_CLIENT:
-			//MessagesController.setTable(objectManager.getUser());
 			MessagesController.setListOfMessages((ArrayList<Messages>)objectManager.getArray());
 			break;
 		
@@ -72,7 +71,6 @@ public class msgReceivedHandler {
 		case VIEW_REQUEST: //Gets Request by the idrequest send by user
 			RequestViewController.setRequest((Request)objectManager.getReques());
 			break;
-			
 		case CLIENT_EV_REP:
 			EvaluationController.setReport(objectManager.getEvReport());
 			break;

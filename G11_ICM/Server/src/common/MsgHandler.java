@@ -44,8 +44,7 @@ public class MsgHandler {
 			rs = dbHandler.executeQ(query);
 			if (rs.next() == true) {
 				if (rs.getString("password").equals(objectManager.getUser().getPassword())) { // if user and password OK
-					if (!IcmServer.addToConnectedUsers(rs.getString("iduser"))) { // if user already connected - show
-																					// error message and break
+					if (!IcmServer.addToConnectedUsers(rs.getString("iduser"))) { // if user already connected - show error
 						errorMsg = "User ID: " + rs.getString("iduser") + " already connected to ICM.";
 						objectManager = new ObjectManager(errorMsg, MsgEnum.LOGIN_ERROR);
 					} else {
@@ -81,7 +80,6 @@ public class MsgHandler {
 
 		case LOGOUT:
 			IcmServer.removeUserConnected(objectManager.getUser().getIdUser()); // remove user from connected list
-
 			break;
 
 		case ADD_REQUEST:
