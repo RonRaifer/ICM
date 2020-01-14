@@ -431,10 +431,46 @@ public class MsgHandler {
 			break;
 		
 		case EXECUTION_DONE:
-			query = "UPDATE request_handling SET currentStage = 'Checking' , executionTime = '7' WHERE idrequest = '"+objectManager.getMsgString()+"'";
+			query = "UPDATE request_handling SET currentStage = 'Checking' , executionTime = '7' , idCharge = '' WHERE idrequest = '"+objectManager.getMsgString()+"'";
 			dbHandler.executeUpdate(query);
 			System.out.println("Request #"+objectManager.getMsgString()+" moved from: Execution > Checking");
 			
+			
+			break;
+			
+		case APPROVE_CHECKING:
+			query = "UPDATE request_handling SET currentStage = 'Closing', executionTime = '' , idCharge = '' WHERE idrequest = '"+objectManager.getMsgString()+"'";
+			dbHandler.executeUpdate(query);
+			System.out.println("Request #"+objectManager.getMsgString()+" moved from: Checking > Closing");
+			
+			break;
+			
+		case REJECT_CHECKING:
+			
+			
+			String idstr = objectManager.getMsgString().split("_")[0];
+			String failurestr = objectManager.getMsgString().split("_")[1];
+			query = "SELECT * FROM checking_failure WHERE idrequest = '"+idstr+"'";
+			
+			
+			if(dbHandler.executeQ(query).next()) {
+				query = "UPDATE checking_failure SET failure = '"+failurestr+"'"+" WHERE idrequest = '"+idstr+"'";
+				dbHandler.executeUpdate(query);
+				
+				dbHandler.executeUpdate(query);
+				
+			}
+			else {
+				query = "INSERT INTO checking_failure VALUES ('"+idstr+"','"+failurestr+"')";
+				dbHandler.executeUpdate(query);
+				
+				dbHandler.executeUpdate(query);
+			}
+			
+			query = "UPDATE request_handling SET currentStage = 'Execution', executionTime = '' , idCharge = '' WHERE idrequest = '"+idstr+"'";
+			
+			dbHandler.executeUpdate(query);
+			System.out.println("Request #"+idstr+" moved from: Checking > Execution");
 			
 			break;
 		default:
