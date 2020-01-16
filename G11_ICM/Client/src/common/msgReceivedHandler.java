@@ -83,6 +83,10 @@ public class msgReceivedHandler {
 			break;
 		case VIEW_EMPLOYEES_TO_APPOINT:
 			ProcessInspectorController.setListOfEmployees((ArrayList<User>)objectManager.getArray());
+		
+		case SET_REVIEW_EXIST:
+			ReviewController.setReviewExist(objectManager.getMsgString());
+			break;
 		default:
 			break;
 		}

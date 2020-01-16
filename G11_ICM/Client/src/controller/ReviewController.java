@@ -34,12 +34,29 @@ public class ReviewController implements Initializable {
     @FXML
     private Label lblStatus;
 
+    @FXML
+    private Button btnLeader;
 
     //attributes
     private ClientConnector client = ConnectionController.getClient();
     private static EvaluationReport report;
     private static ProcessesController d;
-    public static void setCont(ProcessesController p) {
+    private static String reviewExist;
+   
+
+    
+    
+    public static String isReviewExist() {
+		return reviewExist;
+	}
+
+
+	public static void setReviewExist(String reviewExist) {
+		ReviewController.reviewExist = reviewExist;
+	}
+
+
+	public static void setCont(ProcessesController p) {
     	d=p;
     }
     
@@ -51,15 +68,57 @@ public class ReviewController implements Initializable {
 	public static void setReport(EvaluationReport report) {
 		ReviewController.report = report;
 	}
+	 @FXML
+	void clickApproveLeader(ActionEvent event) {
+		 ObjectManager msg = new ObjectManager(ProcessesController.getSelected().getIdrequest(), MsgEnum.REVIEW_LEADER_APPROVE);
+		 client.handleMessageFromClientUI(msg);
+		 
+		 try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		 
+		 lblStatus.setVisible(true);
+		 lblStatus.setText("Your decision has been submitted");
+
+	    }
 
 	@FXML
     void clickApprove(ActionEvent event) {
-		//need to send message to review leader
+		ObjectManager msg = new ObjectManager(ProcessesController.getSelected().getIdrequest()+"_Approve", MsgEnum.ADD_REVIEW);
+		client.handleMessageFromClientUI(msg);
+		
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		lblStatus.setVisible(true);
+		lblStatus.setText("Your review has been submitted");
+		hideButtons();
+		
     }
 
 	@FXML
     void clickReject(ActionEvent event) {
-    	//need to send message to review leader
+		ObjectManager msg = new ObjectManager(ProcessesController.getSelected().getIdrequest()+"_Reject", MsgEnum.ADD_REVIEW);
+		client.handleMessageFromClientUI(msg);
+		
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		lblStatus.setVisible(true);
+		lblStatus.setText("Your review has been submitted");
+		hideButtons();
+    	
     }
 	
     @FXML
@@ -82,12 +141,20 @@ public class ReviewController implements Initializable {
     	
     }
 
-    
+   public void hideButtons() {
+	   btnApprove.setVisible(false);
+		btnInfo.setVisible(false);
+		btnReject.setVisible(false);
+   }
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
+		
+		//gui mangement
 		lblStatus.setVisible(false);
+		
+		
+		
 		ObjectManager msg = new ObjectManager(ProcessesController.getSelected().getIdrequest(), MsgEnum.GET_EV_REPORT);
 		client.handleMessageFromClientUI(msg);
 		
@@ -109,8 +176,65 @@ public class ReviewController implements Initializable {
 		tbReport.setText(str);
 		
 		
+		
+		msg = new ObjectManager(ProcessesController.getSelected().getIdrequest(), MsgEnum.CHECK_REVIEW_EXIST);
+		client.handleMessageFromClientUI(msg);
+		
+
+		try {
+			Thread.sleep(700);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+
+		//if it's not leader hide decision button
+		if(!LoginController.getLoggedUser().getRole().equals("Review Leader"))
+		{
+			
+			btnLeader.setVisible(false);
+			
+
+			if(!reviewExist.isEmpty()) {
+				btnApprove.setVisible(false);
+				btnInfo.setVisible(false);
+				btnReject.setVisible(false);
+				lblStatus.setVisible(true);
+				lblStatus.setText("There is already a decision for this request. Waiting for leader's approval");
+				
+			}
+			
+			
+			
+		}
+		//leader
+		else {
+			
+			if(!reviewExist.isEmpty()) {
+				btnApprove.setVisible(false);
+				btnInfo.setVisible(false);
+				btnReject.setVisible(false);
+				lblStatus.setVisible(true);
+				lblStatus.setTextFill(Color.BLUE);
+				lblStatus.setText("Team's Decision is:" + reviewExist);
+				
+			}
+			
+						
+		}
+			
+	
 	}
+		
+		
+}		
+		
+		
+		
+	
     
     
 
-}
+

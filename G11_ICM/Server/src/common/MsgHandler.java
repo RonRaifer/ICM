@@ -506,6 +506,48 @@ public class MsgHandler {
 					"' AND idrequest = '"+objectManager.getAction().getIdrequest()+"'";
 			//dbHandler.executeUpdate(query); //delete the action from table
 			break;
+			
+		case CHECK_REVIEW_EXIST:
+			query = "SELECT * FROM review_decision WHERE idrequest = '"+objectManager.getMsgString()+"'";
+			rs = dbHandler.executeQ(query);
+			
+			if(rs.next()) {
+				objectManager = new ObjectManager(rs.getString(2), MsgEnum.SET_REVIEW_EXIST);
+				
+				
+			}
+			else {
+				objectManager = new ObjectManager("", MsgEnum.SET_REVIEW_EXIST);
+			}
+			
+			client.sendToClient(objectManager);
+			
+			break;
+		case ADD_REVIEW:
+			String reviewArr[] = objectManager.getMsgString().split("_");
+			query = "INSERT INTO review_decision  VALUES ('"+reviewArr[0]+"','"+reviewArr[1]+"')";
+			dbHandler.executeUpdate(query);
+			break;
+			
+		case REVIEW_LEADER_APPROVE:
+			query = "SELECT * FROM review_decision WHERE idrequest = '"+objectManager.getMsgString()+"'";
+			rs = dbHandler.executeQ(query);
+			rs.next();
+			if(rs.getString(2).contentEquals("Approve")) {
+				query = "UPDATE request_handling SET currentStage = 'Execution' , executionTime = '' , idCharge = '' WHERE idrequest = '"+objectManager.getMsgString()+"'";
+				dbHandler.executeUpdate(query);
+				System.out.println("Request #"+objectManager.getMsgString()+" moved from: Review > Execution");
+				
+			}
+			else {
+				query = "UPDATE request_handling SET currentStage = 'Closing', executionTime = '' , idCharge = '' WHERE idrequest = '"+objectManager.getMsgString()+"'";
+				dbHandler.executeUpdate(query);
+				System.out.println("Request #"+objectManager.getMsgString()+" moved from: Review > Closing");
+			}
+			
+			
+			
+			break;
 		default:
 			break;
 		}
