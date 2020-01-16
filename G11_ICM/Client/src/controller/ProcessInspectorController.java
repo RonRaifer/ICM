@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import boundary.GuiManager;
+import common.ClientConnector;
 import common.MsgEnum;
 import common.ObjectManager;
 import entity.ActionsNeeded;
@@ -27,6 +29,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
 public class ProcessInspectorController implements Initializable{
 	 @FXML
@@ -74,10 +77,17 @@ public class ProcessInspectorController implements Initializable{
 	 private Hyperlink hlReplace;
 	 @FXML
 	 private AnchorPane apPick;
-	    
+	 @FXML
+	 private Label lblError;
+	 @FXML
+	 private Pane pError;
+	 
+	 private ClientConnector client = ConnectionController.getClient();
 	 private static ArrayList<ActionsNeeded> arralistOfActions = null;
 	 private static ArrayList<User> arralistOfEmployees = null;
 	 private static ObservableList<ActionsNeeded> List = FXCollections.observableArrayList();
+	 private boolean empListView = false;
+	 private ActionsNeeded action;
 		
 	public static void setListOfActions(ArrayList<ActionsNeeded> array) {
 		arralistOfActions = new ArrayList<>(array);
@@ -109,7 +119,7 @@ public class ProcessInspectorController implements Initializable{
 	}  
 	@FXML
     private void onItemClick(MouseEvent event) {
-		ActionsNeeded action = tblActionsNeeded.getSelectionModel().getSelectedItem();
+		action = tblActionsNeeded.getSelectionModel().getSelectedItem();
 		String selected = action.getActionsNeeded();
 		clearScreen();
 		if(selected.equals("Evaluator Appointment")) { //if needs to appoint Evaluator
@@ -141,9 +151,52 @@ public class ProcessInspectorController implements Initializable{
 		lblSubTitle.setText("Pick new Evaluator from the list below:");
 	}
 	/**
+	 * When employee was chosen from employee combobox
+	 */
+	@FXML
+    private void onApproveExecutorClick(ActionEvent event) { 
+		if(cmbEmployees.getSelectionModel().isEmpty()) {
+			GuiManager.showError(lblError, pError, "You must pick an employee first");
+		}
+		else {
+			System.out.println(arralistOfEmployees.get(cmbEmployees.getSelectionModel().getSelectedIndex()));
+		}
+	}
+	@FXML
+    private void onApproveEvaluatorClick(ActionEvent event) { 
+		String empSelectedID = "";
+		if(empListView) {
+			if(cmbEmployees.getSelectionModel().isEmpty()) {
+				GuiManager.showError(lblError, pError, "You must pick an employee first"); //show error
+			}
+			else {
+				empSelectedID = arralistOfEmployees.get(cmbEmployees.getSelectionModel().getSelectedIndex()).getIdUser();
+			}
+		}else {
+			empSelectedID = action.getIdCharge();
+		}
+		if(empSelectedID != "") { //if employee selected
+			 //send new evaluator id to server
+			ObjectManager msg = new ObjectManager(empSelectedID, action, MsgEnum.APPOINT_EVALUATOR);
+	    	client.handleMessageFromClientUI(msg);
+
+	    	try {
+				Thread.sleep(500);
+				tblActionsNeeded.getItems().remove(action); //remove the line from table.
+				GuiManager.showSuccess(lblError, pError, "Employee: " + empSelectedID +" Is Now Evaluator"); //show success message
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+	}
+	/**
 	 * Fills the Employees combobox with workers
 	 */
 	private void fillCmbEmployees() {
+		empListView = true;
 		ObjectManager viewEmployees = new ObjectManager(arralistOfEmployees, MsgEnum.VIEW_EMPLOYEES_TO_APPOINT);
     	ConnectionController.getClient().handleMessageFromClientUI(viewEmployees);
     	ObservableList<String> empList;
@@ -167,6 +220,7 @@ public class ProcessInspectorController implements Initializable{
 	 * Hide irrelevant AnchorPanes and Labels
 	 */
 	private void clearScreen() {
+		empListView = false;
 		apPick.setVisible(false);
 		apAppoint.setVisible(false);
 		apAppointExecutor.setVisible(false);

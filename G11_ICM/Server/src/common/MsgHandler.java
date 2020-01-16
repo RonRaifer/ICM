@@ -488,7 +488,24 @@ public class MsgHandler {
 			else
 				client.sendToClient(new ObjectManager(employeeArray, MsgEnum.VIEW_EMPLOYEES_TO_APPOINT));
 			break;
-
+		
+		case APPOINT_EVALUATOR:
+			query = "SELECT idrequest FROM request_handling WHERE idrequest = '"+objectManager.getAction().getIdrequest()+"'";
+			rs = dbHandler.executeQ(query);
+			if(!rs.next()) { //if request exists in request_handling
+				query = "INSERT INTO request_handling VALUES ("+Integer.valueOf(objectManager.getAction().getIdrequest())+
+						", '"+ objectManager.getMsgString() +"', ''"+
+						", '"+ objectManager.getAction().getStage() +"', '');";
+			}else {
+				query = "UPDATE request_handling SET currentStage = '"+ objectManager.getAction().getStage() +"', executionTime = '' , idCharge = '"+ objectManager.getMsgString() +"' WHERE idrequest = '"+objectManager.getAction().getIdrequest()+"'";		
+			}
+			dbHandler.executeUpdate(query); //update stage charge and currentStage
+			query = "DELETE FROM actions_needed WHERE stage = '"+objectManager.getAction().getStage()+
+					"' AND idCharge = '"+ objectManager.getMsgString() +
+					"' AND actionsNeeded = '"+objectManager.getAction().getActionsNeeded()+
+					"' AND idrequest = '"+objectManager.getAction().getIdrequest()+"'";
+			//dbHandler.executeUpdate(query); //delete the action from table
+			break;
 		default:
 			break;
 		}
