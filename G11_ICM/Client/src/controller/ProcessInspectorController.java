@@ -80,6 +80,8 @@ public class ProcessInspectorController implements Initializable{
 	 @FXML
 	 private Label lblError;
 	 @FXML
+	 private Label lblGreat;
+	 @FXML
 	 private Pane pError;
 	 
 	 private ClientConnector client = ConnectionController.getClient();
@@ -98,6 +100,7 @@ public class ProcessInspectorController implements Initializable{
 	    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		lblGreat.setVisible(false);
 		clearScreen();
 		ObjectManager viewActions = new ObjectManager(arralistOfActions, MsgEnum.VIEW_ACTIONS);
 		ConnectionController.getClient().handleMessageFromClientUI(viewActions);
@@ -107,7 +110,7 @@ public class ProcessInspectorController implements Initializable{
 		col_actions.setCellValueFactory(new PropertyValueFactory<>("actionsNeeded"));
 	    try {
 			Thread.sleep(1000);
-			if(arralistOfActions.isEmpty()) tabPane.getTabs().remove(tabWaitingActions);
+			if(arralistOfActions.isEmpty()) lblGreat.setVisible(true);
 			else {
 				List = FXCollections.observableArrayList(arralistOfActions);
 				tblActionsNeeded.setItems(List);
@@ -155,11 +158,26 @@ public class ProcessInspectorController implements Initializable{
 	 */
 	@FXML
     private void onApproveExecutorClick(ActionEvent event) { 
+		String empSelectedID = "";
 		if(cmbEmployees.getSelectionModel().isEmpty()) {
 			GuiManager.showError(lblError, pError, "You must pick an employee first");
 		}
 		else {
-			System.out.println(arralistOfEmployees.get(cmbEmployees.getSelectionModel().getSelectedIndex()));
+			empSelectedID = arralistOfEmployees.get(cmbEmployees.getSelectionModel().getSelectedIndex()).getIdUser();
+			ObjectManager msg = new ObjectManager(empSelectedID, action, MsgEnum.APPOINT_STAGE_CHARGE);
+	    	client.handleMessageFromClientUI(msg);
+
+	    	try {
+				Thread.sleep(500);
+				tblActionsNeeded.getItems().remove(action); //remove the line from table.
+				GuiManager.showSuccess(lblError, pError, "Employee: " + empSelectedID +" Is Now Executor"); //show success message
+				clearScreen();
+				lblPickMsg.setVisible(true);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 	}
 	@FXML
@@ -177,13 +195,15 @@ public class ProcessInspectorController implements Initializable{
 		}
 		if(empSelectedID != "") { //if employee selected
 			 //send new evaluator id to server
-			ObjectManager msg = new ObjectManager(empSelectedID, action, MsgEnum.APPOINT_EVALUATOR);
+			ObjectManager msg = new ObjectManager(empSelectedID, action, MsgEnum.APPOINT_STAGE_CHARGE);
 	    	client.handleMessageFromClientUI(msg);
 
 	    	try {
 				Thread.sleep(500);
 				tblActionsNeeded.getItems().remove(action); //remove the line from table.
 				GuiManager.showSuccess(lblError, pError, "Employee: " + empSelectedID +" Is Now Evaluator"); //show success message
+				clearScreen();
+				lblPickMsg.setVisible(true);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

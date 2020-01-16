@@ -278,14 +278,11 @@ public class MsgHandler {
 			query = "SELECT * FROM Messages WHERE iduser = '" + objectManager.getUser().getIdUser() + "'" + ";";
 			rs = dbHandler.executeQ(query);
 			while (rs.next() == true) {
-				messagesArray.add(new Messages(rs.getString("idMessage"), rs.getString("idUser"),
+				messagesArray.add(new Messages(rs.getString("idMessage"), rs.getString("iduser"),
 						rs.getString("titleMessage"), rs.getString("contentMessage"), rs.getString("dateMessage"),
 						rs.getString("status"), rs.getString("type")));
 			}
-			if (messagesArray.isEmpty())
-				System.out.println("No Messages For User"); // change this to send error OR handle this in client side.
-			else
-				client.sendToClient(new ObjectManager(messagesArray, MsgEnum.SEND_MESSAGES_TO_CLIENT));
+			client.sendToClient(new ObjectManager(messagesArray, MsgEnum.SEND_MESSAGES_TO_CLIENT));
 			break;
 
 		case VIEW_EMPLOYEES:
@@ -299,7 +296,7 @@ public class MsgHandler {
 				if (rs2.next() == true) {
 					employeesArray
 							.add(new User(rs.getString("iduser"), rs.getString("firstName"), rs.getString("lastName"),
-									rs.getString("email"), rs2.getString("employeeTitle"), rs.getString("department")));
+									rs.getString("email"), rs2.getString("role"), rs.getString("department")));
 				} else {
 					employeesArray
 							.add(new User(rs.getString("iduser"), rs.getString("firstName"), rs.getString("lastName"),
@@ -489,22 +486,22 @@ public class MsgHandler {
 				client.sendToClient(new ObjectManager(employeeArray, MsgEnum.VIEW_EMPLOYEES_TO_APPOINT));
 			break;
 		
-		case APPOINT_EVALUATOR:
-			query = "SELECT idrequest FROM request_handling WHERE idrequest = '"+objectManager.getAction().getIdrequest()+"'";
+		case APPOINT_STAGE_CHARGE:
+			query = "SELECT idrequest FROM request_handling WHERE idrequest = '"+objectManager.getAction().getIdrequest()+"';";
 			rs = dbHandler.executeQ(query);
 			if(!rs.next()) { //if request exists in request_handling
 				query = "INSERT INTO request_handling VALUES ("+Integer.valueOf(objectManager.getAction().getIdrequest())+
 						", '"+ objectManager.getMsgString() +"', ''"+
 						", '"+ objectManager.getAction().getStage() +"', '');";
 			}else {
-				query = "UPDATE request_handling SET currentStage = '"+ objectManager.getAction().getStage() +"', executionTime = '' , idCharge = '"+ objectManager.getMsgString() +"' WHERE idrequest = '"+objectManager.getAction().getIdrequest()+"'";		
+				query = "UPDATE request_handling SET currentStage = '"+ objectManager.getAction().getStage() +"', executionTime = '' , idCharge = '"+ objectManager.getMsgString() +"' WHERE idrequest = '"+objectManager.getAction().getIdrequest()+"';";		
 			}
 			dbHandler.executeUpdate(query); //update stage charge and currentStage
 			query = "DELETE FROM actions_needed WHERE stage = '"+objectManager.getAction().getStage()+
 					"' AND idCharge = '"+ objectManager.getMsgString() +
 					"' AND actionsNeeded = '"+objectManager.getAction().getActionsNeeded()+
-					"' AND idrequest = '"+objectManager.getAction().getIdrequest()+"'";
-			//dbHandler.executeUpdate(query); //delete the action from table
+					"' AND idrequest = '"+objectManager.getAction().getIdrequest()+"';";
+			dbHandler.executeUpdate(query); //delete the action from table
 			break;
 			
 		case CHECK_REVIEW_EXIST:

@@ -31,20 +31,26 @@ public class EmployeesController implements Initializable{
 	@FXML
 	private TableColumn<User, String> col_id;
 	@FXML
-	private TableColumn<User, String> col_id1;
+	private TableColumn<User, String> col_idToAdd;
 	@FXML
-	private TableColumn<User, String> col_name1;
+	private TableColumn<User, String> col_nameToAdd;
 	@FXML
 	private TableColumn<User, String> col_name;
 	@FXML
-	private TableColumn<User, String> col_department;
+	private TableColumn<User, String> col_role;
 	@FXML
 	private TableColumn<User, String> col_lastName;
+	@FXML
+	private TableColumn<User, String> col_lastNameToAdd;
+	@FXML
+	private TableColumn<User, User> col_optionsToAdd;
 	@FXML
 	private TableColumn<User, User> col_options;
 
 	
 	public static ArrayList<User> arralistOfEmployees = null;
+	private ArrayList<User> inDepartment;
+	private ArrayList<User> outSideDepartment;
 	private ObservableList<User> List = null;
 	
 	public static void setListOfEmployees(ArrayList<User> array) {
@@ -53,18 +59,22 @@ public class EmployeesController implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		inDepartment = new ArrayList<User>();
+		outSideDepartment = new ArrayList<User>(); 
     	ObjectManager viewEmployees = new ObjectManager(arralistOfEmployees, MsgEnum.VIEW_EMPLOYEES);
 		ConnectionController.getClient().handleMessageFromClientUI(viewEmployees);
-		col_id.setCellValueFactory(new PropertyValueFactory<>("iduser"));
+		col_id.setCellValueFactory(new PropertyValueFactory<>("idUser"));
 		col_name.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-		col_department.setCellValueFactory(new PropertyValueFactory<>("Department"));
 		col_lastName.setCellValueFactory(new PropertyValueFactory<>("lastName")); 	//type of employee. Worker/Information Engineer/Manager
-		col_id1.setCellValueFactory(new PropertyValueFactory<>("iduser"));
-		col_name1.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+		col_role.setCellValueFactory(new PropertyValueFactory<>("role"));
+		
+		col_idToAdd.setCellValueFactory(new PropertyValueFactory<>("idUser"));
+		col_nameToAdd.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+		col_lastNameToAdd.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 		col_options.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		col_options.setCellFactory(param -> new TableCell<User, User>() { 
 			@FXML
-		    private final Button btn = new Button("Unfriend");
+		    private final Button btn = new Button("Remove From Department");
 
 		    protected void updateItem(User user, boolean empty) {
 		        super.updateItem(user, empty);
@@ -83,10 +93,42 @@ public class EmployeesController implements Initializable{
 		        );
 		    }
 		});
+		
+		col_optionsToAdd.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		col_optionsToAdd.setCellFactory(param -> new TableCell<User, User>() { 
+			@FXML
+		    private final Button btn = new Button("Add To Department");
+
+		    protected void updateItem(User user, boolean empty) {
+		        super.updateItem(user, empty);
+
+		        if (user == null) {
+		            setGraphic(null);
+		            return;
+		        }
+
+		        setGraphic(btn);
+		        btn.setOnAction(
+		            event -> {
+		            	tblEmployees.getItems().add(user);
+		            	getTableView().getItems().remove(user);
+		            }
+		        );
+		    }
+		});
+		
     	try {
-			Thread.sleep(1000);
-			List = FXCollections.observableArrayList(arralistOfEmployees);
+			Thread.sleep(1500);
+			for(User u : arralistOfEmployees) {
+				String dep = u.getDepartment();
+				if(dep.equals("Information Technology")) 
+					inDepartment.add(u);
+				else outSideDepartment.add(u);
+	    	}
+			List = FXCollections.observableArrayList(inDepartment);
 			tblEmployees.setItems(List);
+			List = FXCollections.observableArrayList(outSideDepartment);
+			tblToAdd.setItems(List);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

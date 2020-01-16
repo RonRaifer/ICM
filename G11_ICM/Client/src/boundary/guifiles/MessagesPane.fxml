@@ -44,6 +44,11 @@
                         <TableColumn fx:id="optionsColumn" prefWidth="227.0" text="Options" />
                     </columns>
                   </TableView>
+                  <Label fx:id="lblNoMessages" layoutX="178.0" layoutY="133.0" text="You have no messages yet" textFill="#02ae08">
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </content>

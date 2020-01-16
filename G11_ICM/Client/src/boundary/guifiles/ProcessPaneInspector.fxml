@@ -56,6 +56,11 @@
                                           <TableColumn fx:id="col_actions" prefWidth="173.0" text="Actions Needed" />
                                        </columns>
                                     </TableView>
+                                    <Label fx:id="lblGreat" layoutX="93.0" layoutY="227.0" text="Great! No actions waiting for you" textFill="#00c607">
+                                       <font>
+                                          <Font name="System Bold" size="21.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </AnchorPane>
                           </content>
