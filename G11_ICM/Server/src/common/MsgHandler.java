@@ -109,15 +109,9 @@ public class MsgHandler {
 			// executing the query
 			dbHandler.executeUpdate(qr.toString());
 			
-			query = "SELECT iduser FROM systems WHERE systemName = '" + objectManager.getReques().getSystem() + "'" + ";"; //Prepare the Evaluator appoint by the Inspector
-			rs = dbHandler.executeQ(query);
-			if(!rs.next()) //in case there is no system charge, just set charge to null
-				query = "INSERT INTO actions_needed VALUES ("+Integer.valueOf(objectManager.getReques().getIdReq())+", 'None', 'Evaluation', 'Evaluator Appointment');";
-			else{ //if system has charge, appoint him as default.
-				query = "INSERT INTO actions_needed VALUES ("+Integer.valueOf(objectManager.getReques().getIdReq())+", '" 
-						+ rs.getString("iduser") + "', 'Evaluation', 'Evaluator Appointment');";
-			}
-			dbHandler.executeUpdate(query); //execute the insert query
+			//add an evaluator appoint request to actions table
+			insertEvaluatorAppointAction(objectManager.getReques().getSystem(), objectManager.getReques().getIdReq());
+			
 			System.out.println("Request added to request table\n");
 			client.sendToClient(new ObjectManager(new Integer(rowcount), MsgEnum.SEND_ID_OF_REQUEST_TO_CLIENT));
 			// sending the id of the request to the client
@@ -413,6 +407,14 @@ public class MsgHandler {
 			query = "UPDATE request_handling SET currentStage = 'Evaluation' , idCharge = '', executionTime = '' WHERE idrequest = '"+objectManager.getMsgString()+"'";
 			dbHandler.executeUpdate(query);
 			
+			//Get the relevant system the request is about
+			query = "SELECT ITSystem FROM request WHERE idrequest = '" + objectManager.getMsgString() + "'" + ";";
+			rs = dbHandler.executeQ(query);
+			if(!rs.next()) {
+				System.out.println("System for request did not found");
+			}
+			//Add an evaluator appoint request to actions table
+			insertEvaluatorAppointAction(rs.getString("ITSystem"), objectManager.getMsgString());
 			System.out.println("Request #"+objectManager.getMsgString()+" moved from: Review > Evaluation");
 			break;
 			
@@ -486,9 +488,40 @@ public class MsgHandler {
 			else
 				client.sendToClient(new ObjectManager(employeeArray, MsgEnum.VIEW_EMPLOYEES_TO_APPOINT));
 			break;
-
+		
+		case APPOINT_EVALUATOR:
+			query = "SELECT idrequest FROM request_handling WHERE idrequest = '"+objectManager.getAction().getIdrequest()+"'";
+			rs = dbHandler.executeQ(query);
+			if(!rs.next()) { //if request exists in request_handling
+				query = "INSERT INTO request_handling VALUES ("+Integer.valueOf(objectManager.getAction().getIdrequest())+
+						", '"+ objectManager.getMsgString() +"', ''"+
+						", '"+ objectManager.getAction().getStage() +"', '');";
+			}else {
+				query = "UPDATE request_handling SET currentStage = '"+ objectManager.getAction().getStage() +"', executionTime = '' , idCharge = '"+ objectManager.getMsgString() +"' WHERE idrequest = '"+objectManager.getAction().getIdrequest()+"'";		
+			}
+			dbHandler.executeUpdate(query); //update stage charge and currentStage
+			query = "DELETE FROM actions_needed WHERE stage = '"+objectManager.getAction().getStage()+
+					"' AND idCharge = '"+ objectManager.getMsgString() +
+					"' AND actionsNeeded = '"+objectManager.getAction().getActionsNeeded()+
+					"' AND idrequest = '"+objectManager.getAction().getIdrequest()+"'";
+			//dbHandler.executeUpdate(query); //delete the action from table
+			break;
 		default:
 			break;
 		}
+
+	}
+	private void insertEvaluatorAppointAction(String sysName, String requestId) throws NumberFormatException, SQLException {
+		String query;
+		ResultSet rs;
+		query = "SELECT iduser FROM systems WHERE systemName = '" + sysName + "'" + ";"; //Prepare the Evaluator appoint by the Inspector
+		rs = dbHandler.executeQ(query);
+		if(!rs.next()) //in case there is no system charge, just set charge to null
+			query = "INSERT INTO actions_needed VALUES ("+Integer.valueOf(requestId)+", 'None', 'Evaluation', 'Evaluator Appointment');";
+		else{ //if system has charge, appoint him as default.
+			query = "INSERT INTO actions_needed VALUES ("+Integer.valueOf(requestId)+", '" 
+					+ rs.getString("iduser") + "', 'Evaluation', 'Evaluator Appointment');";
+		}
+		dbHandler.executeUpdate(query); //execute the insert query
 	}
 }

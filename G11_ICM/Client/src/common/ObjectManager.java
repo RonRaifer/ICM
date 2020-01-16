@@ -12,26 +12,26 @@ public class ObjectManager implements Serializable {
 	private static final long serialVersionUID = 261834733778535924L;
 	private MsgEnum msgEnum;
 	private String msgString;
-
+	private boolean evFlag;
+	private ResultSet rs;
 	//Entities
 	private User user;
 	private Request req;
 	private List<Document> listOfFiles;
 	private Integer reqIDFromServer;
-	private ResultSet rs;
 	private ArrayList<?> array;
-	private boolean evFlag;
-  private EvaluationReport evReport;
+	private EvaluationReport evReport;
+	private ActionsNeeded action;
 
   
   
 	public boolean isEvFlag() {
 	return evFlag;
-}
+	}
 
-public void setEvFlag(boolean evFlag) {
+	public void setEvFlag(boolean evFlag) {
 	this.evFlag = evFlag;
-}
+	}
 
 	public ResultSet getRs() {
 		return rs;
@@ -78,6 +78,13 @@ public void setEvFlag(boolean evFlag) {
 		this.msgEnum = msgEnum;
 		this.req = req;
 	}
+	
+	public ObjectManager(String msgString, ActionsNeeded action, MsgEnum msgEnum) {
+		this.msgEnum = msgEnum;
+		this.action = action;
+		this.msgString = msgString;
+	}
+	
 	public ObjectManager(List<Document> listOfFiles, MsgEnum msgEnum) {
 		this.msgEnum = msgEnum;
 		this.listOfFiles=listOfFiles;
@@ -111,12 +118,15 @@ public void setEvFlag(boolean evFlag) {
 	public Request getReques() {
 		return req;
 	}
-  public EvaluationReport getEvReport() {
+    public EvaluationReport getEvReport() {
 		return evReport;
 	}
 
 	public void setEvReport(EvaluationReport evReport) {
 		this.evReport = evReport;
+	}
+	public ActionsNeeded getAction() {
+		return action;
 	}
 
 }
