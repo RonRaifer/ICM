@@ -117,8 +117,18 @@ public class ProcessesController implements Initializable{
     private static ArrayList<RequestHandling> arralistOfProcesses = null;
     private static ArrayList<RequestHandling> arralistOfTimeRequests = null;
 	private ObservableList<RequestHandling> List = null;
-	private static String selectedID; 
-	
+	private static RequestHandling selected; 
+	private ProcessesController pController;
+	public void initData(ProcessesController c) {
+		pController = c;
+		EvaluationController.setCont(c);
+		ExecutionController.setCont(c);
+		CheckingController.setCont(c);
+		ReviewController.setCont(c);
+	}
+	public ProcessesController getCont() {
+		return pController;
+	}
 	public static void setListOfProcesses(ArrayList<RequestHandling> array) {
 		arralistOfProcesses = new ArrayList<>(array);
     }
@@ -128,11 +138,11 @@ public class ProcessesController implements Initializable{
     }
 	
 	
-	public static String getSelectedID() {
-		return selectedID;
+	public static RequestHandling getSelected() {
+		return selected;
 	}
-	public static void setSelectedID(String selectedID) {
-		ProcessesController.selectedID = selectedID;
+	public void removeSelected(RequestHandling selected) {
+		tblTimeDetermine1.getItems().remove(selected);
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -141,8 +151,7 @@ public class ProcessesController implements Initializable{
 	
 	@FXML
     private void onItemClick(MouseEvent event) {
-		selectedID = tblTimeDetermine1.getSelectionModel().getSelectedItem().getIdrequest();
-		
+		selected = tblTimeDetermine1.getSelectionModel().getSelectedItem();
 		actionsView(tblTimeDetermine1.getSelectionModel().getSelectedItem().getCurrentStage());
 	}
 	@FXML

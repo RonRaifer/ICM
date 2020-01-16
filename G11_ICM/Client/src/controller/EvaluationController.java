@@ -51,7 +51,10 @@ public class EvaluationController implements Initializable{
     private static EvaluationReport report;
 	
     
-    
+    private static ProcessesController d;
+    public static void setCont(ProcessesController p) {
+    	d=p;
+    }
     public static EvaluationReport getReport() {
 		return report;
 	}
@@ -84,7 +87,7 @@ public class EvaluationController implements Initializable{
     	temp.setResult(tbResult.getText());
     	temp.setRisk(tbRisk.getText());
     	temp.setTime(tbTime.getText());
-    	temp.setIdReq(ProcessesController.getSelectedID());
+    	temp.setIdReq(ProcessesController.getSelected().getIdrequest());
     	
     	ObjectManager msg = new ObjectManager(temp, MsgEnum.ADD_EV_REPORT);
     	client.handleMessageFromClientUI(msg);
@@ -99,13 +102,14 @@ public class EvaluationController implements Initializable{
     	lblErr.setVisible(true);
     	lblErr.setTextFill(Color.GREEN);
     	lblErr.setText("Evaluation report added successfully!");
+    	d.getCont().removeSelected(ProcessesController.getSelected()); //remove object from table
     	clearAll();
 
     }
 
     @FXML
     void clickInfo(ActionEvent event) throws IOException { //raise popup with selected request details
-    	GuiManager.popUpLoader("RequestView", ProcessesController.getSelectedID());
+    	GuiManager.popUpLoader("RequestView", ProcessesController.getSelected().getIdrequest());
     }
 
 	@Override
@@ -115,7 +119,7 @@ public class EvaluationController implements Initializable{
 		
 		
 		//checking if there is previous evaluation report
-		ObjectManager msg = new ObjectManager(ProcessesController.getSelectedID(), MsgEnum.CHECK_PRE_EV);
+		ObjectManager msg = new ObjectManager(ProcessesController.getSelected().getIdrequest(), MsgEnum.CHECK_PRE_EV);
 		client.handleMessageFromClientUI(msg);
 		
 		try {
