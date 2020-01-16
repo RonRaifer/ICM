@@ -11,8 +11,10 @@ import entity.EvaluationReport;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
@@ -80,8 +82,16 @@ public class ReviewController implements Initializable {
 				e.printStackTrace();
 			}
 		 
-		 lblStatus.setVisible(true);
-		 lblStatus.setText("Your decision has been submitted");
+		 Alert alert = new Alert(AlertType.INFORMATION);
+	    	alert.setTitle("Information Dialog");
+	    	alert.setHeaderText(null);
+	    	alert.setContentText("Your decision has been submitted");
+	    	alert.showAndWait();
+	    	
+	    	d.getCont().removeSelected(ProcessesController.getSelected());
+		 
+		 
+		 
 
 	    }
 
@@ -97,8 +107,13 @@ public class ReviewController implements Initializable {
 			e.printStackTrace();
 		}
 		
-		lblStatus.setVisible(true);
-		lblStatus.setText("Your review has been submitted");
+		Alert alert = new Alert(AlertType.INFORMATION);
+    	alert.setTitle("Information Dialog");
+    	alert.setHeaderText(null);
+    	alert.setContentText("Your approval has been submitted");
+    	alert.showAndWait();
+    	
+    	d.getCont().removeSelected(ProcessesController.getSelected());
 		hideButtons();
 		
     }
@@ -115,8 +130,13 @@ public class ReviewController implements Initializable {
 			e.printStackTrace();
 		}
 		
-		lblStatus.setVisible(true);
-		lblStatus.setText("Your review has been submitted");
+		Alert alert = new Alert(AlertType.INFORMATION);
+    	alert.setTitle("Information Dialog");
+    	alert.setHeaderText(null);
+    	alert.setContentText("Your rejection has been submitted");
+    	alert.showAndWait();
+    	
+    	d.getCont().removeSelected(ProcessesController.getSelected());
 		hideButtons();
     	
     }
@@ -133,11 +153,13 @@ public class ReviewController implements Initializable {
 			e.printStackTrace();
 		}
     	
-    	lblStatus.setVisible(true);
-    	lblStatus.setTextFill(Color.GREEN);
-    	lblStatus.setText("Request is now in Evaluation stage again");
-    	d.getCont().removeSelected(ProcessesController.getSelected()); //remove object from table
-    	tbReport.clear();
+    	Alert alert = new Alert(AlertType.INFORMATION);
+    	alert.setTitle("Information Dialog");
+    	alert.setHeaderText(null);
+    	alert.setContentText("Your rejection has been submitted");
+    	alert.showAndWait();
+    	
+    	d.getCont().removeSelected(ProcessesController.getSelected());
     	
     }
 
@@ -218,7 +240,7 @@ public class ReviewController implements Initializable {
 				btnReject.setVisible(false);
 				lblStatus.setVisible(true);
 				lblStatus.setTextFill(Color.BLUE);
-				lblStatus.setText("Team's Decision is:" + reviewExist);
+				lblStatus.setText("Team's Decision is : " + reviewExist);
 				
 			}
 			

@@ -131,7 +131,6 @@ public class EvaluationController implements Initializable{
     	alert.setTitle("Information Dialog");
     	alert.setHeaderText(null);
     	alert.setContentText("Evaluation report added successfully!");
-
     	alert.showAndWait();
     	
     	d.getCont().removeSelected(ProcessesController.getSelected()); //remove object from table

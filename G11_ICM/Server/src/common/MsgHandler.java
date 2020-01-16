@@ -270,7 +270,9 @@ public class MsgHandler {
 			
 			query = "UPDATE request_handling SET executionTime = '7' , idCharge = '' , currentStage = 'Review' WHERE (`idrequest` = '"+rpt.getIdReq()+"')";
 			dbHandler.executeUpdate(query);
-			System.out.println("Stage updated: Evaluation > Review, in Request #"+rpt.getIdReq());
+			//
+			System.out.println("Request #"+rpt.getIdReq()+" moved from: Evaluation > Review");
+			//System.out.println("Stage updated: Evaluation > Review, in Request #"+rpt.getIdReq());
 			break;
 
 		case VIEW_MESSAGES:
@@ -454,14 +456,14 @@ public class MsgHandler {
 				query = "UPDATE checking_failure SET failure = '"+failurestr+"'"+" WHERE idrequest = '"+idstr+"'";
 				dbHandler.executeUpdate(query);
 				
-				dbHandler.executeUpdate(query);
+				
 				
 			}
 			else {
 				query = "INSERT INTO checking_failure VALUES ('"+idstr+"','"+failurestr+"')";
 				dbHandler.executeUpdate(query);
 				
-				dbHandler.executeUpdate(query);
+				
 			}
 			
 			query = "UPDATE request_handling SET currentStage = 'Execution', executionTime = '' , idCharge = '' WHERE idrequest = '"+idstr+"'";

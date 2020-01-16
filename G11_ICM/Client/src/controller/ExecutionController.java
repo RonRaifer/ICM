@@ -9,8 +9,10 @@ import common.ObjectManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
 import javafx.scene.control.Label;
 
@@ -46,11 +48,13 @@ public class ExecutionController implements Initializable {
 		}
     	
     	
-    	lblInfo.setVisible(true);
-    	lblInfo.setText("Your approval has been regisetered");
-    	lblInfo.setTextFill(Color.GREEN);
-    	d.getCont().removeSelected(ProcessesController.getSelected()); //remove object from table
-    	tbInfo.clear();
+    	Alert alert = new Alert(AlertType.INFORMATION);
+    	alert.setTitle("Information Dialog");
+    	alert.setHeaderText(null);
+    	alert.setContentText("Your execution has been submitted");
+    	alert.showAndWait();
+    	
+    	d.getCont().removeSelected(ProcessesController.getSelected());
     	
     }
 
