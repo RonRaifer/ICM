@@ -15,6 +15,7 @@ import entity.RequestHandling;
 import entity.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -112,6 +113,12 @@ public class ProcessesController implements Initializable{
     @FXML
     private Tab tabClose;
     
+    @FXML
+    private Button btnExtend;
+
+    @FXML
+    private TextField tbExtend;
+    
 
     //attribute
     private static ArrayList<RequestHandling> arralistOfProcesses = null;
@@ -143,7 +150,17 @@ public class ProcessesController implements Initializable{
 	}
 	public void removeSelected(RequestHandling selected) {
 		tblTimeDetermine1.getItems().remove(selected);
+		apActions.getChildren().clear();
+		
+		
 	}
+	
+	 @FXML
+	 void clickExtend(ActionEvent event) {
+		 
+	 }
+
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
