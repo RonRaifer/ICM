@@ -4,6 +4,8 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -55,7 +57,15 @@
       </TitledPane>
       <TitledPane collapsible="false" contentDisplay="BOTTOM" layoutX="65.0" layoutY="323.0" prefHeight="343.0" prefWidth="685.0" style="-fx-background-color: white;" text="Generated Reports">
          <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="226.0" prefWidth="540.0" style="-fx-background-color: white;" />
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="226.0" prefWidth="540.0" style="-fx-background-color: white;">
+               <children>
+                  <TableView fx:id="tblActivityReports" layoutX="21.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                      <TableColumn fx:id="colStartDate" prefWidth="108.0" text="Start Date" />
+                      <TableColumn fx:id="colEndDate" minWidth="6.0" prefWidth="91.0" text="End date" />
+                    </columns>
+                  </TableView>
+               </children></AnchorPane>
          </content>
          <font>
             <Font name="Arial Italic" size="15.0" />
