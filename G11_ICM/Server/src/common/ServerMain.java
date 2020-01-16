@@ -24,7 +24,7 @@ public class ServerMain  extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(controller.ServerController.class.getResource("../boundary/guifiles/Server.fxml"));
+		loader.setLocation(controller.ServerController.class.getResource("/boundary/guifiles/Server.fxml"));
 		Pane root = loader.load();
 		ServerController controller = loader.getController();
 		controller.initData(InetAddress.getLocalHost().getHostAddress().toString());

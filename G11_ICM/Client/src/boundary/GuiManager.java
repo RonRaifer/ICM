@@ -22,7 +22,7 @@ import javafx.util.Duration;
 
 public class GuiManager {
 	public static void guiLoader(String fxmlName, Stage stage) throws IOException {
-		String path = "../boundary/guifiles/" + fxmlName + ".fxml";
+		String path = "/boundary/guifiles/" + fxmlName + ".fxml";
 		FXMLLoader loader = new FXMLLoader();	
 		try {  
 				loader.setLocation(Main.class.getResource(path));
@@ -47,7 +47,7 @@ public class GuiManager {
 	}
 	
 	public static void guiLoader(String fxmlName, User user) throws IOException {
-		String path = "../boundary/guifiles/" + fxmlName + ".fxml";
+		String path = "/boundary/guifiles/" + fxmlName + ".fxml";
 		Screen screen = Screen.getPrimary();
 		Rectangle2D bounds = screen.getVisualBounds();
 
@@ -62,7 +62,7 @@ public class GuiManager {
 	            Scene scene = new Scene(root);
 	            stage.setScene(scene);
 	            stage.getIcons().add(new Image("/boundary/guifiles/img/icmLogo.png"));
-	            stage.setTitle("ICM -> ");
+	            stage.setTitle("ICM -> Home");
 	            stage.setResizable(false);  
 	            stage.setX(bounds.getMinX());
 	    		stage.setY(bounds.getMinY());
@@ -74,7 +74,7 @@ public class GuiManager {
 	        }
 	}
 	public static void popUpLoader(String fxmlName, String requestId) throws IOException {
-		String path = "../boundary/guifiles/" + fxmlName + "Popup.fxml";		
+		String path = "/boundary/guifiles/" + fxmlName + "Popup.fxml";		
 		Stage stage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		try {  
