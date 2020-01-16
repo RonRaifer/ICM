@@ -61,7 +61,7 @@
                         </TitledPane>
                         <TitledPane collapsible="false" layoutX="548.0" layoutY="14.0" prefHeight="546.0" prefWidth="419.0" text="Actions">
                            <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                              <AnchorPane fx:id="apActions" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
                                     <Label fx:id="lblPickMsg" layoutX="121.0" layoutY="239.0" text="Pick Row From Table..">
                                        <font>
@@ -81,14 +81,29 @@
                                              </font>
                                           </Label>
                                           <Label fx:id="lblId" layoutX="306.0" layoutY="65.0" text="Evaluato" />
-                                          <Button fx:id="btnAppoint" layoutX="29.0" layoutY="115.0" mnemonicParsing="false" text="Approve" />
+                                          <Button fx:id="btnAppoint" layoutX="29.0" layoutY="115.0" mnemonicParsing="false" text="Approve Evaluator" />
                                           <Hyperlink fx:id="hlReplace" layoutX="355.0" layoutY="62.0" onAction="#onChangeAutoEvaluatorClick" text="Replace" underline="true" />
-                                          <AnchorPane fx:id="apPick" layoutX="48.0" layoutY="82.0" prefHeight="36.0" prefWidth="307.0">
-                                             <children>
-                                                <Label layoutX="58.0" layoutY="11.0" text="Pick Evaluator:" />
-                                                <ComboBox fx:id="cmbEmployees" layoutX="144.0" layoutY="6.0" prefHeight="25.0" prefWidth="142.0" promptText="Select" />
-                                             </children>
-                                          </AnchorPane>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane fx:id="apAppointExecutor" prefHeight="237.0" prefWidth="420.0">
+                                       <children>
+                                          <Label layoutX="111.0" layoutY="24.0" text="Executor Appointment" underline="true">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lblSubTitle1" layoutX="112.0" layoutY="65.0" text="Select Executor from the list below">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Button fx:id="btnAppointExecutor" layoutX="29.0" layoutY="118.0" mnemonicParsing="false" text="Approve Executor" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane fx:id="apPick" layoutX="35.0" layoutY="79.0" prefHeight="36.0" prefWidth="307.0">
+                                       <children>
+                                          <Label layoutX="58.0" layoutY="11.0" text="Pick Employee:" />
+                                          <ComboBox fx:id="cmbEmployees" layoutX="144.0" layoutY="6.0" prefHeight="25.0" prefWidth="142.0" promptText="Select" />
                                        </children>
                                     </AnchorPane>
                                  </children>

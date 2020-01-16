@@ -55,6 +55,8 @@ public class ProcessInspectorController implements Initializable{
 
 	 @FXML
 	 private AnchorPane apAppoint;
+	 @FXML
+	 private AnchorPane apAppointExecutor;
 
 	 @FXML
 	 private ComboBox<String> cmbEmployees;
@@ -64,6 +66,8 @@ public class ProcessInspectorController implements Initializable{
 
 	 @FXML
 	 private Button btnAppoint;
+	 @FXML
+	 private Button btnAppointExecutor;
 	 @FXML
 	 private Label lblId;
 	 @FXML
@@ -84,7 +88,7 @@ public class ProcessInspectorController implements Initializable{
 	    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		apPick.setVisible(false);
+		clearScreen();
 		ObjectManager viewActions = new ObjectManager(arralistOfActions, MsgEnum.VIEW_ACTIONS);
 		ConnectionController.getClient().handleMessageFromClientUI(viewActions);
 		col_requestId.setCellValueFactory(new PropertyValueFactory<>("idrequest"));
@@ -107,20 +111,39 @@ public class ProcessInspectorController implements Initializable{
     private void onItemClick(MouseEvent event) {
 		ActionsNeeded action = tblActionsNeeded.getSelectionModel().getSelectedItem();
 		String selected = action.getActionsNeeded();
+		clearScreen();
 		if(selected.equals("Evaluator Appointment")) { //if needs to appoint Evaluator
 			if(action.getIdCharge().equals("None")) { //if no automatically Evaluator appointed
 				lblSubTitle.setText("System Charge Does Not Exist, Appoint Evaluator Below:");
 				lblId.setVisible(false);
 				hlReplace.setVisible(false);
+				fillCmbEmployees();
 			}
 			else {
+				lblSubTitle.setText("System has automaticly appointed Evaluator ID:");
+				lblId.setVisible(true);
+				hlReplace.setVisible(true);
 				lblId.setText(action.getIdCharge());
 			}
 			apAppoint.setVisible(true);
 		}
+		if(selected.equals("Executor Appointment")) { //if needs to appoint Executor
+			fillCmbEmployees();
+			apAppointExecutor.setVisible(true);
+		}
+		lblPickMsg.setVisible(false);
 	}
 	@FXML
     private void onChangeAutoEvaluatorClick(ActionEvent event) { //When click on replace the automatic appointed evaluator
+		fillCmbEmployees();
+		lblId.setVisible(false);
+		hlReplace.setVisible(false);
+		lblSubTitle.setText("Pick new Evaluator from the list below:");
+	}
+	/**
+	 * Fills the Employees combobox with workers
+	 */
+	private void fillCmbEmployees() {
 		ObjectManager viewEmployees = new ObjectManager(arralistOfEmployees, MsgEnum.VIEW_EMPLOYEES_TO_APPOINT);
     	ConnectionController.getClient().handleMessageFromClientUI(viewEmployees);
     	ObservableList<String> empList;
@@ -138,9 +161,14 @@ public class ProcessInspectorController implements Initializable{
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		apPick.setVisible(true);
-		lblId.setVisible(false);
-		hlReplace.setVisible(false);
-		lblSubTitle.setText("Pick new Evaluator from the list below:");
+    	apPick.setVisible(true);
+	}
+	/**
+	 * Hide irrelevant AnchorPanes and Labels
+	 */
+	private void clearScreen() {
+		apPick.setVisible(false);
+		apAppoint.setVisible(false);
+		apAppointExecutor.setVisible(false);
 	}
 }
