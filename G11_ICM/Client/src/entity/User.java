@@ -124,4 +124,12 @@ public class User implements Serializable{
 	public String getPassword() {
 		return password;
 	}
+	
+	/**
+	 * set the department for user
+	 * @param department the department for user
+	 */
+	public void setDepartment(String department) {
+		this.department = department;
+	}
 }

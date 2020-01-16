@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import boundary.GuiManager;
 import common.ClientConnector;
 import common.MsgEnum;
 import common.ObjectManager;
@@ -13,14 +14,19 @@ import entity.User;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class EmployeesController implements Initializable{
@@ -46,7 +52,10 @@ public class EmployeesController implements Initializable{
 	private TableColumn<User, User> col_optionsToAdd;
 	@FXML
 	private TableColumn<User, User> col_options;
-
+	@FXML
+	private Pane pMsg;
+	@FXML
+	private Label lblMsg;
 	
 	public static ArrayList<User> arralistOfEmployees = null;
 	private ArrayList<User> inDepartment;
@@ -59,6 +68,7 @@ public class EmployeesController implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		pMsg.setVisible(false);
 		inDepartment = new ArrayList<User>();
 		outSideDepartment = new ArrayList<User>(); 
     	ObjectManager viewEmployees = new ObjectManager(arralistOfEmployees, MsgEnum.VIEW_EMPLOYEES);
@@ -87,8 +97,17 @@ public class EmployeesController implements Initializable{
 		        setGraphic(btn);
 		        btn.setOnAction(
 		            event -> {
-		            	tblToAdd.getItems().add(user);
-		            	getTableView().getItems().remove(user);
+		            	String role = user.getRole();
+		            	if(role.equals("Inspector") || role.equals("Manager") || role.equals("Review Leader") || role.equals("Review Member")) {
+		            		Alert alert = new Alert(AlertType.INFORMATION);
+		                	alert.setTitle("Unable to remove "+ role);
+		                	alert.setHeaderText("You are trying to remove "+role + " Employee");
+		                	alert.setContentText("First, remove the role of this employee by choosing the Permission tab, and then you will be able to remove him.");
+		                	alert.showAndWait();
+		            	}else {
+		            		tblToAdd.getItems().add(user);
+			            	getTableView().getItems().remove(user);
+		            	}
 		            }
 		        );
 		    }
@@ -106,7 +125,6 @@ public class EmployeesController implements Initializable{
 		            setGraphic(null);
 		            return;
 		        }
-
 		        setGraphic(btn);
 		        btn.setOnAction(
 		            event -> {
@@ -130,8 +148,41 @@ public class EmployeesController implements Initializable{
 			List = FXCollections.observableArrayList(outSideDepartment);
 			tblToAdd.setItems(List);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	/**
+	 * Updates the department employees with changes.
+	 * @param event When click on button
+	 */
+	@FXML
+    private void onUpdateDepartmentClick(ActionEvent event) { 
+		ArrayList<User> changed = new ArrayList<User>(); //contains all changes in department to perform
+		//users inside department
+		for(User u : inDepartment) {
+			if(tblToAdd.getItems().contains(u)) { //check if employee removed from department
+				u.setDepartment("");		//update this user department
+				changed.add(u);
+			}
+		}
+		//users outside department
+		for(User u : outSideDepartment) {
+			if(tblEmployees.getItems().contains(u)) { //check if employee added to department
+				u.setDepartment("Information Technology");		//update this user department
+				changed.add(u);
+			}
+		}
+		if(changed.isEmpty()) { //if nothing changed
+			GuiManager.showError(lblMsg, pMsg, "No Changes Detected");
+		}else {
+			GuiManager.showSuccess(lblMsg, pMsg, "Department Updated Successfuly!");
+			
+			for(User u : changed) {
+				if(inDepartment.contains(u))inDepartment.remove(u);
+				else inDepartment.add(u);
+				if(outSideDepartment.contains(u)) outSideDepartment.remove(u);
+				else outSideDepartment.add(u);
+			}
 		}
 	}
 	
