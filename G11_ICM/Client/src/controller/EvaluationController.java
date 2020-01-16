@@ -18,7 +18,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-
+/**
+ * 
+ * the controller of evaluation view
+ *
+ */
 public class EvaluationController implements Initializable{
 
     @FXML
@@ -51,26 +55,43 @@ public class EvaluationController implements Initializable{
     private static EvaluationReport report;
 	
     
-    
+    /**
+     * get the report that was submitted
+     * @return get the report that was submitted
+     */
     public static EvaluationReport getReport() {
 		return report;
 	}
-
+/**
+ * set the report that was submitted
+ * @param report - the report that was submitted
+ */
 	public static void setReport(EvaluationReport report) {
 		EvaluationController.report = report;
 	}
-
+/**
+ * a flag the tells if there is previews evaluation report(when request goes from review back to evaluation)
+ * @return a flag the tells if there is previews evaluation report(when request goes from review back to evaluation)
+ */
 	public static boolean isPreviousReport() {
 		return previousReport;
 	}
-
+/**
+ * a flag the tells if there is previews evaluation report(when request goes from review back to evaluation)
+ * @param previousReport
+ */
 	public static void setPreviousReport(boolean previousReport) {
 		EvaluationController.previousReport = previousReport;
 	}
 
+	/**
+	 * this function is called when the user click evaluate button
+	 * @param event
+	 */
     @FXML
     void clickEvaluate(ActionEvent event) {
     	
+    	//empty report
     	if(checkInput()) {
     		lblErr.setVisible(true);
     		lblErr.setTextFill(Color.RED);
@@ -78,6 +99,7 @@ public class EvaluationController implements Initializable{
     		return;
     	}
     	
+    	//build the report
     	EvaluationReport temp = new EvaluationReport();
     	temp.setDescription(tbDescription.getText());
     	temp.setLocation(tbLocation.getText());
@@ -86,9 +108,11 @@ public class EvaluationController implements Initializable{
     	temp.setTime(tbTime.getText());
     	temp.setIdReq(ProcessesController.getSelectedID());
     	
+    	//sending the report to server
     	ObjectManager msg = new ObjectManager(temp, MsgEnum.ADD_EV_REPORT);
     	client.handleMessageFromClientUI(msg);
     	
+    	//waiting for the server
     	try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
@@ -96,6 +120,7 @@ public class EvaluationController implements Initializable{
 			e.printStackTrace();
 		}
     	
+    	//telling the user the report was submitted 
     	lblErr.setVisible(true);
     	lblErr.setTextFill(Color.GREEN);
     	lblErr.setText("Evaluation report added successfully!");
@@ -103,11 +128,19 @@ public class EvaluationController implements Initializable{
 
     }
 
+    /**
+     * show the evaluator the reuqet's detailes
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void clickInfo(ActionEvent event) throws IOException { //raise popup with selected request details
     	GuiManager.popUpLoader("RequestView", ProcessesController.getSelectedID());
     }
-
+/**
+ * checking if there is previous report,
+ * if there is: show him that report
+ */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
@@ -136,7 +169,9 @@ public class EvaluationController implements Initializable{
 		
 		
 	}
-	
+	/**
+	 * clear all the fields in the form
+	 */
 	public void clearAll() {
 		tbDescription.clear();
 		tbLocation.clear();

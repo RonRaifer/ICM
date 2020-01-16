@@ -13,7 +13,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
-
+/**
+ * 
+ * the controller of the checking view
+ *
+ */
 public class CheckingController implements Initializable {
 
     @FXML
