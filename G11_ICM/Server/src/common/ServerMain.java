@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -29,6 +30,8 @@ public class ServerMain  extends Application{
 		controller.initData(InetAddress.getLocalHost().getHostAddress().toString());
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
+        primaryStage.getIcons().add(new Image("/boundary/guifiles/img/icmLogo.png"));
+        primaryStage.setTitle("ICM Server Dashboard");
         primaryStage.setMaximized(false);
         primaryStage.setResizable(false);  
         primaryStage.show();

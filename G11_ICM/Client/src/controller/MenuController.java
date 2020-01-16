@@ -90,21 +90,25 @@ public class MenuController implements Initializable{
 	
 	@FXML
     void homeClick(ActionEvent event) {
+		menuStage.setTitle("ICM -> Home");
 		sceneManager("HomePane", btnHome);
     }
 	 
     @FXML
     void messagesClick(ActionEvent event) {
+    	menuStage.setTitle("ICM -> Messages");
     	sceneManager("MessagesPane", btnMessages);
     }
 
     @FXML
     void myRequestsClick(ActionEvent event) {
+    	menuStage.setTitle("ICM -> My Requests");
     	sceneManager("MyRequestsPane", btnMyRequests);
     }
 
     @FXML
     void newRequestClick(ActionEvent event) {
+    	menuStage.setTitle("ICM -> New Request");
     	sceneManager("NewRequestPane", btnNewRequest);
 	}
     
@@ -115,6 +119,7 @@ public class MenuController implements Initializable{
     
     @FXML
     void processesClick(ActionEvent event) {
+    	menuStage.setTitle("ICM -> Processes");
     	buttonStyle(btnProcesses);
     	if(user.getRole().compareTo("Inspector") == 0) { //if user is Inspector
     		sceneManager("ProcessPaneInspector", btnProcesses); 
@@ -139,10 +144,12 @@ public class MenuController implements Initializable{
 
     @FXML
     void reportsClick(ActionEvent event) {
+    	menuStage.setTitle("ICM -> Reports");
     	sceneManager("ReportsPane", btnReports);
     }
     @FXML
     void employeesClick(ActionEvent event) {
+    	menuStage.setTitle("ICM -> Employees");
     	sceneManager("EmployeesPane", btnEmployees);
     }
     

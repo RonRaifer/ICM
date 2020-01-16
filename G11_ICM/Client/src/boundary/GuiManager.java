@@ -61,6 +61,8 @@ public class GuiManager {
 				controller.initData(user, stage);
 	            Scene scene = new Scene(root);
 	            stage.setScene(scene);
+	            stage.getIcons().add(new Image("/boundary/guifiles/img/icmLogo.png"));
+	            stage.setTitle("ICM -> ");
 	            stage.setResizable(false);  
 	            stage.setX(bounds.getMinX());
 	    		stage.setY(bounds.getMinY());
