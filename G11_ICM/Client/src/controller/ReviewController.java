@@ -38,7 +38,10 @@ public class ReviewController implements Initializable {
     //attributes
     private ClientConnector client = ConnectionController.getClient();
     private static EvaluationReport report;
-    
+    private static ProcessesController d;
+    public static void setCont(ProcessesController p) {
+    	d=p;
+    }
     
     
     public static EvaluationReport getReport() {
@@ -61,7 +64,7 @@ public class ReviewController implements Initializable {
 	
     @FXML
     void clickInfo(ActionEvent event) {
-    	ObjectManager msg = new ObjectManager(ProcessesController.getSelectedID(), MsgEnum.MORE_INFO_REVIEW);
+    	ObjectManager msg = new ObjectManager(ProcessesController.getSelected().getIdrequest(), MsgEnum.MORE_INFO_REVIEW);
     	client.handleMessageFromClientUI(msg);
     	
     	try {
@@ -74,7 +77,7 @@ public class ReviewController implements Initializable {
     	lblStatus.setVisible(true);
     	lblStatus.setTextFill(Color.GREEN);
     	lblStatus.setText("Request is now in Evaluation stage again");
-    	
+    	d.getCont().removeSelected(ProcessesController.getSelected()); //remove object from table
     	tbReport.clear();
     	
     }
@@ -85,7 +88,7 @@ public class ReviewController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 		lblStatus.setVisible(false);
-		ObjectManager msg = new ObjectManager(ProcessesController.getSelectedID(), MsgEnum.GET_EV_REPORT);
+		ObjectManager msg = new ObjectManager(ProcessesController.getSelected().getIdrequest(), MsgEnum.GET_EV_REPORT);
 		client.handleMessageFromClientUI(msg);
 		
 		try {

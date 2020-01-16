@@ -30,7 +30,10 @@ public class CheckingController implements Initializable {
     
     //attributes
     private ClientConnector client = ConnectionController.getClient();
-
+    private static ProcessesController d;
+    public static void setCont(ProcessesController p) {
+    	d=p;
+    }
     /**
      * this function is called when "approve" button is clicked, and cause the request
      * to move from Checking to Closing
@@ -38,7 +41,7 @@ public class CheckingController implements Initializable {
      */
     @FXML
     void clickApprove(ActionEvent event) {
-    	ObjectManager msg = new ObjectManager(ProcessesController.getSelectedID(), MsgEnum.APPROVE_CHECKING);
+    	ObjectManager msg = new ObjectManager(ProcessesController.getSelected().getIdrequest(), MsgEnum.APPROVE_CHECKING);
     	client.handleMessageFromClientUI(msg);
     	
     	try {
@@ -51,6 +54,7 @@ public class CheckingController implements Initializable {
     	lblStatus.setVisible(true);
     	lblStatus.setText("Your approval has been regisetered");
     	lblStatus.setTextFill(Color.GREEN);
+    	d.getCont().removeSelected(ProcessesController.getSelected()); //remove object from table
     }
 
     /**
@@ -67,9 +71,9 @@ public class CheckingController implements Initializable {
     		lblStatus.setTextFill(Color.RED);
     		return;
     	}
-    	System.out.println(ProcessesController.getSelectedID()+"*"+tbFailure.getText());
+    	System.out.println(ProcessesController.getSelected().getIdrequest()+"*"+tbFailure.getText());
     	
-    	String str = ProcessesController.getSelectedID()+"_"+tbFailure.getText();
+    	String str = ProcessesController.getSelected().getIdrequest()+"_"+tbFailure.getText();
     	String arr[] = str.split("_");
     	System.out.println(arr[0]+""+arr[1]);
     	ObjectManager msg = new ObjectManager(str, MsgEnum.REJECT_CHECKING);
@@ -85,6 +89,7 @@ public class CheckingController implements Initializable {
     	lblStatus.setVisible(true);
     	lblStatus.setText("Your failure has been regisetered");
     	lblStatus.setTextFill(Color.GREEN);
+    	d.getCont().removeSelected(ProcessesController.getSelected());
     	tbFailure.clear();
 
     }

@@ -24,15 +24,18 @@ public class ExecutionController implements Initializable {
     
     @FXML
     private Label lblInfo;
-
+    
 
     //attributes
     private ClientConnector client = ConnectionController.getClient();
     private static String info;
-    
+    private static ProcessesController d;
+    public static void setCont(ProcessesController p) {
+    	d=p;
+    }
     @FXML
     void clickDone(ActionEvent event) {
-    	ObjectManager msg = new ObjectManager(ProcessesController.getSelectedID(),MsgEnum.EXECUTION_DONE);
+    	ObjectManager msg = new ObjectManager(ProcessesController.getSelected().getIdrequest(),MsgEnum.EXECUTION_DONE);
     	client.handleMessageFromClientUI(msg);
     	
     	try {
@@ -46,6 +49,7 @@ public class ExecutionController implements Initializable {
     	lblInfo.setVisible(true);
     	lblInfo.setText("Your approval has been regisetered");
     	lblInfo.setTextFill(Color.GREEN);
+    	d.getCont().removeSelected(ProcessesController.getSelected()); //remove object from table
     	tbInfo.clear();
     	
     }
@@ -54,7 +58,7 @@ public class ExecutionController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		lblInfo.setVisible(false);
-		ObjectManager msg = new ObjectManager(ProcessesController.getSelectedID(), MsgEnum.GET_CHANGE_INFO);
+		ObjectManager msg = new ObjectManager(ProcessesController.getSelected().getIdrequest(), MsgEnum.GET_CHANGE_INFO);
 		client.handleMessageFromClientUI(msg);
 		
 		try {
