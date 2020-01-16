@@ -48,7 +48,7 @@
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                   <TableView fx:id="tblTimeDetermine1" onMouseClicked="#onItemClick" prefHeight="443.0" prefWidth="656.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                   <TableView fx:id="tblTimeDetermine1" layoutX="22.2" layoutY="22.2" onMouseClicked="#onItemClick" prefHeight="517.0" prefWidth="506.0" AnchorPane.bottomAnchor="41.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="11.0">
                                        <columns>
                                           <TableColumn fx:id="col_requestId1" prefWidth="96.0" text="Request ID" />
                                           <TableColumn fx:id="col_stage1" prefWidth="139.0" text="Stage" />
@@ -56,6 +56,8 @@
                                           <TableColumn fx:id="col_timeLeft" prefWidth="123.0" text="Time Left" />
                                        </columns>
                                     </TableView>
+                                    <Button fx:id="btnExtend" layoutX="22.0" layoutY="530.0" mnemonicParsing="false" text="Extend" visible="false" />
+                                    <TextField fx:id="tbExtend" layoutX="84.0" layoutY="530.0" prefHeight="27.0" prefWidth="423.0" promptText="Reason For Extnending" visible="false" />
                                  </children>
                               </AnchorPane>
                           </content>
