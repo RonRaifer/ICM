@@ -12,6 +12,8 @@ import entity.EvaluationReport;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -124,10 +126,14 @@ public class EvaluationController implements Initializable{
 			e.printStackTrace();
 		}
     	
-    	//telling the user the report was submitted 
-    	lblErr.setVisible(true);
-    	lblErr.setTextFill(Color.GREEN);
-    	lblErr.setText("Evaluation report added successfully!");
+    	
+    	Alert alert = new Alert(AlertType.INFORMATION);
+    	alert.setTitle("Information Dialog");
+    	alert.setHeaderText(null);
+    	alert.setContentText("Evaluation report added successfully!");
+
+    	alert.showAndWait();
+    	
     	d.getCont().removeSelected(ProcessesController.getSelected()); //remove object from table
     	clearAll();
 
