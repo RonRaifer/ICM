@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="753.0" prefWidth="1236.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EmployeesController">
+<AnchorPane prefHeight="753.0" prefWidth="1363.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EmployeesController">
    <children>
       <AnchorPane layoutX="17.0" prefHeight="85.0" prefWidth="201.0">
          <children>
@@ -34,13 +34,13 @@
             </Label>
          </children>
       </AnchorPane>
-      <TabPane layoutX="32.0" layoutY="105.0" prefHeight="575.0" prefWidth="1121.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="32.0" layoutY="105.0" prefHeight="575.0" prefWidth="1292.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Add Workers To Department">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TitledPane animated="false" collapsible="false" layoutX="14.0" layoutY="14.0" prefHeight="506.0" prefWidth="583.0" text="Workers List">
+                        <TitledPane animated="false" collapsible="false" layoutX="14.0" layoutY="14.0" prefHeight="506.0" prefWidth="665.0" text="Employees At Information Technology Department">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -49,29 +49,35 @@
                                         <TableColumn fx:id="col_id" prefWidth="72.00000154972076" resizable="false" sortable="false" text="ID" />
                                         <TableColumn fx:id="col_name" prefWidth="107.99996185302734" resizable="false" text="Name" />
                                           <TableColumn fx:id="col_lastName" prefWidth="139.79996948242183" resizable="false" text="Last Name" />
-                                          <TableColumn fx:id="col_department" prefWidth="143.99993896484375" resizable="false" text="Department" />
-                                          <TableColumn fx:id="col_options" prefWidth="75.0" sortable="false" text="Options" />
+                                          <TableColumn fx:id="col_role" prefWidth="143.99993896484375" resizable="false" text="Role" />
+                                          <TableColumn fx:id="col_options" prefWidth="174.5999999999999" sortable="false" text="Options" />
                                       </columns>
                                     </TableView>
                                  </children>
                               </AnchorPane>
                           </content>
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
                         </TitledPane>
-                        <TitledPane animated="false" collapsible="false" layoutX="662.0" layoutY="12.0" prefHeight="506.0" prefWidth="444.0" text="Employee Info and Options">
+                        <TitledPane animated="false" collapsible="false" layoutX="719.0" layoutY="14.0" prefHeight="506.0" prefWidth="552.0" text="Outside Information Technology Department">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
                                     <TableView fx:id="tblToAdd" editable="true" prefHeight="480.0" prefWidth="442.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <columns>
-                                          <TableColumn fx:id="col_id1" prefWidth="72.00000154972076" resizable="false" sortable="false" text="ID" />
-                                          <TableColumn fx:id="col_name1" prefWidth="107.99996185302734" resizable="false" text="Name" />
-                                          <TableColumn fx:id="col_lastName1" prefWidth="139.79996948242183" resizable="false" text="Last Name" />
-                                          <TableColumn fx:id="col_options1" prefWidth="75.0" sortable="false" text="Options" />
+                                          <TableColumn fx:id="col_idToAdd" prefWidth="72.00000154972076" resizable="false" sortable="false" text="ID" />
+                                          <TableColumn fx:id="col_nameToAdd" prefWidth="107.99996185302734" resizable="false" text="Name" />
+                                          <TableColumn fx:id="col_lastNameToAdd" prefWidth="139.79996948242183" resizable="false" text="Last Name" />
+                                          <TableColumn fx:id="col_optionsToAdd" prefWidth="205.59993896484366" sortable="false" text="Options" />
                                        </columns>
                                     </TableView>
                                  </children>
                               </AnchorPane>
                            </content>
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
                         </TitledPane>
                      </children>
                   </AnchorPane>

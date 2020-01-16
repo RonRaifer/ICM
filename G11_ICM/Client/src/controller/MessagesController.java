@@ -14,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -32,10 +33,12 @@ public class MessagesController implements Initializable
 	    @FXML
 	    private TableColumn<Messages, String> optionsColumn;
 	    
+	    @FXML
+	    private Label lblNoMessages;
 	    
-	    private static ClientConnector client;
+	    private ClientConnector client = ConnectionController.getClient();
 	    private static ObservableList<Messages> List = FXCollections.observableArrayList();
-	    private static ArrayList<Messages> arralistofmessages;
+	    private static ArrayList<Messages> arralistofmessages = null;
 	    
 	    public static void setListOfMessages(ArrayList<Messages> array) {
 	    	arralistofmessages = new ArrayList<>(array);
@@ -43,16 +46,20 @@ public class MessagesController implements Initializable
 	    }
 		@Override
 		public void initialize(URL arg0, ResourceBundle arg1) {
+			lblNoMessages.setVisible(false);
 	    	ObjectManager viewMesages = new ObjectManager(LoginController.getLoggedUser(), MsgEnum.VIEW_MESSAGES);
-	    	ConnectionController.getClient().handleMessageFromClientUI(viewMesages);
+	    	client.handleMessageFromClientUI(viewMesages);
 	    	
 	    	dateColumn.setCellValueFactory(new PropertyValueFactory<>("dateMessage"));
 			titleColumn.setCellValueFactory(new PropertyValueFactory<>("titleMessage"));
 			optionsColumn.setCellValueFactory(new PropertyValueFactory<>("idMessage"));
 	    	try {
-				Thread.sleep(1500);
-				List = FXCollections.observableArrayList(arralistofmessages);
-				tblMessages.setItems(List);
+				Thread.sleep(1000);
+				if(arralistofmessages.isEmpty()) lblNoMessages.setVisible(true);
+				else {
+					List = FXCollections.observableArrayList(arralistofmessages);
+					tblMessages.setItems(List);
+				}
 				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
