@@ -28,11 +28,13 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -198,6 +200,14 @@ public class NewRequestController implements Initializable{
         req.setIdReq(idfromserver.toString());
         
         //Handling files
+        
+        
+
+        Alert alert = new Alert(AlertType.INFORMATION);
+    	alert.setTitle("Information Dialog");
+    	alert.setHeaderText(null);
+    	alert.setContentText("Your request has been submitted!");
+    	alert.showAndWait();
 
         //in case of no files
         if(files.isEmpty())
@@ -226,6 +236,9 @@ public class NewRequestController implements Initializable{
         ObjectManager filesMsg = new ObjectManager(myDocuments, MsgEnum.ADD_FILES);
         client.handleMessageFromClientUI(filesMsg);
        
+        
+       
+    	alert.showAndWait();
         
         clearAll();
          

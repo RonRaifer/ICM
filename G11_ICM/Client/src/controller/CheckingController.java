@@ -9,9 +9,11 @@ import common.ObjectManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
 /**
  * 
@@ -55,10 +57,13 @@ public class CheckingController implements Initializable {
 			e.printStackTrace();
 		}
     	
-    	lblStatus.setVisible(true);
-    	lblStatus.setText("Your approval has been regisetered");
-    	lblStatus.setTextFill(Color.GREEN);
-    	d.getCont().removeSelected(ProcessesController.getSelected()); //remove object from table
+    	Alert alert = new Alert(AlertType.INFORMATION);
+    	alert.setTitle("Information Dialog");
+    	alert.setHeaderText(null);
+    	alert.setContentText("Your approval has been submitted");
+    	alert.showAndWait();
+    	
+    	d.getCont().removeSelected(ProcessesController.getSelected());
     }
 
     /**
@@ -75,11 +80,11 @@ public class CheckingController implements Initializable {
     		lblStatus.setTextFill(Color.RED);
     		return;
     	}
-    	System.out.println(ProcessesController.getSelected().getIdrequest()+"*"+tbFailure.getText());
+    	
     	
     	String str = ProcessesController.getSelected().getIdrequest()+"_"+tbFailure.getText();
-    	String arr[] = str.split("_");
-    	System.out.println(arr[0]+""+arr[1]);
+    	
+    	
     	ObjectManager msg = new ObjectManager(str, MsgEnum.REJECT_CHECKING);
     	client.handleMessageFromClientUI(msg);
     	
@@ -90,11 +95,14 @@ public class CheckingController implements Initializable {
 			e.printStackTrace();
 		}
     	
-    	lblStatus.setVisible(true);
-    	lblStatus.setText("Your failure has been regisetered");
-    	lblStatus.setTextFill(Color.GREEN);
+    	
+    	Alert alert = new Alert(AlertType.INFORMATION);
+    	alert.setTitle("Information Dialog");
+    	alert.setHeaderText(null);
+    	alert.setContentText("Evaluation report added successfully!");
+    	alert.showAndWait();
+    	
     	d.getCont().removeSelected(ProcessesController.getSelected());
-    	tbFailure.clear();
 
     }
 /**
