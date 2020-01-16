@@ -120,7 +120,7 @@ public class ServerController {
 	 * @param state The name of state to show on button
 	 */
 	private void setButtonConnectionState(String state) {
-		Image iconState = new Image(getClass().getResourceAsStream("../boundary/guifiles/icons/" + state +  ".png"));
+		Image iconState = new Image(getClass().getResourceAsStream("/boundary/guifiles/icons/" + state +  ".png"));
 		ImageView iv = new ImageView(iconState);
 		iv.setFitWidth(40);
 		iv.setFitHeight(40);
