@@ -53,8 +53,12 @@ public class EvaluationController implements Initializable{
     private ClientConnector client = ConnectionController.getClient();
     private static boolean previousReport;
     private static EvaluationReport report;
-	
-    
+	  private static ProcessesController d;
+   
+    public static void setCont(ProcessesController p) {
+    	d=p;
+    }
+
     /**
      * get the report that was submitted
      * @return get the report that was submitted
@@ -106,7 +110,7 @@ public class EvaluationController implements Initializable{
     	temp.setResult(tbResult.getText());
     	temp.setRisk(tbRisk.getText());
     	temp.setTime(tbTime.getText());
-    	temp.setIdReq(ProcessesController.getSelectedID());
+    	temp.setIdReq(ProcessesController.getSelected().getIdrequest());
     	
     	//sending the report to server
     	ObjectManager msg = new ObjectManager(temp, MsgEnum.ADD_EV_REPORT);
@@ -124,6 +128,7 @@ public class EvaluationController implements Initializable{
     	lblErr.setVisible(true);
     	lblErr.setTextFill(Color.GREEN);
     	lblErr.setText("Evaluation report added successfully!");
+    	d.getCont().removeSelected(ProcessesController.getSelected()); //remove object from table
     	clearAll();
 
     }
@@ -135,7 +140,7 @@ public class EvaluationController implements Initializable{
      */
     @FXML
     void clickInfo(ActionEvent event) throws IOException { //raise popup with selected request details
-    	GuiManager.popUpLoader("RequestView", ProcessesController.getSelectedID());
+    	GuiManager.popUpLoader("RequestView", ProcessesController.getSelected().getIdrequest());
     }
 /**
  * checking if there is previous report,
@@ -148,7 +153,7 @@ public class EvaluationController implements Initializable{
 		
 		
 		//checking if there is previous evaluation report
-		ObjectManager msg = new ObjectManager(ProcessesController.getSelectedID(), MsgEnum.CHECK_PRE_EV);
+		ObjectManager msg = new ObjectManager(ProcessesController.getSelected().getIdrequest(), MsgEnum.CHECK_PRE_EV);
 		client.handleMessageFromClientUI(msg);
 		
 		try {

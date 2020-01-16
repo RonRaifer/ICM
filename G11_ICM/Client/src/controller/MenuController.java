@@ -115,10 +115,25 @@ public class MenuController implements Initializable{
     
     @FXML
     void processesClick(ActionEvent event) {
+    	buttonStyle(btnProcesses);
     	if(user.getRole().compareTo("Inspector") == 0) { //if user is Inspector
     		sceneManager("ProcessPaneInspector", btnProcesses); 
     	}
-    	else {sceneManager("ProcessesPane", btnProcesses);}
+    	else {
+    		//sceneManager("ProcessesPane", btnProcesses);
+    		FXMLLoader loader = new FXMLLoader();
+    		try {
+    			AnchorPane newLoadedPane;
+    			loader.setLocation(controller.ProcessesController.class.getResource("/boundary/guifiles/ProcessesPane.fxml"));
+    			newLoadedPane =  loader.load();
+    			ProcessesController pController = loader.getController();
+    			pController.initData(pController);
+    			apCenterContent.getChildren().clear();
+    			apCenterContent.getChildren().add(newLoadedPane);
+    			} catch (IOException e) {
+						e.printStackTrace();
+				}		
+    	}
     	
     }
 
@@ -136,19 +151,15 @@ public class MenuController implements Initializable{
         try {
         	AnchorPane newLoadedPane; 
 			newLoadedPane =  FXMLLoader.load(getClass().getResource("/boundary/guifiles/ProfilePane.fxml"));
-			 apCenterContent.getChildren().clear();
-		        apCenterContent.getChildren().add(newLoadedPane);
+			apCenterContent.getChildren().clear();
+		    apCenterContent.getChildren().add(newLoadedPane);
 		} catch (IOException ex) {
 			Logger.getLogger(EnterController.class.getName()).log(Level.SEVERE, null, ex);
 		}
     }
 	
 	private void sceneManager(String fxmlName, Button button) {
-		if(button.equals(btnTemp)) return;
-		button.getStyleClass().add("btnClicked");
-		btnTemp.getStyleClass().clear();
-		btnTemp.getStyleClass().add("button");
-		btnTemp = button;
+		buttonStyle(button);
 		try 
         {
             AnchorPane newLoadedPane;  
@@ -159,6 +170,17 @@ public class MenuController implements Initializable{
         catch (IOException ex) {
             Logger.getLogger(EnterController.class.getName()).log(Level.SEVERE, null, ex);
         }
+	}
+	/**
+	 * Changes the style of button when pressed
+	 * @param button The pressed button
+	 */
+	private void buttonStyle(Button button) {
+		if(button.equals(btnTemp)) return;
+		button.getStyleClass().add("btnClicked");
+		btnTemp.getStyleClass().clear();
+		btnTemp.getStyleClass().add("button");
+		btnTemp = button;
 	}
 	private void logoutUser() {
 		ColorAdjust adj = new ColorAdjust(0, -0.2, -0.1, 0);
