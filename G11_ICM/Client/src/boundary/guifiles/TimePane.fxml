@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="528.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TimeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="569.0" prefWidth="528.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TimeController">
    <children>
       <Label layoutX="157.0" layoutY="39.0" text="Request Time For Stage:" textAlignment="CENTER" underline="true">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="36.0" layoutY="95.0" text="Time:">
+      <Label fx:id="lblTime" layoutX="36.0" layoutY="95.0" text="Time:">
          <font>
             <Font size="14.0" />
          </font>

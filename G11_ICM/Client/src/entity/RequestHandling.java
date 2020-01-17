@@ -18,6 +18,8 @@ public class RequestHandling implements Serializable{
 	private String currentStage;
 	private String status;
 	private String timeNum;
+	private String TimeNeeded;
+	private String extendReason;
 /**
  * constructor with the following fields
  * @param idrequest
@@ -32,12 +34,23 @@ public class RequestHandling implements Serializable{
 		this.executionTime = executionTime;
 		this.currentStage = currentStage;
 		this.status = status;
+		
 	}
 
 	public RequestHandling() {
 		
 	}
 	
+
+	
+public String getExtendReason() {
+		return extendReason;
+	}
+
+	public void setExtendReason(String extendReason) {
+		this.extendReason = extendReason;
+	}
+
 public String getTimeNum() {
 	return timeNum;
 }
@@ -50,6 +63,14 @@ public void setTimeNum(String timeNum) {
 
 
 
+
+public String getTimeNeeded() {
+	return TimeNeeded;
+}
+
+public void setTimeNeeded(String timeNeeded) {
+	TimeNeeded = timeNeeded;
+}
 
 /**
  * the id of the request this stage belongs to

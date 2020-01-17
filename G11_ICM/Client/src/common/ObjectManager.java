@@ -22,7 +22,7 @@ public class ObjectManager implements Serializable {
 	private ArrayList<?> array;
 	private EvaluationReport evReport;
 	private ActionsNeeded action;
-
+	private RequestHandling selected;
   
   
 	public boolean isEvFlag() {
@@ -95,6 +95,12 @@ public class ObjectManager implements Serializable {
 		setArray(array);
 	}
 
+	public ObjectManager(RequestHandling selected, MsgEnum msgEnum) {
+		this.selected = selected;
+		this.msgEnum= msgEnum;
+		
+	}
+
 	public List<Document> getListOfFiles(){
 		return listOfFiles;
 	}
@@ -128,5 +134,14 @@ public class ObjectManager implements Serializable {
 	public ActionsNeeded getAction() {
 		return action;
 	}
+
+	public RequestHandling getSelected() {
+		return selected;
+	}
+
+	public void setSelected(RequestHandling selected) {
+		this.selected = selected;
+	}
+	
 
 }
