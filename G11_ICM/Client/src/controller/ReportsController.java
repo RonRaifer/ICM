@@ -1,8 +1,16 @@
 package controller;
 
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import entity.ActivityReport;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -10,7 +18,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 
-public class ReportsController {
+public class ReportsController implements Initializable {
 	@FXML
     private Label lblPageName;
 
@@ -24,7 +32,7 @@ public class ReportsController {
     private Button btnGenerateReport;
 
     @FXML
-    private AnchorPane Duration;
+    private AnchorPane duration;
     @FXML
     private TableView<ActivityReport> tblActivityReports;
 
@@ -36,6 +44,18 @@ public class ReportsController {
 
     @FXML
     void generateNewReport(ActionEvent event) {
-
+    	
     }
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		duration.setVisible(false);
+		List<String> reportsList= new ArrayList<String>();
+		reportsList.add("Activity report");
+		reportsList.add("Performance report");
+		reportsList.add("Performance behind report");
+		ObservableList<String> obList=FXCollections.observableList(reportsList);
+		cmbReports.getItems().clear();
+		cmbReports.setItems(obList);
+	}
 }
