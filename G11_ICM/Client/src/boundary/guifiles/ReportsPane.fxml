@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="701.0" prefWidth="814.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MessagesController">
+<AnchorPane prefHeight="701.0" prefWidth="814.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReportsController">
    <children>
       <AnchorPane layoutX="17.0" prefHeight="85.0" prefWidth="201.0">
          <children>
@@ -39,7 +39,7 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="226.0" prefWidth="540.0" style="-fx-background-color: white;">
                <children>
-                  <ComboBox fx:id="cmbReports" layoutX="53.0" layoutY="56.0" prefWidth="150.0" promptText="Select Report" />
+                  <ComboBox fx:id="cmbReports" layoutX="53.0" layoutY="56.0" onAction="#onSelectedItem" prefWidth="150.0" promptText="Select Report" />
                   <Button fx:id="btnGenerateReport" layoutX="551.0" layoutY="121.0" mnemonicParsing="false" onAction="#generateNewReport" text="Generate report" />
                   <AnchorPane fx:id="duration" layoutX="220.0" layoutY="19.0" prefHeight="85.0" prefWidth="436.0">
                      <children>

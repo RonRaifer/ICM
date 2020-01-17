@@ -44,9 +44,25 @@ public class ReportsController implements Initializable {
 
     @FXML
     void generateNewReport(ActionEvent event) {
-    	
+    	if(cmbReports.getSelectionModel().isEmpty()) {
+    		//label nothing chose.
+    	}else {
+    		if(cmbReports.getSelectionModel().getSelectedItem().equals("Activity report")) {
+    			//do
+    		}
+    		if(cmbReports.getSelectionModel().getSelectedItem().equals("Performance report")) {
+    			//do
+    		}
+    	}
     }
-
+    @FXML
+    void onSelectedItem(ActionEvent event) {
+    	if(cmbReports.getSelectionModel().getSelectedItem().equals("Activity report")) {
+    		duration.setVisible(true);
+    	}else {
+    		duration.setVisible(false);
+    	}
+    }
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		duration.setVisible(false);
