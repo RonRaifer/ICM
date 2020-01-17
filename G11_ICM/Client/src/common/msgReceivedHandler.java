@@ -65,9 +65,6 @@ public class msgReceivedHandler {
 		case VIEW_PROCESSES:
 			ProcessesController.setListOfProcesses((ArrayList<RequestHandling>)objectManager.getArray());
 			break;
-		case VIEW_PROCESSES_TO_BE_DETERMINED:
-			ProcessesController.setListOfTimeRequests((ArrayList<RequestHandling>)objectManager.getArray());
-			break;	
 		case VIEW_REQUEST: //Gets Request by the idrequest send by user
 			RequestViewController.setRequest((Request)objectManager.getReques());
 			break;
