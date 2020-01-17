@@ -18,6 +18,7 @@ import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,6 +29,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
 public class MyRequestsController implements Initializable{
@@ -61,7 +63,8 @@ public class MyRequestsController implements Initializable{
 		private TableColumn<Request, Request> col_options;
 	    @FXML
 	    private Label lblStageInfo;
-
+	    @FXML
+	    private AnchorPane apLoading;
 	    
 	    //attributes
 	    private static ArrayList<Request> rsNotStarted;
@@ -148,52 +151,55 @@ public class MyRequestsController implements Initializable{
 		public void initialize(URL arg0, ResourceBundle arg1) {
 			lblStageInfo.setVisible(false);
 			lblStageInfo.setTextFill(Color.RED);
-			//sending id of user to server
-			ObjectManager requestsMsg1 = new ObjectManager(LoginController.getLoggedUser().getIdUser(), MsgEnum.GET_REQUESTS_BY_ID_STARTED);
-			client.handleMessageFromClientUI(requestsMsg1);
-			
-			idColumn.setCellValueFactory(new PropertyValueFactory<>("idReq"));
-			dateColumn.setCellValueFactory(new PropertyValueFactory<>("stageDueDate"));
-			stageColumn.setCellValueFactory(new PropertyValueFactory<>("currentStage"));
-			
-			ObjectManager requestsMsg2 = new ObjectManager(LoginController.getLoggedUser().getIdUser(), MsgEnum.GET_REQUESTS_BY_ID_NOSTARTED);
-			client.handleMessageFromClientUI(requestsMsg2);
-			col_options.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-			col_options.setCellFactory(param -> new TableCell<Request, Request>() { 
-				@FXML
-			    private final Button btn = new Button("View");
+			apLoading.setVisible(false);
+			requestTbl.setVisible(false);
+			Task<Void> task = new Task<Void>() {
+    	        @Override
+    	        public Void call() throws InterruptedException {
+    	        	//sending id of user to server
+    				ObjectManager requestsMsg1 = new ObjectManager(LoginController.getLoggedUser().getIdUser(), MsgEnum.GET_REQUESTS_BY_ID_STARTED);
+    				client.handleMessageFromClientUI(requestsMsg1);
+    				ObjectManager requestsMsg2 = new ObjectManager(LoginController.getLoggedUser().getIdUser(), MsgEnum.GET_REQUESTS_BY_ID_NOSTARTED);
+    				client.handleMessageFromClientUI(requestsMsg2);
+    				Thread.sleep(1000);
+    				
+    	       	   	return null;
+    	        }
+    	    };
+    	    task.setOnSucceeded(e -> {
+    	    	idColumn.setCellValueFactory(new PropertyValueFactory<>("idReq"));
+    			dateColumn.setCellValueFactory(new PropertyValueFactory<>("stageDueDate"));
+    			stageColumn.setCellValueFactory(new PropertyValueFactory<>("currentStage"));
+    			
+    			col_options.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+    			col_options.setCellFactory(param -> new TableCell<Request, Request>() { 
+    				@FXML
+    			    private final Button btn = new Button("View");
 
-			    protected void updateItem(Request req, boolean empty) {
-			        super.updateItem(req, empty);
+    			    protected void updateItem(Request req, boolean empty) {
+    			        super.updateItem(req, empty);
 
-			        if (req == null) {
-			            setGraphic(null);
-			            return;
-			        }
+    			        if (req == null) {
+    			            setGraphic(null);
+    			            return;
+    			        }
 
-			        setGraphic(btn);
-			        btn.setOnAction(
-			            event -> {
-			            	Platform.runLater(new Runnable() {
-			            	    @Override
-			            	    public void run() {
-			            	    	try {
-										GuiManager.popUpLoader("RequestView", req.getIdReq());
-									} catch (IOException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
-			            	    }
-			            	});
-			            }
-			        );
-			    }
-			});
-			try {
-				
-				Thread.sleep(1500);
-				
-				bothRS.addAll(rsStarted);
+    			        setGraphic(btn);
+    			        btn.setOnAction(
+    			            event -> {
+    			            	Platform.runLater(new Runnable() {
+    			            	    @Override
+    			            	    public void run() {
+    			            	    	try {
+    										GuiManager.popUpLoader("RequestView", req.getIdReq());
+    									} catch (IOException e) {e.printStackTrace();}
+    			            	    }
+    			            	});
+    			            }
+    			        );
+    			    }
+    			});
+    	    	bothRS.addAll(rsStarted);
 				bothRS.addAll(rsNotStarted);
 				
 				//the user does not have requests
@@ -205,17 +211,13 @@ public class MyRequestsController implements Initializable{
 				
 				List = FXCollections.observableArrayList(bothRS);
 				requestTbl.setItems(List);
-				
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			//taking care of started requests 
-			
-			
-			
-			
+				requestTbl.setVisible(true);
+				apLoading.setVisible(false);
+    	    });    
+    	    task.setOnRunning(event -> {
+    	    	apLoading.setVisible(true);
+    	    }); 
+    	    new Thread(task).start();
 		}
 
 		/**

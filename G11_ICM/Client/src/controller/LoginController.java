@@ -67,7 +67,7 @@ public class LoginController implements Initializable {
     					User user = new User(tbLoginID.getText(), tbPassowrd.getText());
     				    ObjectManager msg = new ObjectManager(user, MsgEnum.LOGIN);
     				    client.handleMessageFromClientUI(msg);
-    				    Thread.sleep(1500);
+    				    Thread.sleep(500);
 						return null;
     				}
     			};

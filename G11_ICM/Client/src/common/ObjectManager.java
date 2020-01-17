@@ -22,8 +22,6 @@ public class ObjectManager implements Serializable {
 	private ArrayList<?> array;
 	private EvaluationReport evReport;
 	private ActionsNeeded action;
-
-  
   
 	public boolean isEvFlag() {
 	return evFlag;

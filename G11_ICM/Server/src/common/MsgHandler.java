@@ -546,6 +546,38 @@ public class MsgHandler {
 				System.out.println("Request #"+objectManager.getMsgString()+" moved from: Review > Closing");
 			}
 			break;
+			
+		case UPDADE_DEPARTMENT:
+			ArrayList<?> depUpdate = objectManager.getArray();
+			for(Object u : depUpdate) {
+				User us = (User)u;
+				if(us.getDepartment().equals("Information Technology")) { //Add to department
+					query = "INSERT INTO employee VALUES ('"+us.getIdUser()+"' , 'Information Engineer', '');"; //add to employee table with role empty
+					dbHandler.executeUpdate(query);
+					query = "UPDATE user SET department = 'Information Technology' WHERE iduser = '"+us.getIdUser()+"';"; //update user's department
+					dbHandler.executeUpdate(query);
+				}else { //Remove from department
+					query = "DELETE FROM employee WHERE iduser = '" +us.getIdUser()+ "';"; //delete employee from employee department
+					dbHandler.executeUpdate(query);
+					query = "UPDATE user SET department = '"+us.getDepartment()+"' WHERE iduser = '"+us.getIdUser()+"';"; //update user's department
+					dbHandler.executeUpdate(query);
+				}
+			}
+			break;
+			
+		case VIEW_EMPLOYEES_WITH_ROLES:
+			ArrayList<User> empWithRoleArray = new ArrayList<User>();
+			query = "SELECT e.iduser, u.firstName, u.lastName, u.email, e.role FROM employee e, user u WHERE e.iduser=u.iduser AND e.iduser NOT IN "
+					+ "(SELECT iduser FROM employee WHERE role = '');";
+			rs = dbHandler.executeQ(query);
+			while (rs.next() == true) {
+				empWithRoleArray.add(new User(rs.getString("iduser"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("email"), rs.getString("role")));
+			}
+			if (empWithRoleArray.isEmpty())
+				System.out.println("No Employees with roles"); // change this to send error OR handle this in client side.
+			else
+				client.sendToClient(new ObjectManager(empWithRoleArray, MsgEnum.VIEW_EMPLOYEES_WITH_ROLES));
+			break;
 		default:
 			break;
 		}

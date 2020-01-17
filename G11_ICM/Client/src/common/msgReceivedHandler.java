@@ -84,6 +84,8 @@ public class msgReceivedHandler {
 		case SET_REVIEW_EXIST:
 			ReviewController.setReviewExist(objectManager.getMsgString());
 			break;
+		case VIEW_EMPLOYEES_WITH_ROLES:
+			EmployeesController.setListOfEmployees((ArrayList<User>)objectManager.getArray());
 		default:
 			break;
 		}
