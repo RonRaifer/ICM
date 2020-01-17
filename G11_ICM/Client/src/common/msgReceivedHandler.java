@@ -17,6 +17,7 @@ import controller.ProcessInspectorController;
 import controller.ProcessesController;
 import controller.RequestViewController;
 import controller.ReviewController;
+import controller.TimeController;
 import entity.ActionsNeeded;
 import entity.Messages;
 import entity.Request;
@@ -84,8 +85,17 @@ public class msgReceivedHandler {
 		case SET_REVIEW_EXIST:
 			ReviewController.setReviewExist(objectManager.getMsgString());
 			break;
+        
 		case VIEW_EMPLOYEES_WITH_ROLES:
 			EmployeesController.setListOfEmployees((ArrayList<User>)objectManager.getArray());
+		  break;
+		case SET_FLAG_TIMEC:
+			TimeController.setFlag(objectManager.getMsgString());
+			break;
+		case SET_EXTEND_PROCESSES:
+			ProcessesController.setFlag(objectManager.getMsgString());
+			break;
+
 		default:
 			break;
 		}

@@ -338,6 +338,8 @@ public class MsgHandler {
 				else {
 					temp.setExecutionTime(expectedDate);
 				}
+				temp.setStatus(rs.getString("status"));
+				temp.setIdCharge(rs.getString("idCharge"));
 				temp.setTimeNum(rs.getString("executionTime"));
 				processesArray.add(temp);
 			}
@@ -577,6 +579,53 @@ public class MsgHandler {
 				System.out.println("No Employees with roles"); // change this to send error OR handle this in client side.
 			else
 				client.sendToClient(new ObjectManager(empWithRoleArray, MsgEnum.VIEW_EMPLOYEES_WITH_ROLES));
+
+		case CHECK_TIME_SET:
+			query = "SELECT * FROM time_requests WHERE idRequest = '"+objectManager.getSelected().getIdrequest()+"'"+
+					"AND type = 'Time' AND currentStage = '"+objectManager.getSelected().getCurrentStage()+"'";
+			if(dbHandler.executeQ(query).next()) {
+				objectManager= new ObjectManager("True", MsgEnum.SET_FLAG_TIMEC);
+				
+			}
+			else {
+				objectManager= new ObjectManager("False", MsgEnum.SET_FLAG_TIMEC);
+			}
+			client.sendToClient(objectManager);
+			break;
+		
+		case ADD_TIME_REQ:
+			//INSERT INTO `q3t6Vm6bTC`.`time_requests` (`currentStage`, `idRequest`, `idCharge`, `timeRequested`, `type`) VALUES ('Evalution', '1', '123', '4', 'Time');
+
+			query = "INSERT INTO time_requests (`currentStage`, `idRequest`, `idCharge`, `timeRequested`, `type`) VALUES ('"+
+					objectManager.getSelected().getCurrentStage()+"','"+
+					objectManager.getSelected().getIdrequest()+"','"+
+					objectManager.getSelected().getIdCharge()+"','"+
+					objectManager.getSelected().getTimeNeeded()+"','Time')";
+			dbHandler.executeUpdate(query);
+			break;
+			
+		case CHECK_EXTEND:
+			query = "SELECT * FROM time_requests WHERE idRequest = '"+objectManager.getSelected().getIdrequest()+"'"+
+					"AND type = 'Extend' AND currentStage = '"+objectManager.getSelected().getCurrentStage()+"'";
+			if(dbHandler.executeQ(query).next()) {
+				objectManager= new ObjectManager("True", MsgEnum.SET_EXTEND_PROCESSES);
+				
+			}
+			else {
+				objectManager= new ObjectManager("False", MsgEnum.SET_EXTEND_PROCESSES);
+			}
+			client.sendToClient(objectManager);
+			break;
+			
+		case INSERT_EXTEND:
+			query = "INSERT INTO time_requests (`currentStage`, `idRequest`, `idCharge`, `timeRequested`, `type`, `reason`) VALUES ('"+
+					objectManager.getSelected().getCurrentStage()+"','"+
+					objectManager.getSelected().getIdrequest()+"','"+
+					objectManager.getSelected().getIdCharge()+"','"+
+					objectManager.getSelected().getTimeNeeded()+"','Extend','"+
+					objectManager.getSelected().getExtendReason()+"')";
+			System.out.println(query);
+			dbHandler.executeUpdate(query);
 			break;
 		default:
 			break;
