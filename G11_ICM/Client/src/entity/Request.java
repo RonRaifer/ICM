@@ -30,6 +30,7 @@ public class Request implements Serializable{
 	private String status;
 	private String currentStage;
 	private String stageDueDate;
+	private String totalTime;
 	/**
 	 * constructor with the following fields
 	 * @param idReq
@@ -41,9 +42,10 @@ public class Request implements Serializable{
 	 * @param opentDate
 	 * @param idUser
 	 * @param status
+	 * @param totalTime
 	 */
 	public Request(String idReq, String curState, String requestedChange, String purpose, String comments,
-			String system, String opentDate, String idUser, String status) {
+			String system, String opentDate, String idUser, String status, String totalTime) {
 		this.idReq = idReq;
 		this.curState = curState;
 		this.requestedChange = requestedChange;
@@ -53,6 +55,7 @@ public class Request implements Serializable{
 		this.opentDate = opentDate;
 		this.idUser = idUser;
 		this.status = status;
+		this.totalTime = totalTime;
 	}
 	/**
 	 * constructor with the following fields
@@ -243,7 +246,7 @@ public class Request implements Serializable{
 		list.add(opentDate);
 		list.add(idUser);
 		list.add(status);
-		
+		list.add(totalTime);
 		return list;
 	}
 	
