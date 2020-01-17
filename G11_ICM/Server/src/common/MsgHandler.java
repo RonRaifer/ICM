@@ -485,7 +485,7 @@ public class MsgHandler {
 		//Show employees [information engineers in Information Technology department] without role who can be appointed to stages charge
 		case VIEW_EMPLOYEES_TO_APPOINT:
 			ArrayList<User> employeeArray = new ArrayList<>();
-			query = "SELECT e.iduser, u.firstName, u.lastName, e.role FROM employee e, user u WHERE e.iduser=u.iduser AND e.role IS NULL;"; //Select only employees who have no roles.
+			query = "SELECT e.iduser, u.firstName, u.lastName, e.role FROM employee e, user u WHERE e.iduser=u.iduser AND e.role = '';"; //Select only employees who have no roles.
 			rs = dbHandler.executeQ(query);
 			
 			while (rs.next() == true) {
@@ -500,7 +500,7 @@ public class MsgHandler {
 		case APPOINT_STAGE_CHARGE:
 			query = "SELECT idrequest FROM request_handling WHERE idrequest = '"+objectManager.getAction().getIdrequest()+"';";
 			rs = dbHandler.executeQ(query);
-			if(!rs.next()) { //if request exists in request_handling
+			if(!rs.next()) { //if request does not exist in request_handling
 				query = "INSERT INTO request_handling VALUES ("+Integer.valueOf(objectManager.getAction().getIdrequest())+
 						", '"+ objectManager.getMsgString() +"', ''"+
 						", '"+ objectManager.getAction().getStage() +"', '');";
@@ -509,7 +509,7 @@ public class MsgHandler {
 			}
 			dbHandler.executeUpdate(query); //update stage charge and currentStage
 			query = "DELETE FROM actions_needed WHERE stage = '"+objectManager.getAction().getStage()+
-					"' AND idCharge = '"+ objectManager.getMsgString() +
+					"' AND idCharge = '"+ objectManager.getAction().getIdCharge() +
 					"' AND actionsNeeded = '"+objectManager.getAction().getActionsNeeded()+
 					"' AND idrequest = '"+objectManager.getAction().getIdrequest()+"';";
 			dbHandler.executeUpdate(query); //delete the action from table
