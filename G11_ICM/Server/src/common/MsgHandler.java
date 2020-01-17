@@ -349,7 +349,7 @@ public class MsgHandler {
 			rs = dbHandler.executeQ(query);
 			if (rs.next() == true) {
 				req = new Request(rs.getString("idrequest"), rs.getString("currentState"), rs.getString("changeRequested"), rs.getString("requestPurpose"), rs.getString("comments"),
-						rs.getString("ITSystem"), rs.getString("submissionDate"), rs.getString("iduser"), rs.getString("RequestStatus"));
+						rs.getString("ITSystem"), rs.getString("submissionDate"), rs.getString("iduser"), rs.getString("RequestStatus"), rs.getString("totalTime"));
 			}
 			if (req == null)
 				System.out.println("No such request for id"); // change this to send error OR handle this in client side.
@@ -370,17 +370,13 @@ public class MsgHandler {
 				er3.setRisk(rs3.getString(5));
 				er3.setTime(rs3.getString(6));
 				
-				client.sendToClient(new ObjectManager(er3, MsgEnum.CLIENT_EV_REP));
-				
+				client.sendToClient(new ObjectManager(er3, MsgEnum.CLIENT_EV_REP));	
 			}
 			else {
 				EvaluationReport erNull = null;
 				client.sendToClient(new ObjectManager(erNull,MsgEnum.CLIENT_EV_REP));
 			} 
-			
-			
-			
-			
+
 			break;
 			
 		case GET_EV_REPORT:
