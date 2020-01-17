@@ -38,7 +38,7 @@
          <children>
             <TitledPane collapsible="false" layoutX="7.0" layoutY="17.0" prefHeight="600.0" prefWidth="530.0" text="Process List">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="614.0" prefWidth="528.0">
                      <children>
                        <TableView fx:id="tblTimeDetermine1" layoutX="22.2" layoutY="22.2" onMouseClicked="#onItemClick" prefHeight="517.0" prefWidth="506.0" AnchorPane.bottomAnchor="41.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="11.0">
                            <columns>
@@ -49,7 +49,8 @@
                            </columns>
                         </TableView>
                         <Button fx:id="btnExtend" layoutX="22.0" layoutY="530.0" mnemonicParsing="false" onAction="#clickExtend" text="Extend" visible="false" />
-                        <TextField fx:id="tbExtend" layoutX="84.0" layoutY="530.0" prefHeight="27.0" prefWidth="423.0" promptText="Reason For Extnending" visible="false" />
+                        <TextField fx:id="tbExtend" layoutX="181.0" layoutY="530.0" prefHeight="27.0" prefWidth="325.0" promptText="Reason For Extnending" visible="false" />
+                        <TextField fx:id="tbTime" layoutX="92.0" layoutY="530.0" prefHeight="27.0" prefWidth="75.0" promptText="Dayes" visible="false" />
                      </children>
                   </AnchorPane>
               </content>
@@ -59,7 +60,7 @@
             </TitledPane>
             <TitledPane collapsible="false" layoutX="571.0" layoutY="18.0" prefHeight="600.0" prefWidth="530.0" text="Actions">
                <content>
-                  <AnchorPane fx:id="apActions">
+                  <AnchorPane fx:id="apActions" maxHeight="-Infinity" prefHeight="569.0">
                      <children>
                         <Label fx:id="lblPickMsg" layoutX="208.0" layoutY="239.0" text="Pick Stage From Table...">
                            <font>
@@ -73,7 +74,7 @@
                   <Font size="14.0" />
                </font>
             </TitledPane>
-            <Label layoutX="7.0" layoutY="618.0" text="Tip: when you click on request with empty due date and time left, you can request the time you need from the inspector!" textFill="#071de5">
+            <Label fx:id="lblInfo" layoutX="31.0" layoutY="617.0" text="info" textFill="#071de5" visible="false">
                <font>
                   <Font size="14.0" />
                </font>
