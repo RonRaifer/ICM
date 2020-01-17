@@ -454,8 +454,6 @@ public class MsgHandler {
 			break;
 			
 		case REJECT_CHECKING:
-			
-			
 			String idstr = objectManager.getMsgString().split("_")[0];
 			String failurestr = objectManager.getMsgString().split("_")[1];
 			query = "SELECT * FROM checking_failure WHERE idrequest = '"+idstr+"'";
@@ -463,21 +461,16 @@ public class MsgHandler {
 			
 			if(dbHandler.executeQ(query).next()) {
 				query = "UPDATE checking_failure SET failure = '"+failurestr+"'"+" WHERE idrequest = '"+idstr+"'";
-				dbHandler.executeUpdate(query);
-				
-				
-				
+				dbHandler.executeUpdate(query);				
 			}
 			else {
 				query = "INSERT INTO checking_failure VALUES ('"+idstr+"','"+failurestr+"')";
 				dbHandler.executeUpdate(query);
-				
-				
 			}
 			
 			query = "UPDATE request_handling SET currentStage = 'Execution', executionTime = '' , idCharge = '' WHERE idrequest = '"+idstr+"'";
-			
 			dbHandler.executeUpdate(query);
+			insertExecutorAppointAction(idstr); //add appoint executor request
 			System.out.println("Request #"+idstr+" moved from: Checking > Execution");
 			
 			break;
@@ -485,7 +478,7 @@ public class MsgHandler {
 		//Show employees [information engineers in Information Technology department] without role who can be appointed to stages charge
 		case VIEW_EMPLOYEES_TO_APPOINT:
 			ArrayList<User> employeeArray = new ArrayList<>();
-			query = "SELECT e.iduser, u.firstName, u.lastName, e.role FROM employee e, user u WHERE e.iduser=u.iduser AND e.role IS NULL;"; //Select only employees who have no roles.
+			query = "SELECT e.iduser, u.firstName, u.lastName, e.role FROM employee e, user u WHERE e.iduser=u.iduser AND e.role = '';"; //Select only employees who have no roles.
 			rs = dbHandler.executeQ(query);
 			
 			while (rs.next() == true) {
@@ -500,7 +493,7 @@ public class MsgHandler {
 		case APPOINT_STAGE_CHARGE:
 			query = "SELECT idrequest FROM request_handling WHERE idrequest = '"+objectManager.getAction().getIdrequest()+"';";
 			rs = dbHandler.executeQ(query);
-			if(!rs.next()) { //if request exists in request_handling
+			if(!rs.next()) { //if request does not exist in request_handling
 				query = "INSERT INTO request_handling VALUES ("+Integer.valueOf(objectManager.getAction().getIdrequest())+
 						", '"+ objectManager.getMsgString() +"', ''"+
 						", '"+ objectManager.getAction().getStage() +"', '');";
@@ -509,7 +502,7 @@ public class MsgHandler {
 			}
 			dbHandler.executeUpdate(query); //update stage charge and currentStage
 			query = "DELETE FROM actions_needed WHERE stage = '"+objectManager.getAction().getStage()+
-					"' AND idCharge = '"+ objectManager.getMsgString() +
+					"' AND idCharge = '"+ objectManager.getAction().getIdCharge() +
 					"' AND actionsNeeded = '"+objectManager.getAction().getActionsNeeded()+
 					"' AND idrequest = '"+objectManager.getAction().getIdrequest()+"';";
 			dbHandler.executeUpdate(query); //delete the action from table
@@ -544,22 +537,18 @@ public class MsgHandler {
 			if(rs.getString(2).contentEquals("Approve")) {
 				query = "UPDATE request_handling SET currentStage = 'Execution' , executionTime = '' , idCharge = '' WHERE idrequest = '"+objectManager.getMsgString()+"'";
 				dbHandler.executeUpdate(query);
+				insertExecutorAppointAction(objectManager.getMsgString()); //add appoint executor request
 				System.out.println("Request #"+objectManager.getMsgString()+" moved from: Review > Execution");
-				
 			}
 			else {
 				query = "UPDATE request_handling SET currentStage = 'Closing', executionTime = '' , idCharge = '' WHERE idrequest = '"+objectManager.getMsgString()+"'";
 				dbHandler.executeUpdate(query);
 				System.out.println("Request #"+objectManager.getMsgString()+" moved from: Review > Closing");
 			}
-			
-			
-			
 			break;
 		default:
 			break;
 		}
-
 	}
 	private void insertEvaluatorAppointAction(String sysName, String requestId) throws NumberFormatException, SQLException {
 		String query;
@@ -572,6 +561,13 @@ public class MsgHandler {
 			query = "INSERT INTO actions_needed VALUES ("+Integer.valueOf(requestId)+", '" 
 					+ rs.getString("iduser") + "', 'Evaluation', 'Evaluator Appointment');";
 		}
+		dbHandler.executeUpdate(query); //execute the insert query
+	}
+	private void insertExecutorAppointAction(String requestId) {
+		String query;
+		query = "INSERT INTO actions_needed VALUES ("+Integer.valueOf(requestId)+", 'None'" 
+					 + ", 'Execution', 'Executor Appointment');";
+		
 		dbHandler.executeUpdate(query); //execute the insert query
 	}
 }
