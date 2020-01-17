@@ -24,7 +24,6 @@ public class ObjectManager implements Serializable {
 	private ActionsNeeded action;
 	private RequestHandling selected;
   
-  
 	public boolean isEvFlag() {
 	return evFlag;
 	}

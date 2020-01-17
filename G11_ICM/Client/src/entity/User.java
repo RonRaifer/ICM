@@ -74,10 +74,27 @@ public class User implements Serializable{
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
-/**
- * the id of the user
- * @return the id of the user
- */
+
+	/**
+	 * constructor with the following fields
+	 * @param idUser
+	 * @param firstName
+	 * @param lastName
+	 * @param email
+	 * @param role
+	 * @param department
+	 */
+	public User(String idUser, String firstName, String lastName, String email, String role) { //for employee with role
+		this.idUser = idUser;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.role = role;
+	}
+	/**
+	 * the id of the user
+	 * @return the id of the user
+	 */
 	public String getIdUser() {
 		return idUser;
 	}
