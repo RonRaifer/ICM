@@ -328,11 +328,24 @@ public class MsgHandler {
 
 			while(rs.next() == true) {
 				String expectedDate = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(LocalDate.now().plusDays(rs.getLong("executionTime")));
-				processesArray.add(new RequestHandling(rs.getString("idrequest"), rs.getString("idCharge"), expectedDate, rs.getString("currentStage"), rs.getString("status")));
+				RequestHandling temp = new RequestHandling();
+				//(rs.getString("idrequest"), rs.getString("idCharge"), expectedDate, rs.getString("currentStage"), rs.getString("status"));
+				temp.setIdrequest(rs.getString("idrequest"));
+				temp.setCurrentStage(rs.getString("currentStage"));
+				if(rs.getString("executionTime").isEmpty()){
+					temp.setExecutionTime("");
+				}
+				else {
+					temp.setExecutionTime(expectedDate);
+				}
+				temp.setTimeNum(rs.getString("executionTime"));
+				processesArray.add(temp);
 			}
 			client.sendToClient(new ObjectManager(processesArray, MsgEnum.VIEW_PROCESSES));
 			break;	
 			
+			
+		//need to delete - checking
 		case VIEW_PROCESSES_TO_BE_DETERMINED:
 			ArrayList<RequestHandling> processesTimeArray = new ArrayList<RequestHandling>();
 			query = "SELECT * FROM request_handling WHERE executionTime is NULL or executionTime ='';"; // for process handling

@@ -17,6 +17,7 @@ public class RequestHandling implements Serializable{
 	private String executionTime;
 	private String currentStage;
 	private String status;
+	private String timeNum;
 /**
  * constructor with the following fields
  * @param idrequest
@@ -33,7 +34,23 @@ public class RequestHandling implements Serializable{
 		this.status = status;
 	}
 
+	public RequestHandling() {
+		
+	}
 	
+public String getTimeNum() {
+	return timeNum;
+}
+
+
+
+public void setTimeNum(String timeNum) {
+	this.timeNum = timeNum;
+}
+
+
+
+
 /**
  * the id of the request this stage belongs to
  * @return the id of the request this stage belongs to
@@ -75,6 +92,22 @@ public class RequestHandling implements Serializable{
 	 */
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public void setIdrequest(String idrequest) {
+		this.idrequest = idrequest;
+	}
+
+	public void setIdCharge(String idCharge) {
+		this.idCharge = idCharge;
+	}
+
+	public void setExecutionTime(String executionTime) {
+		this.executionTime = executionTime;
+	}
+
+	public void setCurrentStage(String currentStage) {
+		this.currentStage = currentStage;
 	}
 	
 }
