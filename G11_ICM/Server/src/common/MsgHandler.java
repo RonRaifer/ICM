@@ -642,14 +642,26 @@ public class MsgHandler {
 			}
 			break;
 		case CREATE_PERFORMANCE_REPORT:
-			query= "SELECT timeRequested FROM time_rquests WHERE status=Approved";
+			query= "SELECT timeRequested FROM time_rquests WHERE status='Approved'";
 			rs=dbHandler.executeQ(query);
 			int sumApprovedExtensions=0;
 			while(rs.next())
 			{
 				sumApprovedExtensions+=rs.getInt("timeRquested");
 			}
-			
+			query= "SELECT e.time, r.totalTime FROM evaluation_report e, request r WHERE e.idreq=r.idrequest AND r.totalTime>e.time";
+			rs=dbHandler.executeQ(query);
+			int sumAddedActivityTime=0;
+			while(rs.next())
+			{
+				sumAddedActivityTime+=Math.subtractExact(rs.getInt("totalTime"), rs.getInt("time"));
+			}
+			ArrayList<Integer> performanceReportData=new ArrayList<Integer>();
+			performanceReportData.add(sumApprovedExtensions);
+			performanceReportData.add(sumAddedActivityTime);
+			objectManager= new ObjectManager(performanceReportData,MsgEnum.CREATE_PERFORMANCE_REPORT);
+			client.sendToClient(objectManager);
+			break;
 		case APPROVE_TIME:
 			ArrayList<String> timeReq = new ArrayList<>((ArrayList<String>)objectManager.getArray());
 			if(timeReq.get(3).equals("Time")) { //if it is just a time request for a stage to start
