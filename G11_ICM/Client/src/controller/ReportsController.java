@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import entity.ActivityReport;
+import entity.PerformanceReport;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,8 +18,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 
 public class ReportsController implements Initializable {
+	
 	@FXML
     private Label lblPageName;
 
@@ -33,6 +36,10 @@ public class ReportsController implements Initializable {
 
     @FXML
     private AnchorPane duration;
+    
+    @FXML
+    private Label lblchoice;
+    
     @FXML
     private TableView<ActivityReport> tblActivityReports;
 
@@ -41,20 +48,29 @@ public class ReportsController implements Initializable {
 
     @FXML
     private TableColumn<ActivityReport, String> colEndDate;
+    
+    private static PerformanceReport perRep;
 
     @FXML
     void generateNewReport(ActionEvent event) {
-    	if(cmbReports.getSelectionModel().isEmpty()) {
-    		//label nothing chose.
-    	}else {
-    		if(cmbReports.getSelectionModel().getSelectedItem().equals("Activity report")) {
-    			//do
+    	if(cmbReports.getSelectionModel().isEmpty()) 
+    	{
+    		lblchoice.setVisible(true);
+    	}
+    	else 
+    	{
+    		lblchoice.setVisible(false);
+    		if(cmbReports.getSelectionModel().getSelectedItem().equals("Activity report")) 
+    		{
+    			perRep=new PerformanceReport();
     		}
-    		if(cmbReports.getSelectionModel().getSelectedItem().equals("Performance report")) {
+    		if(cmbReports.getSelectionModel().getSelectedItem().equals("Performance report")) 
+    		{
     			//do
     		}
     	}
     }
+    
     @FXML
     void onSelectedItem(ActionEvent event) {
     	if(cmbReports.getSelectionModel().getSelectedItem().equals("Activity report")) {
@@ -63,6 +79,7 @@ public class ReportsController implements Initializable {
     		duration.setVisible(false);
     	}
     }
+    
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		duration.setVisible(false);
@@ -73,5 +90,7 @@ public class ReportsController implements Initializable {
 		ObservableList<String> obList=FXCollections.observableList(reportsList);
 		cmbReports.getItems().clear();
 		cmbReports.setItems(obList);
+		lblchoice.setTextFill(Color.RED);
+		lblchoice.setVisible(false);
 	}
 }
