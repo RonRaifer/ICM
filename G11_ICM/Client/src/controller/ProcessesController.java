@@ -227,8 +227,19 @@ public class ProcessesController implements Initializable {
 		col_stage1.setCellValueFactory(new PropertyValueFactory<>("currentStage"));
 		col_dueDate.setCellValueFactory(new PropertyValueFactory<>("executionTime"));
 		col_timeLeft.setCellValueFactory(new PropertyValueFactory<>("timeNum"));
-		
-		List = FXCollections.observableArrayList(arralistOfProcesses);
+		ArrayList<RequestHandling> rhArray = new ArrayList<RequestHandling>();
+		String userRole = LoginController.getLoggedUser().getRole();
+		for(RequestHandling rh : arralistOfProcesses) { //Show View By Permissions
+			if(userRole.equals("Review Member") || userRole.equals("Review Leader")) {
+				if(rh.getCurrentStage().equals("Review")) {
+					rhArray.add(rh);
+				}else {
+					if(LoginController.getLoggedUser().getIdUser().equals(rh.getIdCharge())) 
+						rhArray.add(rh);
+				}
+			}
+		}
+		List = FXCollections.observableArrayList(rhArray);
 		tblTimeDetermine1.setItems(List);
 		
 	}
