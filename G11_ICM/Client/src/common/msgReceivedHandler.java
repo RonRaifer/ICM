@@ -22,6 +22,7 @@ import entity.ActionsNeeded;
 import entity.Messages;
 import entity.Request;
 import entity.RequestHandling;
+import entity.Systems;
 import entity.User;
 import sun.reflect.generics.visitor.Reifier;
 
@@ -93,11 +94,13 @@ public class msgReceivedHandler {
 			TimeController.setFlag(objectManager.getMsgString());
 			break;
 		case SET_EXTEND_PROCESSES:
-			//ProcessesController.setFlag(objectManager.getMsgString());
+			ProcessesController.setFlag(objectManager.getMsgString());
 			break;
 		case VIEW_TIME:
 			ProcessInspectorController.setTimeReq((ArrayList<String>)objectManager.getArray());
 			break;
+		case VIEW_SYSTEMS:
+			EmployeesController.setListOfSystems((ArrayList<Systems>)objectManager.getArray());
 		default:
 			break;
 		}

@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -7,7 +8,9 @@ import java.util.ResourceBundle;
 import boundary.GuiManager;
 import common.MsgEnum;
 import common.ObjectManager;
+import entity.Systems;
 import entity.User;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +21,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableCell;
@@ -87,14 +92,68 @@ public class EmployeesController implements Initializable{
     private TitledPane paneOutSide;
 	@FXML
     private TitledPane panePermission;
+	@FXML
+    private Label lblManID;
+    @FXML
+    private Label lblManName;
+    @FXML
+    private Label lblManLast;
+    @FXML
+    private Label lblManEmail;
+    @FXML
+    private Hyperlink hlReplaceIns;
+    @FXML
+    private Label lblInsID;
+    @FXML
+    private Label lblInsName;
+    @FXML
+    private Label lblInsLast;
+    @FXML
+    private Label lblInsEmail;
+    @FXML
+    private ComboBox<String> cmbSelectEmp;
+    @FXML
+    private Button btnAppointEmp;
+    @FXML
+    private Hyperlink hlCancel;
+    @FXML
+    private TableView<Systems> tblSystems;
+    @FXML
+    private TableColumn<Systems, String> col_SysName;
+    @FXML
+    private TableColumn<Systems, String> col_Sys_ID;
+    @FXML
+    private TableColumn<Systems, String> col_Sys_Name;
+    @FXML
+    private TableColumn<Systems, String> col_Sys_Last;
+    @FXML
+    private TableColumn<Systems, String> col_Sys_Options;
+    @FXML
+    private TableView<User> tblReview;
+    @FXML
+    private TableColumn<User, String> col_RoleName;
+    @FXML
+    private TableColumn<User, String> col_Role_ID;
+    @FXML
+    private TableColumn<User, String> col_Role_Name;
+    @FXML
+    private TableColumn<User, String> col_Role_Lase;
+    @FXML
+    private TableColumn<User, User> col_Role_Options;
 	
 	public static ArrayList<User> arralistOfEmployees = new ArrayList<User>();
+	public static ArrayList<Systems> arralistOfSystems = new ArrayList<Systems>();
 	private ArrayList<User> inDepartment;
 	private ArrayList<User> outSideDepartment;
 	private ObservableList<User> List = null;
+	private ObservableList<Systems> ListSystems = null;
 	
 	public static void setListOfEmployees(ArrayList<User> array) {
 		arralistOfEmployees = new ArrayList<>(array);
+    }
+	
+	public static void setListOfSystems(ArrayList<Systems> array) {
+		arralistOfSystems = new ArrayList<>(array);
     }
 	
 	@FXML
@@ -112,7 +171,7 @@ public class EmployeesController implements Initializable{
 	   				ObjectManager userWithRoles = new ObjectManager(arralistOfEmployees, MsgEnum.VIEW_EMPLOYEES); //updating departments for employee changed
 	   				ConnectionController.getClient().handleMessageFromClientUI(userWithRoles);
 	   				while(arralistOfEmployees.isEmpty())
-	   					Thread.sleep(100);
+	   					Thread.sleep(500);
 	   				return arralistOfEmployees;
 	   			}
 	   		};
@@ -203,6 +262,10 @@ public class EmployeesController implements Initializable{
 	    	    new Thread(task).start();
 	    }
 	}
+	/**
+	 * When click on Permission tab, loads view with user permissions and options
+	 * @param ev
+	 */
 	@FXML
     private void onTabPermissionsSelect(Event ev) {
        if (tabPermissions.isSelected()) {
@@ -214,22 +277,80 @@ public class EmployeesController implements Initializable{
     	   col_empEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
     	   col_empRole.setCellValueFactory(new PropertyValueFactory<>("role"));
     	   
+    	   //Build Review Team Table
+    	   col_Role_ID.setCellValueFactory(new PropertyValueFactory<>("idUser"));
+    	   col_Role_Name.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+    	   col_Role_Lase.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+    	   col_RoleName.setCellValueFactory(new PropertyValueFactory<>("role"));
+    	   col_Role_Options.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+    	   col_Role_Options.setCellFactory(param -> new TableCell<User, User>() { 
+	   			@FXML
+	   		    private final Button btn = new Button("Replace");
+
+	   		    protected void updateItem(User user, boolean empty) {
+	   		        super.updateItem(user, empty);
+
+	   		        if (user == null) {
+	   		            setGraphic(null);
+	   		            return;
+	   		        }
+
+	   		        setGraphic(btn);
+	   		        btn.setOnAction(
+	   		            event -> {
+	   		            	//getTableView().getItems()
+	   		            	
+	   		            }
+	   		        );
+	   		    }
+	   		});
+    	   
+    	   //Build System Charge Table
+    	   col_SysName.setCellValueFactory(new PropertyValueFactory<>("systemName"));
+    	   col_Sys_ID.setCellValueFactory(new PropertyValueFactory<>("iduser"));    	   
+    	   col_Sys_Name.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+    	   col_Sys_Last.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+    	   
     	   //Task to get data from DB
     	   Task<ArrayList<User>> task = new Task<ArrayList<User>>() {
     	        @Override
     	        public ArrayList<User> call() throws InterruptedException {
-    	        	ObjectManager userWithRoles = new ObjectManager(arralistOfEmployees, MsgEnum.VIEW_EMPLOYEES_WITH_ROLES); //updating departments for employee changed
+    	        	ObjectManager userWithRoles = new ObjectManager(arralistOfEmployees, MsgEnum.VIEW_EMPLOYEES_WITH_ROLES); //get employee with roles
     	       	   	ConnectionController.getClient().handleMessageFromClientUI(userWithRoles);
+    	       	   	ObjectManager systemCharge = new ObjectManager(arralistOfSystems, MsgEnum.VIEW_SYSTEMS); //get systems with their charge
+    	       	 	ConnectionController.getClient().handleMessageFromClientUI(systemCharge);
     	       	   	while(arralistOfEmployees.isEmpty())
-    	       	   		Thread.sleep(100);
+    	       	   		Thread.sleep(500);
     	       	   	return arralistOfEmployees;
     	        }
     	    };
     	    task.setOnSucceeded(e -> {
-    	    	ArrayList<User> result = task.getValue();
+    	    	ArrayList<User> result = task.getValue(); //arraylist of employees
+    	    	ArrayList<User> reviewTeam = new ArrayList<User>(); //for review team table
+    	    	for(User u : result) {
+    	    		if(u.getRole().equals("Manager")) { //set Manager data
+    	    			lblManID.setText(u.getIdUser());
+    	    		    lblManName.setText(u.getFirstName());
+    	    		    lblManLast.setText(u.getLastName());
+    	    		    lblManEmail.setText(u.getEmail());
+    	    		}
+    	    		if(u.getRole().equals("Inspector")) { //set Inspector data
+    	    			lblInsID.setText(u.getIdUser());
+    	    		    lblInsName.setText(u.getFirstName());
+    	    		    lblInsLast.setText(u.getLastName());
+    	    		    lblInsEmail.setText(u.getEmail());
+    	    		}
+    	    		if(u.getRole().equals("Review Leader") || u.getRole().equals("Review Member")) { //set Review Team data
+    	    			reviewTeam.add(u);
+    	    		}
+    	    	}
     	    	apLoading.setVisible(false);
     	    	List = FXCollections.observableArrayList(result);
     	    	tblEmployeesWithRoles.setItems(List);
+    	    	List = FXCollections.observableArrayList(reviewTeam);
+    	    	tblReview.setItems(List);
+    	    	ListSystems = FXCollections.observableArrayList(arralistOfSystems);
+    	    	tblSystems.setItems(ListSystems);
     	    	panePermission.setVisible(true);
     	    });
     	    task.setOnFailed(event -> {
@@ -245,6 +366,22 @@ public class EmployeesController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		arralistOfEmployees.clear();
 		clearScreen();
+	}
+	/**
+	 * 
+	 * @param event
+	 */
+	@FXML
+	void onAppointSelectedClick(ActionEvent event) {
+		
+	}
+	/**
+	 * 
+	 * @param event
+	 */
+	@FXML
+	void onCancelClick(ActionEvent event) {
+		
 	}
 	/**
 	 * Updates the department employees with changes.
