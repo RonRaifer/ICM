@@ -22,6 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
@@ -30,7 +31,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
-
+/**
+ * Controller for menu sidebar. Controls the bottons, logout and master view
+ * @author Ron
+ *
+ */
 public class MenuController implements Initializable{
 	@FXML
     private Button btnLogout;
@@ -61,19 +66,34 @@ public class MenuController implements Initializable{
     @FXML
     private Pane pRole;
     @FXML
+    private Separator spEmployees;
+    @FXML
+    private Separator spReports;
+    @FXML
+    private Separator spProcesses;
+    @FXML
     private Stage menuStage;
+    
     private Button btnTemp;
 	private User user;
-
+	/**
+	 * Initializes the controller with default actions
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {		
 		btnTemp = new Button();
 		sceneManager("HomePane", btnHome);
 	}
-	
+	/**
+	 * Set data and settings before initializing
+	 * 
+	 * @param user The user entered to the system.
+	 * @param stage The controller's stage for later use.
+	 */
 	public void initData(User user, Stage stage) {
 		this.user = user;
 		menuStage = stage;
+		permissionCheck(user.getRole()); //update gui regarding the role of user
 		lblName.setText(user.getFirstName() + " " + user.getLastName());
 		lblRole.setText(user.getRole());
 		lblRole.layoutXProperty().bind(pRole.widthProperty().subtract(lblRole.widthProperty()).divide(2));
@@ -84,39 +104,57 @@ public class MenuController implements Initializable{
 				e.consume();
 				logoutUser();
 			}	            	
-        });
-		
+        });	
 	}
-	
+	/**
+	 * When click on Home button. Changes the window title and button design.
+	 * Shows the relevant screen
+	 */
 	@FXML
     void homeClick(ActionEvent event) {
 		menuStage.setTitle("ICM -> Home");
 		sceneManager("HomePane", btnHome);
     }
-	 
+	/**
+	 * When click on Messages button. Changes the window title and button design.
+	 * Shows the relevant screen
+	 */
     @FXML
     void messagesClick(ActionEvent event) {
     	menuStage.setTitle("ICM -> Messages");
     	sceneManager("MessagesPane", btnMessages);
     }
-
+    /**
+	 * When click on My Requests button. Changes the window title and button design.
+	 * Shows the relevant screen
+	 */
     @FXML
     void myRequestsClick(ActionEvent event) {
     	menuStage.setTitle("ICM -> My Requests");
     	sceneManager("MyRequestsPane", btnMyRequests);
     }
-
+    /**
+	 * When click on New Request button. Changes the window title and button design.
+	 * Shows the relevant screen
+	 */
     @FXML
     void newRequestClick(ActionEvent event) {
     	menuStage.setTitle("ICM -> New Request");
     	sceneManager("NewRequestPane", btnNewRequest);
 	}
-    
+    /**
+	 * When click on Logout button. 
+	 * Shows an alert, and if 'ok' chosen, disconnects user and shows login screen.
+	 */
     @FXML
     void logoutClick(ActionEvent event) {
     	logoutUser();
 	}
-    
+    /**
+	 * When click on Processes button. Changes the window title and button design.
+	 * Shows the relevant screen
+	 * Only permitted users can see this button
+	 */
     @FXML
     void processesClick(ActionEvent event) {
     	menuStage.setTitle("ICM -> Processes");
@@ -141,18 +179,30 @@ public class MenuController implements Initializable{
     	}
     	
     }
-
+    /**
+	 * When click on Reports button. Changes the window title and button design.
+	 * Shows the relevant screen
+	 * Only Manager can see this button
+	 */
     @FXML
     void reportsClick(ActionEvent event) {
     	menuStage.setTitle("ICM -> Reports");
     	sceneManager("ReportsPane", btnReports);
     }
+    /**
+   	 * When click on Employees button. Changes the window title and button design.
+   	 * Shows the relevant screen
+   	 * Only Manager can see this button
+   	 */
     @FXML
     void employeesClick(ActionEvent event) {
     	menuStage.setTitle("ICM -> Employees");
     	sceneManager("EmployeesPane", btnEmployees);
     }
-    
+    /**
+	 * When click on Profile button. Changes the window title and button design.
+	 * Shows the relevant screen
+	 */
     @FXML
     void profileClick(ActionEvent event) {   	 
         try {
@@ -164,7 +214,12 @@ public class MenuController implements Initializable{
 			Logger.getLogger(EnterController.class.getName()).log(Level.SEVERE, null, ex);
 		}
     }
-	
+	/**
+	 * Change the view to the relevant view for the button clicked 
+	 *
+	 * @param fxmlName The name of the fxml file to load.
+	 * @param button The button clicked by user.
+	 */
 	private void sceneManager(String fxmlName, Button button) {
 		buttonStyle(button);
 		try 
@@ -180,6 +235,7 @@ public class MenuController implements Initializable{
 	}
 	/**
 	 * Changes the style of button when pressed
+	 * 
 	 * @param button The pressed button
 	 */
 	private void buttonStyle(Button button) {
@@ -189,6 +245,11 @@ public class MenuController implements Initializable{
 		btnTemp.getStyleClass().add("button");
 		btnTemp = button;
 	}
+	/**
+	 * Called when pressed on Logout.
+	 * Shows an Alert, if user decided to logout - sends logout request to server, removes user from loggedIn users, and shows login screen
+	 * if user cancel logout: just shows the same screen before clicked on Logout
+	 */
 	private void logoutUser() {
 		ColorAdjust adj = new ColorAdjust(0, -0.2, -0.1, 0);
         GaussianBlur blur = new GaussianBlur(55); // 55 is just to show edge effect more clearly.
@@ -220,4 +281,53 @@ public class MenuController implements Initializable{
     	}
 		
 	}
+	/**
+	 * Shows menu that matches the user role (permission)
+	 * 
+	 * @param role The user's role
+	 */
+	private void permissionCheck(String role) {
+		switch(role) {
+		case "Manager":
+			btnReports.setVisible(true);
+			spReports.setVisible(true);
+			btnEmployees.setVisible(true);
+			spEmployees.setVisible(true);
+			break;
+		case "Inspector":
+			btnReports.setVisible(false);
+			spReports.setVisible(false);
+			btnEmployees.setVisible(false);
+			spEmployees.setVisible(false);
+			break;
+		case "Review Leader":
+			btnReports.setVisible(false);
+			spReports.setVisible(false);
+			btnEmployees.setVisible(false);
+			spEmployees.setVisible(false);
+			break;
+		case "Review Member":
+			btnReports.setVisible(false);
+			spReports.setVisible(false);
+			btnEmployees.setVisible(false);
+			spEmployees.setVisible(false);
+			break;
+		case "Information Engineer":
+			btnReports.setVisible(false);
+			spReports.setVisible(false);
+			btnEmployees.setVisible(false);
+			spEmployees.setVisible(false);
+			break;
+		default: //Lecturer/Worker/Student
+			btnProcesses.setVisible(false);
+			spProcesses.setVisible(false);
+			btnReports.setVisible(false);
+			spReports.setVisible(false);
+			btnEmployees.setVisible(false);
+			spEmployees.setVisible(false);
+			break;
+		}
+		
+	}
+
 }

@@ -93,9 +93,11 @@ public class msgReceivedHandler {
 			TimeController.setFlag(objectManager.getMsgString());
 			break;
 		case SET_EXTEND_PROCESSES:
-			ProcessesController.setFlag(objectManager.getMsgString());
+			//ProcessesController.setFlag(objectManager.getMsgString());
 			break;
-
+		case VIEW_TIME:
+			ProcessInspectorController.setTimeReq((ArrayList<String>)objectManager.getArray());
+			break;
 		default:
 			break;
 		}

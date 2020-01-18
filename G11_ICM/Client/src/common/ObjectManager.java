@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.*;
-
+/**
+ * The object we send to the server and communicate with.
+ *
+ */
 public class ObjectManager implements Serializable {
 
 	private static final long serialVersionUID = 261834733778535924L;
@@ -14,6 +17,7 @@ public class ObjectManager implements Serializable {
 	private String msgString;
 	private boolean evFlag;
 	private ResultSet rs;
+	
 	//Entities
 	private User user;
 	private Request req;
@@ -96,10 +100,18 @@ public class ObjectManager implements Serializable {
 
 	public ObjectManager(RequestHandling selected, MsgEnum msgEnum) {
 		this.selected = selected;
-		this.msgEnum= msgEnum;
-		
+		this.msgEnum= msgEnum;	
 	}
 
+	public ObjectManager(ActionsNeeded action, MsgEnum msgEnum) {
+		this.action = action;
+		this.msgEnum= msgEnum;	
+	}
+	public ObjectManager(ArrayList<?> array, ActionsNeeded action, MsgEnum msgEnum) { //for time request action delete
+		this.action = action;
+		this.msgEnum= msgEnum;
+		setArray(array);
+	}
 	public List<Document> getListOfFiles(){
 		return listOfFiles;
 	}
