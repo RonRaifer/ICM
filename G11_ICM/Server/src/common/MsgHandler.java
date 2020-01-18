@@ -20,7 +20,11 @@ import entity.Systems;
 import entity.User;
 import common.ObjectManager;
 import ocsf.server.ConnectionToClient;
-
+/**
+ * Handles all requests sent from client
+ * @author Ron
+ *
+ */
 public class MsgHandler {
 	DBHandler dbHandler = IcmServer.getDBHandler();
 	ObjectManager objectManager;
