@@ -1,19 +1,13 @@
 package controller;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import boundary.GuiManager;
 import common.ClientConnector;
 import common.MsgEnum;
 import common.ObjectManager;
 import entity.Request;
-import entity.User;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;

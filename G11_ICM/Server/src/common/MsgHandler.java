@@ -9,21 +9,15 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
-import java.util.Arrays;
-
 import java.sql.ResultSet;
-
 import entity.ActionsNeeded;
 import entity.Document;
-import entity.Employee;
 import entity.EvaluationReport;
 import entity.Messages;
 import entity.Request;
 import entity.RequestHandling;
 import entity.User;
 import common.ObjectManager;
-import controller.EvaluationController;
 import ocsf.server.ConnectionToClient;
 
 public class MsgHandler {
@@ -31,6 +25,7 @@ public class MsgHandler {
 	ObjectManager objectManager;
 	public String idOfRequestFromServer;
 
+	@SuppressWarnings("unchecked")
 	public void clientMsgHandler(Object msg, ConnectionToClient client, Connection conn)
 			throws IOException, SQLException {
 		objectManager = (ObjectManager) msg;
@@ -503,11 +498,7 @@ public class MsgHandler {
 				query = "UPDATE request_handling SET currentStage = '"+ objectManager.getAction().getStage() +"', executionTime = '' , idCharge = '"+ objectManager.getMsgString() +"' WHERE idrequest = '"+objectManager.getAction().getIdrequest()+"';";		
 			}
 			dbHandler.executeUpdate(query); //update stage charge and currentStage
-			query = "DELETE FROM actions_needed WHERE stage = '"+objectManager.getAction().getStage()+
-					"' AND idCharge = '"+ objectManager.getAction().getIdCharge() +
-					"' AND actionsNeeded = '"+objectManager.getAction().getActionsNeeded()+
-					"' AND idrequest = '"+objectManager.getAction().getIdrequest()+"';";
-			dbHandler.executeUpdate(query); //delete the action from table
+			deleteAction(); //delete the action from DB
 			break;
 			
 		case CHECK_REVIEW_EXIST:
@@ -570,7 +561,7 @@ public class MsgHandler {
 		case VIEW_EMPLOYEES_WITH_ROLES:
 			ArrayList<User> empWithRoleArray = new ArrayList<User>();
 			query = "SELECT e.iduser, u.firstName, u.lastName, u.email, e.role FROM employee e, user u WHERE e.iduser=u.iduser AND e.iduser NOT IN "
-					+ "(SELECT iduser FROM employee WHERE role = '');";
+					+ "(SELECT iduser FROM employee WHERE role = '' OR role IS NULL);";
 			rs = dbHandler.executeQ(query);
 			while (rs.next() == true) {
 				empWithRoleArray.add(new User(rs.getString("iduser"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("email"), rs.getString("role")));
@@ -602,11 +593,13 @@ public class MsgHandler {
 					objectManager.getSelected().getIdCharge()+"','"+
 					objectManager.getSelected().getTimeNeeded()+"','Time')";
 			dbHandler.executeUpdate(query);
+			insertStageTimeAction(objectManager.getSelected().getIdrequest(), objectManager.getSelected().getIdCharge(),
+					"Time", objectManager.getSelected().getCurrentStage()); //Adds the time request for Inspector's approval
 			break;
 			
 		case CHECK_EXTEND:
 			query = "SELECT * FROM time_requests WHERE idRequest = '"+objectManager.getSelected().getIdrequest()+"'"+
-					"AND type = 'Extend' AND currentStage = '"+objectManager.getSelected().getCurrentStage()+"'";
+					" AND type = 'Extend' AND currentStage = '"+objectManager.getSelected().getCurrentStage()+"'";
 			if(dbHandler.executeQ(query).next()) {
 				objectManager= new ObjectManager("True", MsgEnum.SET_EXTEND_PROCESSES);
 				
@@ -626,11 +619,83 @@ public class MsgHandler {
 					objectManager.getSelected().getExtendReason()+"')";
 			System.out.println(query);
 			dbHandler.executeUpdate(query);
+			insertStageTimeAction(objectManager.getSelected().getIdrequest(), objectManager.getSelected().getIdCharge(),
+					"Extend", objectManager.getSelected().getCurrentStage()); //Adds the time request for Inspector's approval
+			break;
+		case VIEW_TIME: //view the time requested for approval
+			String timeType = objectManager.getAction().getActionsNeeded(); //gets the action for time (Time Approval or Extend Approval)
+			String arr[] = timeType.split(" ", 2); //arr[0]=Time or Extend, arr[1]=Approval
+			query = "SELECT * FROM time_requests WHERE idRequest = '"+objectManager.getAction().getIdrequest()+"'"
+					+" AND idCharge = '"+ objectManager.getAction().getIdCharge() +"'"
+					+" AND type = '"+ arr[0] +"' AND currentStage = '"+objectManager.getAction().getStage()+"'";
+			rs = dbHandler.executeQ(query);
+			if(!rs.next())
+				System.out.println("Error, No such time request!");
+			else {
+				ArrayList<String> timeReq = new ArrayList<String>();
+				timeReq.add(rs.getString("idTimeRequest"));
+				timeReq.add(rs.getString("timeRequested"));
+				timeReq.add(rs.getString("reason"));
+				timeReq.add(rs.getString("type"));
+				objectManager = new ObjectManager(timeReq, MsgEnum.VIEW_TIME);
+				client.sendToClient(objectManager);
+			}
+			break;
+		case APPROVE_TIME:
+			ArrayList<String> timeReq = new ArrayList<>((ArrayList<String>)objectManager.getArray());
+			if(timeReq.get(3).equals("Time")) { //if it is just a time request for a stage to start
+				query = "UPDATE request_handling SET executionTime = '"+timeReq.get(1)+"' WHERE idrequest = '"+objectManager.getAction().getIdrequest()+"';"; //set stage time
+				dbHandler.executeUpdate(query);
+				deleteTimeRequest(timeReq.get(0)); //delete time request row by id of time request
+				//send message to stage charge about time approval for stage
+				insertMessage(objectManager.getAction().getIdCharge(), "Time Approved For Request ID: ["+objectManager.getAction().getIdrequest()+"]",
+						"Time has been approved by Inspector for "+objectManager.getAction().getStage()+" stage.", "INFORM");
+			}else { //if its a time extend request
+				query = "UPDATE request_handling SET executionTime = executionTime+'"+timeReq.get(1)+"' WHERE idrequest = '"+objectManager.getAction().getIdrequest()+"';"; //add time to stage
+				dbHandler.executeUpdate(query);
+				query = "UPDATE time_requests SET status = 'Approved' WHERE idTimeRequest = "+Integer.valueOf(timeReq.get(0))+";"; //update status to approved
+				dbHandler.executeUpdate(query);
+				query = "SELECT iduser FROM employee WHERE role = 'Manager';"; //gets the manager ID to inform him about the time approval for extend.
+				rs = dbHandler.executeQ(query);
+				if(!rs.next()) System.out.println("No Manager for ICM");
+				else {
+					//send message about extend to Manager
+					insertMessage(rs.getString("iduser"), "Time Extend Approved For Request ID: ["+objectManager.getAction().getIdrequest()+"]",
+							"Time extend has been approved by Inspector for "+objectManager.getAction().getStage()+" stage." +" Days added: "+timeReq.get(1), "INFORM");
+				}
+				//send to stage charge a time extend approve message
+				insertMessage(objectManager.getAction().getIdCharge(), "Time Extend Approved For Request ID: ["+objectManager.getAction().getIdrequest()+"]",
+						"Time extend has been approved by Inspector for "+objectManager.getAction().getStage()+" stage." +" Days added: "+timeReq.get(1), "INFORM");
+			}
+			deleteAction(); //delete the action row for Inspector
+			break;
+		case REJECT_TIME:
+			timeReq = new ArrayList<>((ArrayList<String>)objectManager.getArray());
+			if(timeReq.get(3).equals("Time")) { //if it is just a time request for a stage to start
+				//send message to stage charge about time rejected for stage
+				insertMessage(objectManager.getAction().getIdCharge(), "Time Rejected For Request ID: ["+objectManager.getAction().getIdrequest()+"]",
+						"Time has been rejected by Inspector for "+objectManager.getAction().getStage()+" stage. You may send a new time request.", "INFORM");
+			}else { //if its a time extend request
+				//send to stage charge a time extend rejected message
+				insertMessage(objectManager.getAction().getIdCharge(), "Time Extend Rejected For Request ID: ["+objectManager.getAction().getIdrequest()+"]",
+						"Time extend has been rejected by Inspector for "+objectManager.getAction().getStage()+" stage. You may send a new time request.", "INFORM");
+			}
+			deleteTimeRequest(timeReq.get(0)); //delete time request row by id of time request
+			deleteAction(); //delete the action row for Inspector
 			break;
 		default:
 			break;
 		}
 	}
+	
+	/**
+	 * Adds Evaluator appoint request to actions_needed for Inspector treat.
+	 * 
+	 * @param sysName The relevant system the request is about
+	 * @param requestId The id of issued request
+	 * @throws NumberFormatException
+	 * @throws SQLException
+	 */
 	private void insertEvaluatorAppointAction(String sysName, String requestId) throws NumberFormatException, SQLException {
 		String query;
 		ResultSet rs;
@@ -644,11 +709,63 @@ public class MsgHandler {
 		}
 		dbHandler.executeUpdate(query); //execute the insert query
 	}
+	/**
+	 * Adds Executor appoint request to actions_needed for Inspector treat.
+	 * 
+	 * @param requestId The id of issued request
+	 */
 	private void insertExecutorAppointAction(String requestId) {
 		String query;
 		query = "INSERT INTO actions_needed VALUES ("+Integer.valueOf(requestId)+", 'None'" 
 					 + ", 'Execution', 'Executor Appointment');";
 		
 		dbHandler.executeUpdate(query); //execute the insert query
+	}
+	/**
+	 * Adds time request to actions_needed table for Inspector approval (requests such as time for stage and time extend)
+	 * 
+	 * @param requestId The id of issued request
+	 * @param idCharge The stage charge sent the time request
+	 * @param timeReqType The time type (time for stage or time extend for stage)
+	 * @param stage The stage who needs the time approval
+	 */
+	private void insertStageTimeAction(String requestId, String idCharge, String timeReqType, String stage) {
+		String query;
+		query = "INSERT INTO actions_needed VALUES ("+Integer.valueOf(requestId)+", '"+ idCharge +"', '" 
+				+ stage+ "', '"+ timeReqType +" Approval');";
+		dbHandler.executeUpdate(query); //execute the insert query
+	}
+	/**
+	 * Deletes the row of action from actions_needed table  
+	 */
+	private void deleteAction() {
+		String query = "DELETE FROM actions_needed WHERE stage = '"+objectManager.getAction().getStage()+
+				"' AND idCharge = '"+ objectManager.getAction().getIdCharge() +
+				"' AND actionsNeeded = '"+objectManager.getAction().getActionsNeeded()+
+				"' AND idrequest = '"+objectManager.getAction().getIdrequest()+"';";
+		dbHandler.executeUpdate(query); //delete the action from table
+	}
+	/**
+	 * Deletes the row of time requested for stage from time_requests table by the id inserted
+	 * @param idTimeRequest The time request id to be deleted from table
+	 */
+	private void deleteTimeRequest(String idTimeRequest) {
+		String query = "DELETE FROM time_requests WHERE idTimeRequest = "+Integer.valueOf(idTimeRequest)+";";
+		dbHandler.executeUpdate(query); //delete the action from table
+	}
+	/**
+	 * Adds message to user by his id
+	 * @param iduser Id of user who will receive the message
+	 * @param title Title of message
+	 * @param content Content of message
+	 * @param type The type of message (popup, text..)
+	 */
+	private void insertMessage(String iduser, String title, String content, String type) {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate localDate = LocalDate.now();
+		String date = dtf.format(localDate); //for message date
+		String query = "INSERT INTO Messages (iduser,titleMessage,contentMessage,dateMessage,status,type) "+
+				"VALUES ('"+iduser+"','"+title+"','"+content+"', '', '"+date+"', '"+type+"')";
+		dbHandler.executeUpdate(query);
 	}
 }
