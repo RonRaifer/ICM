@@ -9,11 +9,13 @@ import common.ClientConnector;
 import common.MsgEnum;
 import common.ObjectManager;
 import entity.ActionsNeeded;
+import entity.Request;
 import entity.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -94,6 +96,30 @@ public class ProcessInspectorController implements Initializable {
 	private Label lblReason;
 	@FXML
 	private TextArea taReason;
+	
+	//tab requests
+	  @FXML
+	  private Tab tabRequests;
+
+	  @FXML
+	  private TableView<Request> tblRequest;
+
+	  @FXML
+	  private TableColumn<Request, String> colIDtab2;
+
+	  @FXML
+	  private TableColumn<Request, String> colStageTab2;
+
+	  @FXML
+	  private TableColumn<Request, String> colStatusTab2;
+
+	  @FXML
+	  private Button btnFreeze;
+
+	  
+	private Request selectedRequest = new Request();  
+  private static ArrayList<Request> requestList = new ArrayList<Request>(); 
+  private ObservableList<Request> oblRequests = FXCollections.observableArrayList();
     
 	private ClientConnector client = ConnectionController.getClient();
 	private static ArrayList<ActionsNeeded> arralistOfActions = null;
@@ -102,6 +128,11 @@ public class ProcessInspectorController implements Initializable {
 	private static ObservableList<ActionsNeeded> List = FXCollections.observableArrayList();
 	private boolean empListView = false;
 	private ActionsNeeded action;
+	
+	
+	public static void setRequestList(ArrayList<Request> list) {
+		requestList = list;
+	}
 
 	/**
 	 * Set arrayListofActions with data from DB, in order to populate the actions table
@@ -386,4 +417,76 @@ public class ProcessInspectorController implements Initializable {
 		apAppointExecutor.setVisible(false);
 		apTimeApproval.setVisible(false);
 	}
+	
+	//tab 2 functions
+		/**
+		 * this function is called when freeze button is clicked. 
+		 * it changes the status of the request to frozen
+		 * @param event
+		 */
+		  @FXML
+		    void clickFreeze(ActionEvent event) {
+			  	ObjectManager msg = new ObjectManager(selectedRequest.getIdReq(), MsgEnum.FREEZE_REQUEST);
+			  	client.handleMessageFromClientUI(msg);
+			  	try {
+					Thread.sleep(700);
+				} catch (InterruptedException e) {
+					
+					e.printStackTrace();
+				}
+			  	
+			  	selectedRequest.setStatus("frozen");
+			  	for(Request r : oblRequests) {
+			  		if(r.getIdReq().equals(selectedRequest.getIdReq())){
+						oblRequests.remove(r);
+						break;
+			  		}
+			  	}
+			  	
+			  	oblRequests.add(selectedRequest);
+			  	tblRequest.setItems(oblRequests);
+			  	btnFreeze.setVisible(false);
+		    }
+
+		  	/**
+		  	 * when request is picked this function determine if the request
+		  	 * is eligible for freezing button, therefore: non frozen requests, only opened requests, 
+		  	 * and requests that arent in closing stage
+		  	 * @param event
+		  	 */
+		    @FXML
+		    void clickRequestsTbl(MouseEvent event) {
+		    	btnFreeze.setVisible(false);
+		    	
+		    	selectedRequest = tblRequest.getSelectionModel().getSelectedItem();
+		    
+		    	if(selectedRequest.getStatus().equals("opened")&&!selectedRequest.getCurrentStage().equals("Closing")) {
+		    		btnFreeze.setVisible(true);
+		    	}
+		    }
+	/**
+	 * this function initialize the requests tab with all the available requests
+	 * @param event
+	 */
+		    @FXML
+		    void loadRequestTable(Event event) {
+		    	
+		    	ObjectManager msg = new ObjectManager("", MsgEnum.REQUEST_FOR_INSPECTOR);
+		    	client.handleMessageFromClientUI(msg);
+		    	
+		    	try {
+					Thread.sleep(700);
+				} catch (InterruptedException e) {
+					
+					e.printStackTrace();
+				}
+		    	
+		    	colIDtab2.setCellValueFactory(new PropertyValueFactory<>("idReq"));
+		    	colStageTab2.setCellValueFactory(new PropertyValueFactory<>("currentStage"));
+		    	colStatusTab2.setCellValueFactory(new PropertyValueFactory<>("status"));
+		    	oblRequests = FXCollections.observableArrayList(requestList);
+		    	tblRequest.setItems(oblRequests);
+		    	//for commit
+		    	
+		    }
 }

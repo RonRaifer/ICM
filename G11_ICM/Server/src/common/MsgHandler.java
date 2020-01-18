@@ -756,6 +756,31 @@ public class MsgHandler {
 				System.out.println("No Information Engineers To Appoint"); // change this to send error OR handle this in client side.
 			else
 				client.sendToClient(new ObjectManager(empTo, MsgEnum.VIEW_EMPLOYEES_TO_APPOINT_MANAGER));
+			break;
+		case REQUEST_FOR_INSPECTOR:
+			query = "SELECT r.idrequest, r.RequestStatus, rh.currentStage FROM "
+					+ "request r INNER JOIN request_handling rh ON r.idrequest = rh.idrequest";
+			rs = dbHandler.executeQ(query);
+			ArrayList<Request> listForInspector = new ArrayList<Request>();
+			while(rs.next()) {
+				Request temp = new Request();
+				temp.setIdReq(rs.getString(1));
+				temp.setStatus(rs.getString(2));
+				
+				temp.setCurrentStage(rs.getString(3));
+				listForInspector.add(temp);
+			}
+			
+			objectManager = new ObjectManager(listForInspector, MsgEnum.SET_PROCESSES_INSPECTOR);
+			client.sendToClient(objectManager);
+			
+			break;
+		case FREEZE_REQUEST:
+			query = "UPDATE `request_handling` SET `status` = 'frozen' WHERE (`idrequest` = '"+objectManager.getMsgString()+"')";
+			dbHandler.executeUpdate(query);
+			query = "UPDATE `request` SET `RequestStatus` = 'frozen' WHERE (`idrequest` = '"+objectManager.getMsgString()+"')";
+			dbHandler.executeUpdate(query);
+			break;
 		default:
 			break;
 		}
