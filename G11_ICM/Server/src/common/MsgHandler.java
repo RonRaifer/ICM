@@ -275,8 +275,8 @@ public class MsgHandler {
 			rs = dbHandler.executeQ(query);
 			while (rs.next() == true) {
 				messagesArray.add(new Messages(rs.getString("idMessage"), rs.getString("iduser"),
-						rs.getString("titleMessage"), rs.getString("contentMessage"), rs.getString("dateMessage"),
-						rs.getString("status"), rs.getString("type")));
+						rs.getString("titleMessage"), rs.getString("contentMessage"), rs.getString("status"),
+						rs.getString("dateMessage"), rs.getString("type")));
 			}
 			client.sendToClient(new ObjectManager(messagesArray, MsgEnum.SEND_MESSAGES_TO_CLIENT));
 			break;
@@ -536,6 +536,20 @@ public class MsgHandler {
 			else {
 				query = "UPDATE request_handling SET currentStage = 'Closing', executionTime = '' , idCharge = '' WHERE idrequest = '"+objectManager.getMsgString()+"'";
 				dbHandler.executeUpdate(query);
+				query = "SELECT iduser, idrequest FROM request WHERE idrequest = '"+objectManager.getMsgString()+"';"; //gets the user issued the request
+				rs = dbHandler.executeQ(query);
+				//sending finished messages for users
+				if(rs.next() == true) {
+					insertMessage(rs.getString("iduser"), "Finished Handeling Your Request [ID: "+rs.getString("idrequest")+"]",
+							"Hi, We have finished handeling your request. Thank you.", "FINISH");
+					query = "SELECT iduser FROM employee WHERE role = 'Inspector';"; //gets the inspector ID
+					rs2 = dbHandler.executeQ(query);
+					if(rs2.next() == true) {
+						insertMessage(rs2.getString("iduser"), "Finished Handeling Request [ID: "+rs.getString("idrequest")+"]",
+								"Hi, The team finished handeling the request.", "FINISH");
+					}
+				}
+				
 				System.out.println("Request #"+objectManager.getMsgString()+" moved from: Review > Closing");
 			}
 			break;
@@ -820,7 +834,7 @@ public class MsgHandler {
 		LocalDate localDate = LocalDate.now();
 		String date = dtf.format(localDate); //for message date
 		String query = "INSERT INTO Messages (iduser,titleMessage,contentMessage,dateMessage,status,type) "+
-				"VALUES ('"+iduser+"','"+title+"','"+content+"', '', '"+date+"', '"+type+"')";
+				"VALUES ('"+iduser+"','"+title+"','"+content+"', '"+date+"', '', '"+type+"')";
 		dbHandler.executeUpdate(query);
 	}
 }
