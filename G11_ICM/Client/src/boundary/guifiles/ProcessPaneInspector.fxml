@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="728.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProcessInspectorController">
+<AnchorPane prefHeight="728.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProcessInspectorController">
    <children>
       <AnchorPane layoutX="17.0" prefHeight="85.0" prefWidth="201.0">
          <children>
@@ -168,6 +168,22 @@
                      </children>
                   </AnchorPane>
                </content>
+            </Tab>
+            <Tab fx:id="tabRequests" onSelectionChanged="#loadRequestTable" text="Requests">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tblRequest" layoutX="14.0" layoutY="14.0" onMouseClicked="#clickRequestsTbl" prefHeight="373.0" prefWidth="342.0">
+                          <columns>
+                            <TableColumn fx:id="colIDtab2" prefWidth="114.0" text="ID Request" />
+                            <TableColumn fx:id="colStageTab2" prefWidth="114.0" text="Stage" />
+                              <TableColumn fx:id="colStatusTab2" prefWidth="114.0" text="Status" />
+                          </columns>
+                        </TableView>
+                        <Button fx:id="btnFreeze" layoutX="14.0" layoutY="395.0" mnemonicParsing="false" onAction="#clickFreeze" text="Freeze" visible="false" />
+                     </children>
+                  </AnchorPane>
+              </content>
             </Tab>
          </tabs>
       </TabPane>

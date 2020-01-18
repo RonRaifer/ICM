@@ -101,8 +101,13 @@ public class msgReceivedHandler {
 			break;
 		case VIEW_SYSTEMS:
 			EmployeesController.setListOfSystems((ArrayList<Systems>)objectManager.getArray());
+			break;
 		case VIEW_EMPLOYEES_TO_APPOINT_MANAGER:
 			EmployeesController.setListOfEmpTo((ArrayList<User>)objectManager.getArray());
+			break;
+		case SET_PROCESSES_INSPECTOR:
+				ProcessInspectorController.setRequestList((ArrayList<Request>) objectManager.getArray());
+					break;
 		default:
 			break;
 		}
