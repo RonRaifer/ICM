@@ -81,7 +81,8 @@ public class TimeController implements Initializable{
 	    	alert.setContentText("Your time request has been sent to the Inspector");
 	    	alert.showAndWait();
 	    	
-	    	d.getCont().removeSelected(ProcessesController.getSelected());
+	    	d.getCont().clearAP();
+	    	
     		
     	
     	

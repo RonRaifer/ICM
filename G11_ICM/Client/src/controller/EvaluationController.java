@@ -105,6 +105,13 @@ public class EvaluationController implements Initializable{
     		return;
     	}
     	
+    	if(!isInteger(tbTime.getText())) {
+    		lblErr.setVisible(true);
+    		lblErr.setTextFill(Color.RED);
+    		lblErr.setText("The time you entered is not a number!");
+    		return;
+    	}
+    	
     	//build the report
     	EvaluationReport temp = new EvaluationReport();
     	temp.setDescription(tbDescription.getText());
@@ -208,5 +215,30 @@ public class EvaluationController implements Initializable{
 		
 		return false;
 	}
+	
+	public  boolean isInteger(String str) {
+	    if (str == null) {
+	        return false;
+	    }
+	    int length = str.length();
+	    if (length == 0) {
+	        return false;
+	    }
+	    int i = 0;
+	    if (str.charAt(0) == '-') {
+	        if (length == 1) {
+	            return false;
+	        }
+	        i = 1;
+	    }
+	    for (; i < length; i++) {
+	        char c = str.charAt(i);
+	        if (c < '0' || c > '9') {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+
 
 }

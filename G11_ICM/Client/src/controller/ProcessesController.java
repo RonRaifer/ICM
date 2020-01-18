@@ -110,13 +110,14 @@ public class ProcessesController implements Initializable {
 		ProcessesController.flag = flag;
 	}
 
+	public void clearAP() {
+		apActions.getChildren().clear();
+	}
+	
 	public void removeSelected(RequestHandling selected) {
 		tblTimeDetermine1.getItems().remove(selected);
 		apActions.getChildren().clear();
 		
-///aaa 
-		System.out.println("commit");
-		System.out.println("after saving unstage isnt effected");
 	}
 
 	@FXML
