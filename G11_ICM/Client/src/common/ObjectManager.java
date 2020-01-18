@@ -71,7 +71,11 @@ public class ObjectManager implements Serializable {
 		this.user = user;
 		this.msgEnum = msgEnum;
 	}
-	
+	public ObjectManager(String id, User user, MsgEnum msgEnum) {
+		this.msgString = id;
+		this.user = user;
+		this.msgEnum = msgEnum;
+	}
 	public ObjectManager(String msgString, MsgEnum msgEnum) { //for any string handler
 		this.msgString = msgString;
 		this.msgEnum = msgEnum;

@@ -152,6 +152,7 @@ public class EmployeesController implements Initializable{
 	private ObservableList<User> List = null;
 	private ObservableList<Systems> ListSystems = null;
 	private User selectedUser;
+	private String type;
 
 	public static void setListOfEmployees(ArrayList<User> array) {
 		arralistOfEmployees = new ArrayList<>(array);
@@ -406,7 +407,24 @@ public class EmployeesController implements Initializable{
 	 */
 	@FXML
 	void onAppointSelectedClick(ActionEvent event) {
+		if(cmbSelectEmp.getSelectionModel().isEmpty()) 
+			return;
 		
+		if(selectedUser.getRole().equals("Review Leader")){
+			String SelectedID = arralistOfEmp.get(cmbSelectEmp.getSelectionModel().getSelectedIndex()).getIdUser();
+			ObjectManager update = new ObjectManager(SelectedID, selectedUser, MsgEnum.REPLACE_REVIEW_LEADER);
+			ConnectionController.getClient().handleMessageFromClientUI(update);
+		}
+		if(selectedUser.getRole().equals("Review Member")){
+			String SelectedID = arralistOfEmp.get(cmbSelectEmp.getSelectionModel().getSelectedIndex()).getIdUser();
+			ObjectManager update = new ObjectManager(SelectedID, selectedUser, MsgEnum.REPLACE_REVIEW_MEMBER);
+			ConnectionController.getClient().handleMessageFromClientUI(update);
+		}
+		if(selectedUser.getRole().equals("Inspector")){
+			String SelectedID = arralistOfEmp.get(cmbSelectEmp.getSelectionModel().getSelectedIndex()).getIdUser();
+			ObjectManager update = new ObjectManager(SelectedID, selectedUser, MsgEnum.REPLACE_INSPECTOR);
+			ConnectionController.getClient().handleMessageFromClientUI(update);
+		}
 	}
 	/**
 	 * 
