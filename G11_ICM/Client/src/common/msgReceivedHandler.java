@@ -101,6 +101,8 @@ public class msgReceivedHandler {
 			break;
 		case VIEW_SYSTEMS:
 			EmployeesController.setListOfSystems((ArrayList<Systems>)objectManager.getArray());
+		case VIEW_EMPLOYEES_TO_APPOINT_MANAGER:
+			EmployeesController.setListOfEmpTo((ArrayList<User>)objectManager.getArray());
 		default:
 			break;
 		}
