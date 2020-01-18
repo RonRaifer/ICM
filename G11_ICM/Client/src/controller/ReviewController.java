@@ -114,7 +114,7 @@ public class ReviewController implements Initializable {
     	alert.setContentText("Your approval has been submitted");
     	alert.showAndWait();
     	
-    	d.getCont().removeSelected(ProcessesController.getSelected());
+    	d.getCont().clearAP();
 		hideButtons();
 		
     }
@@ -137,7 +137,7 @@ public class ReviewController implements Initializable {
     	alert.setContentText("Your rejection has been submitted");
     	alert.showAndWait();
     	
-    	d.getCont().removeSelected(ProcessesController.getSelected());
+    	d.getCont().clearAP();
 		hideButtons();
     	
     }
