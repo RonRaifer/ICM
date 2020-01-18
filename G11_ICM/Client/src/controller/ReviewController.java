@@ -90,7 +90,8 @@ public class ReviewController implements Initializable {
 	    	
 	    	d.getCont().removeSelected(ProcessesController.getSelected());
 		 
-		 System.out.println("commit");
+		 
+		 
 		 
 
 	    }
