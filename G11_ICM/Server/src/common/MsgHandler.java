@@ -16,6 +16,7 @@ import entity.EvaluationReport;
 import entity.Messages;
 import entity.Request;
 import entity.RequestHandling;
+import entity.Systems;
 import entity.User;
 import common.ObjectManager;
 import ocsf.server.ConnectionToClient;
@@ -255,10 +256,8 @@ public class MsgHandler {
 				str1+=rpt.getDescription()+"','";
 				str1+=rpt.getResult()+"','";
 				str1+=rpt.getRisk()+"','";
-				str1+=rpt.getTime()+"')";
-				
+				str1+=rpt.getTime()+"')";				
 				dbHandler.executeUpdate(str1);
-				
 			}
 				
 			System.out.println("Evaluation report for Request #"+rpt.getIdReq()+" added successfully!");
@@ -402,10 +401,7 @@ public class MsgHandler {
 			report.setTime(rs.getString(6));
 			
 			objectManager = new ObjectManager(report, MsgEnum.SET_EV_IN_REVIEW);
-			client.sendToClient(objectManager);
-			
-			
-			
+			client.sendToClient(objectManager);	
 			break;
 		
 		case MORE_INFO_REVIEW:
@@ -477,9 +473,13 @@ public class MsgHandler {
 			ArrayList<User> employeeArray = new ArrayList<>();
 			query = "SELECT e.iduser, u.firstName, u.lastName, e.role FROM employee e, user u WHERE e.iduser=u.iduser AND e.role = '';"; //Select only employees who have no roles.
 			rs = dbHandler.executeQ(query);
-			
+			query = "SELECT e.iduser, u.firstName, u.lastName, e.role FROM employee e, user u WHERE e.iduser=u.iduser AND e.role IS NULL;"; //for null role
+			rs2 = dbHandler.executeQ(query);
 			while (rs.next() == true) {
 				employeeArray.add(new User(rs.getString("iduser"), rs.getString("firstName"), rs.getString("lastName")));
+			}
+			while (rs2.next() == true) {
+				employeeArray.add(new User(rs2.getString("iduser"), rs2.getString("firstName"), rs2.getString("lastName")));
 			}
 			if (employeeArray.isEmpty())
 				System.out.println("No Information Engineers To Appoint"); // change this to send error OR handle this in client side.
@@ -570,13 +570,31 @@ public class MsgHandler {
 				System.out.println("No Employees with roles"); // change this to send error OR handle this in client side.
 			else
 				client.sendToClient(new ObjectManager(empWithRoleArray, MsgEnum.VIEW_EMPLOYEES_WITH_ROLES));
-
+			break;
+		case VIEW_SYSTEMS: //shows systems and their charge
+			ArrayList<Systems> sys = new ArrayList<Systems>();
+			query = "SELECT * FROM systems";
+			rs = dbHandler.executeQ(query);
+			ResultSet rst;
+			while (rs.next() == true) {
+				if(rs.getString("iduser").equals(""))
+					sys.add(new Systems(rs.getString("systemName"),"None", "None", "None"));
+				else {
+					query = "SELECT firstName, lastName FROM user WHERE iduser = '"+rs.getString("iduser")+"';";
+					rst = dbHandler.executeQ(query);
+					if(!rst.next()) System.out.println("No such user ID");
+					else {
+						sys.add(new Systems(rs.getString("systemName"),rs.getString("iduser"), rst.getString("firstName"), rst.getString("lastName")));
+					}
+				}
+			}
+			client.sendToClient(new ObjectManager(sys, MsgEnum.VIEW_SYSTEMS));
+			break;
 		case CHECK_TIME_SET:
 			query = "SELECT * FROM time_requests WHERE idRequest = '"+objectManager.getSelected().getIdrequest()+"'"+
 					"AND type = 'Time' AND currentStage = '"+objectManager.getSelected().getCurrentStage()+"'";
 			if(dbHandler.executeQ(query).next()) {
-				objectManager= new ObjectManager("True", MsgEnum.SET_FLAG_TIMEC);
-				
+				objectManager= new ObjectManager("True", MsgEnum.SET_FLAG_TIMEC);	
 			}
 			else {
 				objectManager= new ObjectManager("False", MsgEnum.SET_FLAG_TIMEC);
@@ -720,7 +738,7 @@ public class MsgHandler {
 	private void insertEvaluatorAppointAction(String sysName, String requestId) throws NumberFormatException, SQLException {
 		String query;
 		ResultSet rs;
-		query = "SELECT iduser FROM systems WHERE systemName = '" + sysName + "'" + ";"; //Prepare the Evaluator appoint by the Inspector
+		query = "SELECT iduser FROM systems WHERE systemName = '" + sysName + "'" + " AND iduser NOT IN (SELECT iduser FROM systems WHERE iduser = '' OR role IS NULL);"; //Prepare the Evaluator appoint by the Inspector
 		rs = dbHandler.executeQ(query);
 		if(!rs.next()) //in case there is no system charge, just set charge to null
 			query = "INSERT INTO actions_needed VALUES ("+Integer.valueOf(requestId)+", 'None', 'Evaluation', 'Evaluator Appointment');";

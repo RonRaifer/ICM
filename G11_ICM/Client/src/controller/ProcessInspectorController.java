@@ -94,7 +94,7 @@ public class ProcessInspectorController implements Initializable {
 	private Label lblReason;
 	@FXML
 	private TextArea taReason;
-
+    
 	private ClientConnector client = ConnectionController.getClient();
 	private static ArrayList<ActionsNeeded> arralistOfActions = null;
 	private static ArrayList<User> arralistOfEmployees = null;
@@ -169,7 +169,7 @@ public class ProcessInspectorController implements Initializable {
 		String selected = action.getActionsNeeded();
 		clearScreen();
 		if (selected.equals("Evaluator Appointment")) { // if needs to appoint Evaluator
-			if (action.getIdCharge().equals("None")) { // if no automatically Evaluator appointed
+			if (action.getIdCharge().equals("None") || action.getIdCharge().equals(" ")) { // if no automatically Evaluator appointed
 				lblSubTitle.setText("System Charge Does Not Exist, Appoint Evaluator Below:");
 				lblId.setVisible(false);
 				hlReplace.setVisible(false);
@@ -360,7 +360,7 @@ public class ProcessInspectorController implements Initializable {
 	        	ObjectManager msg = new ObjectManager(action, MsgEnum.VIEW_TIME); //getting the time requested from DB
 	    		client.handleMessageFromClientUI(msg);
 	       	   	while(timeReq.isEmpty())
-	       	   		Thread.sleep(100);
+	       	   		Thread.sleep(200);
 	       	   	return timeReq;
 	        }
 	    };

@@ -200,6 +200,7 @@ public class MyRequestsController implements Initializable{
 				if(bothRS.isEmpty())
 				{
 					requestTbl.setPlaceholder(new Label("You dont have any requests"));
+					apLoading.setVisible(false);
 					return;
 				}
 				
