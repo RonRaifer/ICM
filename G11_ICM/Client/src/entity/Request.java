@@ -161,6 +161,13 @@ public class Request implements Serializable{
 		this.system = system;
 	}
 	/**
+	 * set the totalTime the request belongs to
+	 * @param totalTime - the totalTime the request belongs to
+	 */
+	public void setTotalTime(String totalTime) {
+		this.totalTime = totalTime;
+	}
+	/**
 	 * the date the request was submitted
 	 * @return the date the request was submitted
 	 */

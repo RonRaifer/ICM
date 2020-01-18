@@ -722,6 +722,22 @@ public class MsgHandler {
 			deleteTimeRequest(timeReq.get(0)); //delete time request row by id of time request
 			deleteAction(); //delete the action row for Inspector
 			break;
+		case VIEW_EMPLOYEES_TO_APPOINT_MANAGER:
+			ArrayList<User> empTo = new ArrayList<>();
+			query = "SELECT e.iduser, u.firstName, u.lastName, e.role FROM employee e, user u WHERE e.iduser=u.iduser AND e.role = '';"; //Select only employees who have no roles.
+			rs = dbHandler.executeQ(query);
+			query = "SELECT e.iduser, u.firstName, u.lastName, e.role FROM employee e, user u WHERE e.iduser=u.iduser AND e.role IS NULL;"; //for null role
+			rs2 = dbHandler.executeQ(query);
+			while (rs.next() == true) {
+				empTo.add(new User(rs.getString("iduser"), rs.getString("firstName"), rs.getString("lastName")));
+			}
+			while (rs2.next() == true) {
+				empTo.add(new User(rs2.getString("iduser"), rs2.getString("firstName"), rs2.getString("lastName")));
+			}
+			if (empTo.isEmpty())
+				System.out.println("No Information Engineers To Appoint"); // change this to send error OR handle this in client side.
+			else
+				client.sendToClient(new ObjectManager(empTo, MsgEnum.VIEW_EMPLOYEES_TO_APPOINT_MANAGER));
 		default:
 			break;
 		}

@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import boundary.GuiManager;
@@ -117,6 +118,8 @@ public class EmployeesController implements Initializable{
     @FXML
     private Hyperlink hlCancel;
     @FXML
+    private AnchorPane apReplacePer;
+    @FXML
     private TableView<Systems> tblSystems;
     @FXML
     private TableColumn<Systems, String> col_SysName;
@@ -142,12 +145,14 @@ public class EmployeesController implements Initializable{
     private TableColumn<User, User> col_Role_Options;
 	
 	public static ArrayList<User> arralistOfEmployees = new ArrayList<User>();
+	public static ArrayList<User> arralistOfEmp = new ArrayList<User>(); //for employees to be appointed by Manager
 	public static ArrayList<Systems> arralistOfSystems = new ArrayList<Systems>();
 	private ArrayList<User> inDepartment;
 	private ArrayList<User> outSideDepartment;
 	private ObservableList<User> List = null;
 	private ObservableList<Systems> ListSystems = null;
-	
+	private User selectedUser;
+
 	public static void setListOfEmployees(ArrayList<User> array) {
 		arralistOfEmployees = new ArrayList<>(array);
     }
@@ -155,6 +160,9 @@ public class EmployeesController implements Initializable{
 	public static void setListOfSystems(ArrayList<Systems> array) {
 		arralistOfSystems = new ArrayList<>(array);
     }
+	public static void setListOfEmpTo(ArrayList<User> array) {
+		arralistOfEmp = new ArrayList<>(array);
+	}
 	
 	@FXML
 	private void onTabAttachSelect(Event ev) {
@@ -263,6 +271,29 @@ public class EmployeesController implements Initializable{
 	    }
 	}
 	/**
+	 * Fills the Employees combo box with workers
+	 */
+	private void fillCmbEmployees() {
+		ObjectManager viewEmployees = new ObjectManager(arralistOfEmp, MsgEnum.VIEW_EMPLOYEES_TO_APPOINT_MANAGER);
+		ConnectionController.getClient().handleMessageFromClientUI(viewEmployees);
+		ObservableList<String> empList;
+		List<String> emp = new ArrayList<String>();
+
+		try {
+			Thread.sleep(1000);
+			for (User u : arralistOfEmp) {
+				emp.add(u.getFirstName() + " " + u.getLastName());
+			}
+			empList = FXCollections.observableList(emp);
+			cmbSelectEmp.getItems().clear();
+			cmbSelectEmp.setItems(empList);
+
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		apReplacePer.setVisible(true);
+	}
+	/**
 	 * When click on Permission tab, loads view with user permissions and options
 	 * @param ev
 	 */
@@ -298,7 +329,8 @@ public class EmployeesController implements Initializable{
 	   		        setGraphic(btn);
 	   		        btn.setOnAction(
 	   		            event -> {
-	   		            	//getTableView().getItems()
+	   		            	selectedUser = user; //keep for later
+	   		            	fillCmbEmployees();
 	   		            	
 	   		            }
 	   		        );
@@ -365,6 +397,7 @@ public class EmployeesController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		arralistOfEmployees.clear();
+		apReplacePer.setVisible(false);
 		clearScreen();
 	}
 	/**
@@ -381,7 +414,7 @@ public class EmployeesController implements Initializable{
 	 */
 	@FXML
 	void onCancelClick(ActionEvent event) {
-		
+		apReplacePer.setVisible(false);
 	}
 	/**
 	 * Updates the department employees with changes.

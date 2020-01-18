@@ -189,7 +189,7 @@ public class NewRequestController implements Initializable{
     	req.setOpentDate(lblDate.getText());
     	req.setIdUser(LoginController.getLoggedUser().getIdUser());
     	req.setStatus("not started");
-    	
+    	req.setTotalTime("0");
  
     	ObjectManager requestMsg = new ObjectManager(req, MsgEnum.ADD_REQUEST);
         client.handleMessageFromClientUI(requestMsg);
@@ -217,9 +217,6 @@ public class NewRequestController implements Initializable{
         	return;
         }
         	
-        	
-        
-
         //converting the Files we got to Document that has MyFiles
         //this Document still doesnt have id, it will be added in server-side
         for(File fl : files) {
@@ -234,10 +231,7 @@ public class NewRequestController implements Initializable{
         }
         
         ObjectManager filesMsg = new ObjectManager(myDocuments, MsgEnum.ADD_FILES);
-        client.handleMessageFromClientUI(filesMsg);
-       
-        
-       
+        client.handleMessageFromClientUI(filesMsg);     
     	alert.showAndWait();
         
         clearAll();
