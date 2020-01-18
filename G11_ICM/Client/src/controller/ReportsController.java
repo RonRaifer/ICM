@@ -1,24 +1,31 @@
 package controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import entity.ActivityReport;
+import entity.PerformanceBehindReport;
 import entity.PerformanceReport;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class ReportsController implements Initializable {
 	
@@ -49,10 +56,22 @@ public class ReportsController implements Initializable {
     @FXML
     private TableColumn<ActivityReport, String> colEndDate;
     
+    @FXML
+    private DatePicker dateStart;
+
+    @FXML
+    private DatePicker dateEnd;
+    
+    @FXML
+    private Label lbldates;
+    
     private static PerformanceReport perRep;
+    private static PerformanceBehindReport perbehindRep;
+    private static ActivityReport actRep;
 
     @FXML
     void generateNewReport(ActionEvent event) {
+    	lbldates.setVisible(false);
     	if(cmbReports.getSelectionModel().isEmpty()) 
     	{
     		lblchoice.setVisible(true);
@@ -62,11 +81,59 @@ public class ReportsController implements Initializable {
     		lblchoice.setVisible(false);
     		if(cmbReports.getSelectionModel().getSelectedItem().equals("Activity report")) 
     		{
-    			perRep=new PerformanceReport();
+    			if(dateStart.getValue()==null || dateEnd.getValue()==null)
+    			{
+    				lbldates.setVisible(true);
+    			}
+    			else if(dateStart.getValue().compareTo(dateEnd.getValue())>0)
+    			{
+    				lbldates.setVisible(true);
+    			}
+    			else
+    			{
+    				actRep=new ActivityReport();
+    				Stage stage= new Stage();
+        			FXMLLoader loader=new FXMLLoader();
+        			try {
+        				loader.setLocation(PerformanceReportPopupController.class.getResource("/boundary/guifiles/ActivityReportPopup.fxml"));
+        				Pane root=loader.load();
+        				Scene scene=new Scene(root);
+        				stage.setScene(scene);
+        				stage.show();
+        			}catch (IOException e) {
+        				e.printStackTrace();
+        			}
+    			}
     		}
     		if(cmbReports.getSelectionModel().getSelectedItem().equals("Performance report")) 
     		{
-    			//do
+    			perRep=new PerformanceReport();
+    			Stage stage= new Stage();
+    			FXMLLoader loader=new FXMLLoader();
+    			try {
+    				loader.setLocation(PerformanceReportPopupController.class.getResource("/boundary/guifiles/PerformanceReportPopup.fxml"));
+    				Pane root=loader.load();
+    				Scene scene=new Scene(root);
+    				stage.setScene(scene);
+    				stage.show();
+    			}catch (IOException e) {
+    				e.printStackTrace();
+    			}
+    		}
+    		if(cmbReports.getSelectionModel().getSelectedItem().equals("Peformance behind report"))
+    		{
+    			perbehindRep=new PerformanceBehindReport();
+    			Stage stage= new Stage();
+    			FXMLLoader loader=new FXMLLoader();
+    			try {
+    				loader.setLocation(PerformanceReportPopupController.class.getResource("/boundary/guifiles/PerformanceBehindReportPopup.fxml"));
+    				Pane root=loader.load();
+    				Scene scene=new Scene(root);
+    				stage.setScene(scene);
+    				stage.show();
+    			}catch (IOException e) {
+    				e.printStackTrace();
+    			}
     		}
     	}
     }
@@ -92,5 +159,7 @@ public class ReportsController implements Initializable {
 		cmbReports.setItems(obList);
 		lblchoice.setTextFill(Color.RED);
 		lblchoice.setVisible(false);
+		lbldates.setTextFill(Color.RED);
+		lbldates.setVisible(false);
 	}
 }

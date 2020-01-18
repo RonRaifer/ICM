@@ -641,6 +641,15 @@ public class MsgHandler {
 				client.sendToClient(objectManager);
 			}
 			break;
+		case CREATE_PERFORMANCE_REPORT:
+			query= "SELECT timeRequested FROM time_rquests WHERE status=Approved";
+			rs=dbHandler.executeQ(query);
+			int sumApprovedExtensions=0;
+			while(rs.next())
+			{
+				sumApprovedExtensions+=rs.getInt("timeRquested");
+			}
+			
 		case APPROVE_TIME:
 			ArrayList<String> timeReq = new ArrayList<>((ArrayList<String>)objectManager.getArray());
 			if(timeReq.get(3).equals("Time")) { //if it is just a time request for a stage to start
