@@ -781,6 +781,36 @@ public class MsgHandler {
 			query = "UPDATE `request` SET `RequestStatus` = 'frozen' WHERE (`idrequest` = '"+objectManager.getMsgString()+"')";
 			dbHandler.executeUpdate(query);
 			break;
+		case REPLACE_REVIEW_LEADER:
+			query = "UPDATE employee SET role = '' WHERE iduser = '"+objectManager.getUser().getIdUser()+"';"; //remove role from user
+			dbHandler.executeUpdate(query);
+			query = "UPDATE employee SET role = 'Review Leader' WHERE iduser = '"+objectManager.getMsgString()+"';"; //set role for user
+			dbHandler.executeUpdate(query);
+			break;
+		case REPLACE_REVIEW_MEMBER:
+			query = "UPDATE employee SET role = '' WHERE iduser = '"+objectManager.getUser().getIdUser()+"';"; //remove role from user
+			dbHandler.executeUpdate(query);
+			query = "UPDATE employee SET role = 'Review Member' WHERE iduser = '"+objectManager.getMsgString()+"';"; //set role for user
+			dbHandler.executeUpdate(query);
+			break;
+		case REPLACE_INSPECTOR:
+			query = "UPDATE employee SET role = '' WHERE iduser = '"+objectManager.getUser().getIdUser()+"';"; //remove role from user
+			dbHandler.executeUpdate(query);
+			query = "UPDATE employee SET role = 'Inspector' WHERE iduser = '"+objectManager.getMsgString()+"';"; //set role for user
+			dbHandler.executeUpdate(query);
+			break;
+		case REPLACE_SYSTEM_CHARGE:
+			query = "UPDATE systems SET iduser = '"+ objectManager.getMsgString() +"' WHERE systemName = '"+objectManager.getSystem().getSystemName()+"';"; //remove role from user
+			dbHandler.executeUpdate(query);
+			query = "SELECT iduser FROM systems WHERE iduser = '" + objectManager.getSystem().getIduser() + "';"; //check if he has more systems
+			rs = dbHandler.executeQ(query);
+			if(!rs.next()) {
+				query = "UPDATE employee SET role = '' WHERE iduser = '"+objectManager.getSystem().getIduser()+"';"; //remove role from user
+				dbHandler.executeUpdate(query);
+			}
+			query = "UPDATE employee SET role = 'Support and Maintenance' WHERE iduser = '"+objectManager.getMsgString()+"';"; //update role for user
+			dbHandler.executeUpdate(query);
+			break;
 		default:
 			break;
 		}

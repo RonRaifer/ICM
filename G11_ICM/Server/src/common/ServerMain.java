@@ -1,19 +1,22 @@
 package common;
 
-
 import java.net.InetAddress;
-import java.net.UnknownHostException;
-
-import controller.MenuController;
 import controller.ServerController;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
+/**
+ * Loads the ServerController with relevant parameters
+ * @author Ron
+ *
+ */
 public class ServerMain  extends Application{
 	
 	public static void main(String[] args) {
@@ -34,6 +37,14 @@ public class ServerMain  extends Application{
         primaryStage.setTitle("ICM Server Dashboard");
         primaryStage.setMaximized(false);
         primaryStage.setResizable(false);  
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent e) {
+				Platform.exit();
+                System.exit(0);
+				
+			}	            	
+        });
         primaryStage.show();
 	}
 

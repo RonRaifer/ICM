@@ -130,7 +130,7 @@ public class EmployeesController implements Initializable{
     @FXML
     private TableColumn<Systems, String> col_Sys_Last;
     @FXML
-    private TableColumn<Systems, String> col_Sys_Options;
+    private TableColumn<Systems, Systems> col_Sys_Options;
     @FXML
     private TableView<User> tblReview;
     @FXML
@@ -152,7 +152,9 @@ public class EmployeesController implements Initializable{
 	private ObservableList<User> List = null;
 	private ObservableList<Systems> ListSystems = null;
 	private User selectedUser;
-
+	private String type;
+	private Systems selectedSystem;
+	
 	public static void setListOfEmployees(ArrayList<User> array) {
 		arralistOfEmployees = new ArrayList<>(array);
     }
@@ -331,7 +333,7 @@ public class EmployeesController implements Initializable{
 	   		            event -> {
 	   		            	selectedUser = user; //keep for later
 	   		            	fillCmbEmployees();
-	   		            	
+	   		            	type = "User";
 	   		            }
 	   		        );
 	   		    }
@@ -342,6 +344,29 @@ public class EmployeesController implements Initializable{
     	   col_Sys_ID.setCellValueFactory(new PropertyValueFactory<>("iduser"));    	   
     	   col_Sys_Name.setCellValueFactory(new PropertyValueFactory<>("firstName"));
     	   col_Sys_Last.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+    	   col_Sys_Options.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+    	   col_Sys_Options.setCellFactory(param -> new TableCell<Systems, Systems>() { 
+	   			@FXML
+	   		    private final Button btn2 = new Button("Replace");
+
+	   		    protected void updateItem(Systems system, boolean empty) {
+	   		        super.updateItem(system, empty);
+
+	   		        if (system == null) {
+	   		            setGraphic(null);
+	   		            return;
+	   		        }
+
+	   		        setGraphic(btn2);
+	   		        btn2.setOnAction(
+	   		            event -> {
+	   		            	selectedSystem = system; //keep for later
+	   		            	fillCmbEmployees();
+	   		            	type = "System";
+	   		            }
+	   		        );
+	   		    }
+	   		});
     	   
     	   //Task to get data from DB
     	   Task<ArrayList<User>> task = new Task<ArrayList<User>>() {
@@ -406,7 +431,29 @@ public class EmployeesController implements Initializable{
 	 */
 	@FXML
 	void onAppointSelectedClick(ActionEvent event) {
-		
+		if(cmbSelectEmp.getSelectionModel().isEmpty()) 
+			return;
+		if(type.equals("User")) {
+			if(selectedUser.getRole().equals("Review Leader")){
+				String SelectedID = arralistOfEmp.get(cmbSelectEmp.getSelectionModel().getSelectedIndex()).getIdUser();
+				ObjectManager update = new ObjectManager(SelectedID, selectedUser, MsgEnum.REPLACE_REVIEW_LEADER);
+				ConnectionController.getClient().handleMessageFromClientUI(update);
+			}
+			if(selectedUser.getRole().equals("Review Member")){
+				String SelectedID = arralistOfEmp.get(cmbSelectEmp.getSelectionModel().getSelectedIndex()).getIdUser();
+				ObjectManager update = new ObjectManager(SelectedID, selectedUser, MsgEnum.REPLACE_REVIEW_MEMBER);
+				ConnectionController.getClient().handleMessageFromClientUI(update);
+			}
+			if(selectedUser.getRole().equals("Inspector")){
+				String SelectedID = arralistOfEmp.get(cmbSelectEmp.getSelectionModel().getSelectedIndex()).getIdUser();
+				ObjectManager update = new ObjectManager(SelectedID, selectedUser, MsgEnum.REPLACE_INSPECTOR);
+				ConnectionController.getClient().handleMessageFromClientUI(update);
+			}
+		}else {
+			String SelectedID = arralistOfEmp.get(cmbSelectEmp.getSelectionModel().getSelectedIndex()).getIdUser();
+			ObjectManager update = new ObjectManager(SelectedID, selectedSystem, MsgEnum.REPLACE_SYSTEM_CHARGE);
+			ConnectionController.getClient().handleMessageFromClientUI(update);
+		}
 	}
 	/**
 	 * 

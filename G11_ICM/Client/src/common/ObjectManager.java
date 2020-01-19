@@ -27,7 +27,8 @@ public class ObjectManager implements Serializable {
 	private EvaluationReport evReport;
 	private ActionsNeeded action;
 	private RequestHandling selected;
-  
+	private Systems system;
+	
 	public boolean isEvFlag() {
 	return evFlag;
 	}
@@ -71,7 +72,16 @@ public class ObjectManager implements Serializable {
 		this.user = user;
 		this.msgEnum = msgEnum;
 	}
-	
+	public ObjectManager(String id, User user, MsgEnum msgEnum) {
+		this.msgString = id;
+		this.user = user;
+		this.msgEnum = msgEnum;
+	}
+	public ObjectManager(String id, Systems system, MsgEnum msgEnum) {
+		this.msgString = id;
+		this.system = system;
+		this.msgEnum = msgEnum;
+	}
 	public ObjectManager(String msgString, MsgEnum msgEnum) { //for any string handler
 		this.msgString = msgString;
 		this.msgEnum = msgEnum;
@@ -152,6 +162,9 @@ public class ObjectManager implements Serializable {
 
 	public void setSelected(RequestHandling selected) {
 		this.selected = selected;
+	}
+	public Systems getSystem() {
+		return system;
 	}
 	
 
