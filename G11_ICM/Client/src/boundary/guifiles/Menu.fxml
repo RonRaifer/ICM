@@ -77,12 +77,12 @@
       </VBox>
    </top>
    <left>
-      <VBox prefHeight="652.0" prefWidth="160.0" style="-fx-background-color: white;" stylesheets="@Main.css" BorderPane.alignment="CENTER">
+      <VBox prefWidth="160.0" style="-fx-background-color: white;" stylesheets="@Main.css" BorderPane.alignment="CENTER">
          <effect>
             <DropShadow color="#868686" height="36.57" radius="19.0825" width="41.76" />
          </effect>
          <children>
-            <AnchorPane prefHeight="146.0" prefWidth="199.0">
+            <AnchorPane prefHeight="128.0" prefWidth="160.0">
                <children>
                   <ImageView fitHeight="47.0" fitWidth="51.0" layoutX="55.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -116,7 +116,7 @@
                   <Point3D />
                </rotationAxis>
             </Separator>
-            <Button fx:id="btnHome" contentDisplay="TOP" graphicTextGap="0.0" mnemonicParsing="false" onAction="#homeClick" prefHeight="80.0" prefWidth="200.0" text="Home" textFill="DARKSLATEGRAY">
+            <Button fx:id="btnHome" contentDisplay="TOP" graphicTextGap="0.0" mnemonicParsing="false" onAction="#homeClick" prefHeight="60.0" prefWidth="200.0" text="Home" textFill="DARKSLATEGRAY">
                <font>
                   <Font name="Arial Bold" size="14.0" />
                </font>
@@ -136,7 +136,7 @@
                   <Point3D />
                </rotationAxis>
             </Separator>
-            <Button fx:id="btnMessages" contentDisplay="TOP" graphicTextGap="0.0" mnemonicParsing="false" onAction="#messagesClick" prefHeight="80.0" prefWidth="200.0" text="Messages">
+            <Button fx:id="btnMessages" contentDisplay="TOP" graphicTextGap="0.0" mnemonicParsing="false" onAction="#messagesClick" prefHeight="60.0" prefWidth="200.0" text="Messages">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
@@ -153,7 +153,7 @@
                   <Point3D />
                </rotationAxis>
             </Separator>
-            <Button fx:id="btnNewRequest" contentDisplay="TOP" graphicTextGap="0.0" mnemonicParsing="false" onAction="#newRequestClick" prefHeight="80.0" prefWidth="200.0" text="New Request">
+            <Button fx:id="btnNewRequest" contentDisplay="TOP" graphicTextGap="0.0" mnemonicParsing="false" onAction="#newRequestClick" prefHeight="60.0" prefWidth="200.0" text="New Request">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
@@ -170,7 +170,7 @@
                   <Point3D />
                </rotationAxis>
             </Separator>
-            <Button fx:id="btnMyRequests" contentDisplay="TOP" graphicTextGap="0.0" mnemonicParsing="false" onAction="#myRequestsClick" prefHeight="80.0" prefWidth="200.0" text="My Requests">
+            <Button fx:id="btnMyRequests" contentDisplay="TOP" graphicTextGap="0.0" mnemonicParsing="false" onAction="#myRequestsClick" prefHeight="60.0" prefWidth="200.0" text="My Requests">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
@@ -187,7 +187,7 @@
                   <Point3D />
                </rotationAxis>
             </Separator>
-            <Button fx:id="btnProcesses" contentDisplay="TOP" graphicTextGap="0.0" layoutX="10.0" layoutY="396.0" mnemonicParsing="false" onAction="#processesClick" prefHeight="80.0" prefWidth="200.0" text="Processes">
+            <Button fx:id="btnProcesses" contentDisplay="TOP" graphicTextGap="0.0" layoutX="10.0" layoutY="396.0" mnemonicParsing="false" onAction="#processesClick" prefHeight="60.0" prefWidth="200.0" text="Processes">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
@@ -200,7 +200,7 @@
                </graphic>
             </Button>
             <Separator fx:id="spProcesses" layoutX="10.0" layoutY="476.0" minHeight="-Infinity" prefHeight="0.0" />
-            <Button fx:id="btnReports" contentDisplay="TOP" graphicTextGap="0.0" layoutX="10.0" layoutY="476.0" mnemonicParsing="false" onAction="#reportsClick" prefHeight="80.0" prefWidth="200.0" text="Reports">
+            <Button fx:id="btnReports" contentDisplay="TOP" graphicTextGap="0.0" layoutX="10.0" layoutY="476.0" mnemonicParsing="false" onAction="#reportsClick" prefHeight="60.0" prefWidth="200.0" text="Reports">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
@@ -213,7 +213,7 @@
                </graphic>
             </Button>
             <Separator fx:id="spReports" layoutX="10.0" layoutY="556.0" minHeight="-Infinity" prefHeight="0.0" />
-            <Button fx:id="btnEmployees" contentDisplay="TOP" graphicTextGap="0.0" layoutX="10.0" layoutY="556.0" mnemonicParsing="false" onAction="#employeesClick" prefHeight="80.0" prefWidth="200.0" text="Employees">
+            <Button fx:id="btnEmployees" contentDisplay="TOP" graphicTextGap="0.0" layoutX="10.0" layoutY="556.0" mnemonicParsing="false" onAction="#employeesClick" prefHeight="60.0" prefWidth="200.0" text="Employees">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>

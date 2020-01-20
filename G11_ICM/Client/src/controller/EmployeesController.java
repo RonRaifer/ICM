@@ -154,7 +154,7 @@ public class EmployeesController implements Initializable{
 	private User selectedUser;
 	private String type;
 	private Systems selectedSystem;
-	
+	private User ins;
 	public static void setListOfEmployees(ArrayList<User> array) {
 		arralistOfEmployees = new ArrayList<>(array);
     }
@@ -181,7 +181,7 @@ public class EmployeesController implements Initializable{
 	   				ObjectManager userWithRoles = new ObjectManager(arralistOfEmployees, MsgEnum.VIEW_EMPLOYEES); //updating departments for employee changed
 	   				ConnectionController.getClient().handleMessageFromClientUI(userWithRoles);
 	   				while(arralistOfEmployees.isEmpty())
-	   					Thread.sleep(500);
+	   					Thread.sleep(700);
 	   				return arralistOfEmployees;
 	   			}
 	   		};
@@ -377,7 +377,7 @@ public class EmployeesController implements Initializable{
     	       	   	ObjectManager systemCharge = new ObjectManager(arralistOfSystems, MsgEnum.VIEW_SYSTEMS); //get systems with their charge
     	       	 	ConnectionController.getClient().handleMessageFromClientUI(systemCharge);
     	       	   	while(arralistOfEmployees.isEmpty())
-    	       	   		Thread.sleep(500);
+    	       	   		Thread.sleep(700);
     	       	   	return arralistOfEmployees;
     	        }
     	    };
@@ -392,6 +392,7 @@ public class EmployeesController implements Initializable{
     	    		    lblManEmail.setText(u.getEmail());
     	    		}
     	    		if(u.getRole().equals("Inspector")) { //set Inspector data
+    	    			ins = u;
     	    			lblInsID.setText(u.getIdUser());
     	    		    lblInsName.setText(u.getFirstName());
     	    		    lblInsLast.setText(u.getLastName());
@@ -454,6 +455,12 @@ public class EmployeesController implements Initializable{
 			ObjectManager update = new ObjectManager(SelectedID, selectedSystem, MsgEnum.REPLACE_SYSTEM_CHARGE);
 			ConnectionController.getClient().handleMessageFromClientUI(update);
 		}
+		btnAppointEmp.setVisible(false);
+	}
+	@FXML
+	void onRepInspector(ActionEvent event) {
+		selectedUser = ins;
+		fillCmbEmployees();
 	}
 	/**
 	 * 
