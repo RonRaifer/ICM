@@ -181,7 +181,7 @@ public class EmployeesController implements Initializable{
 	   				ObjectManager userWithRoles = new ObjectManager(arralistOfEmployees, MsgEnum.VIEW_EMPLOYEES); //updating departments for employee changed
 	   				ConnectionController.getClient().handleMessageFromClientUI(userWithRoles);
 	   				while(arralistOfEmployees.isEmpty())
-	   					Thread.sleep(700);
+	   					Thread.sleep(800);
 	   				return arralistOfEmployees;
 	   			}
 	   		};

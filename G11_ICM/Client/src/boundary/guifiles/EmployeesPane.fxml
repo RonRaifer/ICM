@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="775.0" prefWidth="1363.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EmployeesController">
+<AnchorPane prefHeight="701.0" prefWidth="1308.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EmployeesController">
    <children>
       <AnchorPane layoutX="17.0" prefHeight="85.0" prefWidth="201.0">
          <children>
@@ -40,17 +40,17 @@
             </Label>
          </children>
       </AnchorPane>
-      <TabPane layoutX="32.0" layoutY="105.0" prefHeight="662.0" prefWidth="1292.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="32.0" layoutY="105.0" prefHeight="576.0" prefWidth="1234.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="tabAttach" onSelectionChanged="#onTabAttachSelect" text="Department Attach">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="569.0" prefWidth="1234.0" style="-fx-background-color: white;">
                      <children>
-                        <TitledPane fx:id="paneInSide" animated="false" collapsible="false" layoutX="14.0" layoutY="14.0" prefHeight="506.0" prefWidth="665.0" text="Employees At Information Technology Department">
+                        <TitledPane fx:id="paneInSide" animated="false" collapsible="false" layoutX="14.0" layoutY="14.0" prefHeight="474.0" prefWidth="666.0" text="Employees At Information Technology Department">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TableView fx:id="tblEmployees" editable="true" layoutX="19.6" layoutY="19.6" prefHeight="480.0" prefWidth="491.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <TableView fx:id="tblEmployees" editable="true" layoutX="19.6" layoutY="19.6" prefHeight="475.0" prefWidth="635.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <columns>
                                         <TableColumn fx:id="col_id" prefWidth="72.00000154972076" resizable="false" sortable="false" text="ID" />
                                         <TableColumn fx:id="col_name" prefWidth="107.99996185302734" resizable="false" text="Name" />
@@ -66,7 +66,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </TitledPane>
-                        <TitledPane fx:id="paneOutSide" animated="false" collapsible="false" layoutX="719.0" layoutY="14.0" prefHeight="506.0" prefWidth="552.0" text="Outside Information Technology Department">
+                        <TitledPane fx:id="paneOutSide" animated="false" collapsible="false" layoutX="719.0" layoutY="14.0" prefHeight="474.0" prefWidth="496.0" text="Outside Information Technology Department">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -75,7 +75,7 @@
                                           <TableColumn fx:id="col_idToAdd" prefWidth="72.00000154972076" resizable="false" sortable="false" text="ID" />
                                           <TableColumn fx:id="col_nameToAdd" prefWidth="107.99996185302734" resizable="false" text="Name" />
                                           <TableColumn fx:id="col_lastNameToAdd" prefWidth="139.79996948242183" resizable="false" text="Last Name" />
-                                          <TableColumn fx:id="col_optionsToAdd" prefWidth="205.59993896484366" sortable="false" text="Options" />
+                                          <TableColumn fx:id="col_optionsToAdd" prefWidth="149.0" sortable="false" text="Options" />
                                        </columns>
                                     </TableView>
                                  </children>
@@ -85,12 +85,12 @@
                               <Font name="System Bold Italic" size="14.0" />
                            </font>
                         </TitledPane>
-                        <Button fx:id="btnUpdate" layoutX="14.0" layoutY="534.0" mnemonicParsing="false" onAction="#onUpdateDepartmentClick" prefHeight="30.0" prefWidth="171.0" text="Update Department">
+                        <Button fx:id="btnUpdate" layoutX="14.0" layoutY="498.0" mnemonicParsing="false" onAction="#onUpdateDepartmentClick" prefHeight="30.0" prefWidth="171.0" text="Update Department">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Pane fx:id="pMsg" layoutX="192.0" layoutY="533.0" prefHeight="36.0" prefWidth="386.0">
+                        <Pane fx:id="pMsg" layoutX="192.0" layoutY="497.0" prefHeight="36.0" prefWidth="386.0">
                            <children>
                               <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="CENTER" layoutY="7.0" text="Label" textAlignment="CENTER">
                                  <font>
@@ -110,7 +110,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
                      <children>
-                        <TitledPane fx:id="panePermission" animated="false" collapsible="false" layoutX="22.0" layoutY="25.0" prefHeight="586.0" prefWidth="668.0" text="Employees With Roles">
+                        <TitledPane fx:id="panePermission" animated="false" collapsible="false" layoutX="22.0" layoutY="7.0" prefHeight="535.0" prefWidth="668.0" text="Employees With Roles">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="529.0" prefWidth="666.0">
                                  <children>
@@ -130,7 +130,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </TitledPane>
-                        <TitledPane animated="false" collapsible="false" layoutX="709.0" layoutY="25.0" prefHeight="73.0" prefWidth="555.0" text="Manager">
+                        <TitledPane animated="false" collapsible="false" layoutX="709.0" layoutY="7.0" prefHeight="73.0" prefWidth="522.0" text="Manager">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -149,7 +149,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </TitledPane>
-                        <TitledPane alignment="TOP_LEFT" animated="false" collapsible="false" contentDisplay="RIGHT" layoutX="709.0" layoutY="112.0" prefHeight="85.0" prefWidth="555.0" text="Inspector">
+                        <TitledPane alignment="TOP_LEFT" animated="false" collapsible="false" contentDisplay="RIGHT" layoutX="709.0" layoutY="87.0" prefHeight="85.0" prefWidth="522.0" text="Inspector">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -169,24 +169,24 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </TitledPane>
-                        <TitledPane animated="false" collapsible="false" layoutX="709.0" layoutY="202.0" prefHeight="213.0" prefWidth="555.0" text="Systems">
+                        <TitledPane animated="false" collapsible="false" layoutX="709.0" layoutY="178.0" prefHeight="213.0" prefWidth="524.0" text="Systems">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TableView fx:id="tblSystems" layoutX="-5.0" layoutY="6.0" prefHeight="187.0" prefWidth="553.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <TableView fx:id="tblSystems" layoutX="19.6" layoutY="19.6" prefHeight="187.0" prefWidth="522.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <columns>
-                                        <TableColumn fx:id="col_SysName" prefWidth="126.0" resizable="false" text="System Name" />
-                                        <TableColumn fx:id="col_Sys_ID" prefWidth="86.99999237060547" resizable="false" text="ID" />
-                                          <TableColumn fx:id="col_Sys_Name" prefWidth="87.0" resizable="false" text="FirstName" />
-                                          <TableColumn fx:id="col_Sys_Last" prefWidth="98.0" resizable="false" text="LastName" />
-                                          <TableColumn fx:id="col_Sys_Options" prefWidth="134.80003051757808" resizable="false" text="Options" />
+                                        <TableColumn fx:id="col_SysName" prefWidth="106.00000154972076" resizable="false" text="System Name" />
+                                        <TableColumn fx:id="col_Sys_ID" prefWidth="84.99999237060547" resizable="false" text="ID" />
+                                          <TableColumn fx:id="col_Sys_Name" prefWidth="90.0" resizable="false" text="FirstName" />
+                                          <TableColumn fx:id="col_Sys_Last" prefWidth="89.0" resizable="false" text="LastName" />
+                                          <TableColumn fx:id="col_Sys_Options" maxWidth="1.7976931348623157E308" prefWidth="128.0" resizable="false" text="Options" />
                                       </columns>
                                     </TableView>
                                  </children>
                               </AnchorPane>
                            </content>
                         </TitledPane>
-                        <TitledPane animated="false" collapsible="false" layoutX="709.0" layoutY="427.0" prefHeight="185.0" prefWidth="555.0" text="Review Team">
+                        <TitledPane animated="false" collapsible="false" layoutX="709.0" layoutY="394.0" prefHeight="151.0" prefWidth="524.0" text="Review Team">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -203,7 +203,7 @@
                               </AnchorPane>
                            </content>
                         </TitledPane>
-                        <AnchorPane fx:id="apReplacePer" layoutX="537.0" layoutY="239.0" prefHeight="140.0" prefWidth="344.0" style="-fx-background-color: white;">
+                        <AnchorPane fx:id="apReplacePer" layoutX="474.0" layoutY="204.0" prefHeight="140.0" prefWidth="344.0" style="-fx-background-color: white;">
                            <effect>
                               <DropShadow />
                            </effect>

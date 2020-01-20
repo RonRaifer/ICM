@@ -40,13 +40,13 @@
             </Label>
          </children>
       </AnchorPane>
-      <TabPane fx:id="tabPane" layoutX="28.0" layoutY="85.0" prefHeight="607.0" prefWidth="1211.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabPane" layoutX="28.0" layoutY="85.0" prefHeight="578.0" prefWidth="1185.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab fx:id="tabWaitingActions" text="Waiting Your Actions">
                <content>
                   <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="578.0" prefWidth="1213.0" style="-fx-background-color: white;">
                      <children>
-                        <TitledPane collapsible="false" layoutX="14.0" layoutY="14.0" prefHeight="546.0" prefWidth="680.0" text="Waiting your action">
+                        <TitledPane collapsible="false" layoutX="14.0" layoutY="14.0" prefHeight="515.0" prefWidth="680.0" text="Waiting your action">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -189,7 +189,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="tblRequest" layoutX="40.0" layoutY="25.0" onMouseClicked="#clickRequestsTbl" prefHeight="449.0" prefWidth="601.0">
+                        <TableView fx:id="tblRequest" layoutX="40.0" layoutY="25.0" onMouseClicked="#clickRequestsTbl" prefHeight="384.0" prefWidth="574.0">
                           <columns>
                             <TableColumn fx:id="colIDtab2" prefWidth="114.0" text="ID Request" />
                             <TableColumn fx:id="colStageTab2" prefWidth="126.99996948242188" text="Stage" />
@@ -197,7 +197,7 @@
                               <TableColumn fx:id="colOptions" prefWidth="217.0" text="Options" />
                           </columns>
                         </TableView>
-                        <Button fx:id="btnFreeze" layoutX="40.0" layoutY="487.0" mnemonicParsing="false" onAction="#clickFreeze" text="Freeze" visible="false" />
+                        <Button fx:id="btnFreeze" layoutX="40.0" layoutY="425.0" mnemonicParsing="false" onAction="#clickFreeze" text="Freeze" visible="false" />
                      </children>
                   </AnchorPane>
               </content>
