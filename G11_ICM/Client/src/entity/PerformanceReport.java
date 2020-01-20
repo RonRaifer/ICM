@@ -7,6 +7,11 @@ public class PerformanceReport {
 	private String durationApprovedExtensions;
 	private String durationActivityTimeAdded;
 	
+	public PerformanceReport(String durationApprovedExtensions, String durationActivitytimeAdded) {
+		this.durationApprovedExtensions=durationApprovedExtensions;
+		this.durationActivityTimeAdded=durationActivitytimeAdded;
+	}
+	
 	public String getDurationApprovedExtensions() {
 		return durationApprovedExtensions;
 	}

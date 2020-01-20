@@ -14,6 +14,7 @@ import entity.ActionsNeeded;
 import entity.Document;
 import entity.EvaluationReport;
 import entity.Messages;
+import entity.PerformanceReport;
 import entity.Request;
 import entity.RequestHandling;
 import entity.Systems;
@@ -680,24 +681,23 @@ public class MsgHandler {
 			}
 			break;
 		case CREATE_PERFORMANCE_REPORT:
+			PerformanceReport perRep=null;
 			query= "SELECT timeRequested FROM time_rquests WHERE status='Approved'";
 			rs=dbHandler.executeQ(query);
-			int sumApprovedExtensions=0;
+			Integer sumApprovedExtensions=0;
 			while(rs.next())
 			{
 				sumApprovedExtensions+=rs.getInt("timeRquested");
 			}
 			query= "SELECT e.time, r.totalTime FROM evaluation_report e, request r WHERE e.idreq=r.idrequest AND r.totalTime>e.time";
 			rs=dbHandler.executeQ(query);
-			int sumAddedActivityTime=0;
+			Integer sumAddedActivityTime=0;
 			while(rs.next())
 			{
 				sumAddedActivityTime+=Math.subtractExact(rs.getInt("totalTime"), rs.getInt("time"));
 			}
-			ArrayList<Integer> performanceReportData=new ArrayList<Integer>();
-			performanceReportData.add(sumApprovedExtensions);
-			performanceReportData.add(sumAddedActivityTime);
-			objectManager= new ObjectManager(performanceReportData,MsgEnum.CREATE_PERFORMANCE_REPORT);
+			perRep= new PerformanceReport(sumApprovedExtensions.toString(),sumAddedActivityTime.toString());
+			objectManager= new ObjectManager(perRep,MsgEnum.CREATE_PERFORMANCE_REPORT);
 			client.sendToClient(objectManager);
 			break;
 		case APPROVE_TIME:

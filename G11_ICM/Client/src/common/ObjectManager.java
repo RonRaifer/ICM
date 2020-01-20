@@ -28,6 +28,7 @@ public class ObjectManager implements Serializable {
 	private ActionsNeeded action;
 	private RequestHandling selected;
 	private Systems system;
+	private PerformanceReport perReport;
 	
 	public boolean isEvFlag() {
 	return evFlag;
@@ -122,6 +123,14 @@ public class ObjectManager implements Serializable {
 		this.msgEnum= msgEnum;
 		setArray(array);
 	}
+	public ObjectManager(PerformanceReport perRep, MsgEnum msgEnum) {
+		perReport=perRep;
+		this.msgEnum=msgEnum;
+	}
+	public PerformanceReport getPerReport() {
+		return perReport;
+	}
+
 	public List<Document> getListOfFiles(){
 		return listOfFiles;
 	}

@@ -13,6 +13,7 @@ import controller.MessagesController;
 import controller.MyRequestsController;
 
 import controller.NewRequestController;
+import controller.PerformanceReportPopupController;
 import controller.ProcessInspectorController;
 import controller.ProcessesController;
 import controller.RequestViewController;
@@ -82,11 +83,12 @@ public class msgReceivedHandler {
 			break;
 		case VIEW_EMPLOYEES_TO_APPOINT:
 			ProcessInspectorController.setListOfEmployees((ArrayList<User>)objectManager.getArray());
-		
+			break;
 		case SET_REVIEW_EXIST:
 			ReviewController.setReviewExist(objectManager.getMsgString());
+		case CREATE_PERFORMANCE_REPORT:
+			PerformanceReportPopupController.setPerRep(objectManager.getPerReport());
 			break;
-        
 		case VIEW_EMPLOYEES_WITH_ROLES:
 			EmployeesController.setListOfEmployees((ArrayList<User>)objectManager.getArray());
 		  break;

@@ -65,9 +65,6 @@ public class ReportsController implements Initializable {
     @FXML
     private Label lbldates;
     
-    private static PerformanceReport perRep;
-    private static PerformanceBehindReport perbehindRep;
-    private static ActivityReport actRep;
 
     @FXML
     void generateNewReport(ActionEvent event) {
@@ -91,7 +88,6 @@ public class ReportsController implements Initializable {
     			}
     			else
     			{
-    				actRep=new ActivityReport();
     				Stage stage= new Stage();
         			FXMLLoader loader=new FXMLLoader();
         			try {
@@ -107,7 +103,6 @@ public class ReportsController implements Initializable {
     		}
     		if(cmbReports.getSelectionModel().getSelectedItem().equals("Performance report")) 
     		{
-    			perRep=new PerformanceReport();
     			Stage stage= new Stage();
     			FXMLLoader loader=new FXMLLoader();
     			try {
@@ -122,7 +117,6 @@ public class ReportsController implements Initializable {
     		}
     		if(cmbReports.getSelectionModel().getSelectedItem().equals("Peformance behind report"))
     		{
-    			perbehindRep=new PerformanceBehindReport();
     			Stage stage= new Stage();
     			FXMLLoader loader=new FXMLLoader();
     			try {
