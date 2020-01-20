@@ -159,7 +159,7 @@ public class MenuController implements Initializable{
     void processesClick(ActionEvent event) {
     	menuStage.setTitle("ICM -> Processes");
     	buttonStyle(btnProcesses);
-    	if(user.getRole().compareTo("Inspector") == 0) { //if user is Inspector
+    	if(user.getRole().compareTo("Inspector") == 0 || user.getRole().compareTo("Manager") == 0) { //if user is Inspector
     		sceneManager("ProcessPaneInspector", btnProcesses); 
     	}
     	else {

@@ -36,37 +36,26 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class ProcessesController implements Initializable {
-
-	
-	
 	@FXML
 	private AnchorPane apActions;
 	@FXML
 	private Label lblPickMsg;
-	
 	@FXML
 	private TableView<RequestHandling> tblTimeDetermine1;
-
 	@FXML
 	private TableColumn<RequestHandling, String> col_requestId1;
-
 	@FXML
 	private TableColumn<RequestHandling, String> col_stage1;
-
 	@FXML
 	private TableColumn<RequestHandling, String> col_dueDate;
 	@FXML
 	private TableColumn<RequestHandling, String> col_timeLeft;
-
 	@FXML
 	private Button btnExtend;
-
 	@FXML
 	private TextField tbExtend;
-
 	@FXML
-	private TextField tbTime;
-	
+	private TextField tbTime;	
 	@FXML
 	private Label lblInfo;
 	
@@ -99,8 +88,6 @@ public class ProcessesController implements Initializable {
 	public static RequestHandling getSelected() {
 		return selected;
 	}
-
-	
 	
 	public static String getFlag() {
 		return flag;
@@ -208,7 +195,6 @@ public class ProcessesController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
 		ObjectManager viewProcesses = new ObjectManager(arralistOfProcesses, MsgEnum.VIEW_PROCESSES);
 		ConnectionController.getClient().handleMessageFromClientUI(viewProcesses);
 		apActions.getChildren().clear();

@@ -157,7 +157,7 @@
                                     <Label layoutX="89.0" layoutY="10.0" text="First Name:" />
                                     <Label layoutX="215.0" layoutY="10.0" text="Last Name:" />
                                     <Label layoutX="356.0" layoutY="11.0" text="Email:" />
-                                    <Hyperlink fx:id="hlReplaceIns" layoutX="9.0" layoutY="28.0" text="Replace" underline="true" />
+                                    <Hyperlink fx:id="hlReplaceIns" layoutX="9.0" layoutY="28.0" onAction="#onRepInspector" text="Replace" underline="true" />
                                     <Label fx:id="lblInsID" layoutX="29.0" layoutY="10.0" text="ID: " />
                                     <Label fx:id="lblInsName" layoutX="150.0" layoutY="11.0" text="ID: " />
                                     <Label fx:id="lblInsLast" layoutX="277.0" layoutY="11.0" text="ID: " />

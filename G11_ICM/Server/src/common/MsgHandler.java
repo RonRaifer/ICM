@@ -54,7 +54,7 @@ public class MsgHandler {
 									+ "'" + ";";
 							rs2 = dbHandler.executeQ(query);
 							if (rs2.next() == true) { // if user is an employee
-								if (rs2.getString("role") == null) { // if employee does not have specific role
+								if (rs2.getString("role") == null || rs2.getString("role").equals("")) { // if employee does not have specific role
 									user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
 											rs2.getString(2), rs.getString(6), rs.getString(7)); // put profession role
 								} else
@@ -438,7 +438,7 @@ public class MsgHandler {
 			break;
 		
 		case EXECUTION_DONE:
-			query = "UPDATE request_handling SET currentStage = 'Checking' , executionTime = '7' , idCharge = '' WHERE idrequest = '"+objectManager.getMsgString()+"'";
+			query = "UPDATE request_handling SET currentStage = 'Checking' , executionTime = '7' , idCharge = '123' WHERE idrequest = '"+objectManager.getMsgString()+"'";
 			dbHandler.executeUpdate(query);
 			System.out.println("Request #"+objectManager.getMsgString()+" moved from: Execution > Checking");	
 			break;
@@ -447,6 +447,12 @@ public class MsgHandler {
 		case APPROVE_CHECKING:
 			query = "UPDATE request_handling SET currentStage = 'Closing', executionTime = '' , idCharge = '' WHERE idrequest = '"+objectManager.getMsgString()+"'";
 			dbHandler.executeUpdate(query);
+			query = "SELECT iduser FROM employee WHERE role = 'Inspector'";
+			rs = dbHandler.executeQ(query);
+			if(rs.next() == true)
+				query = "INSERT INTO actions_needed VALUES ("+Integer.valueOf(objectManager.getMsgString())+", '"+rs.getString("iduser")+"', 'Closing', 'Close Request');";
+			
+			dbHandler.executeUpdate(query); //execute the insert query
 			System.out.println("Request #"+objectManager.getMsgString()+" moved from: Checking > Closing");		
 			break;
 			
@@ -538,20 +544,16 @@ public class MsgHandler {
 				System.out.println("Request #"+objectManager.getMsgString()+" moved from: Review > Execution");
 			}
 			else {
-				query = "UPDATE request_handling SET currentStage = 'Closing', executionTime = '' , idCharge = '' WHERE idrequest = '"+objectManager.getMsgString()+"'";
-				dbHandler.executeUpdate(query);
 				query = "SELECT iduser, idrequest FROM request WHERE idrequest = '"+objectManager.getMsgString()+"';"; //gets the user issued the request
 				rs = dbHandler.executeQ(query);
 				//sending finished messages for users
 				if(rs.next() == true) {
-					insertMessage(rs.getString("iduser"), "Finished Handeling Your Request [ID: "+rs.getString("idrequest")+"]",
-							"Hi, We have finished handeling your request. Thank you.", "FINISH");
-					query = "SELECT iduser FROM employee WHERE role = 'Inspector';"; //gets the inspector ID
-					rs2 = dbHandler.executeQ(query);
-					if(rs2.next() == true) {
-						insertMessage(rs2.getString("iduser"), "Finished Handeling Request [ID: "+rs.getString("idrequest")+"]",
-								"Hi, The team finished handeling the request.", "FINISH");
-					}
+					insertMessage(rs.getString("iduser"), "Rejected Your Request [ID: "+rs.getString("idrequest")+"]",
+							"Hi, We rejected your request. Thank you.", "FINISH");
+					query = "UPDATE request SET status = 'rejected' WHERE idrequest = "+Integer.valueOf(objectManager.getMsgString());
+					dbHandler.executeUpdate(query);
+					query = "DELETE FROM request_handling WHERE idrequest = "+Integer.valueOf(objectManager.getMsgString());
+					dbHandler.executeUpdate(query);
 				}
 				
 				System.out.println("Request #"+objectManager.getMsgString()+" moved from: Review > Closing");
@@ -781,6 +783,12 @@ public class MsgHandler {
 			query = "UPDATE `request` SET `RequestStatus` = 'frozen' WHERE (`idrequest` = '"+objectManager.getMsgString()+"')";
 			dbHandler.executeUpdate(query);
 			break;
+		case UNFREEZE_REQUEST:
+			query = "UPDATE `request_handling` SET `status` = '' WHERE (`idrequest` = '"+objectManager.getMsgString()+"')";
+			dbHandler.executeUpdate(query);
+			query = "UPDATE `request` SET `RequestStatus` = 'opened' WHERE (`idrequest` = '"+objectManager.getMsgString()+"')";
+			dbHandler.executeUpdate(query);
+			break;
 		case REPLACE_REVIEW_LEADER:
 			query = "UPDATE employee SET role = '' WHERE iduser = '"+objectManager.getUser().getIdUser()+"';"; //remove role from user
 			dbHandler.executeUpdate(query);
@@ -811,6 +819,21 @@ public class MsgHandler {
 			query = "UPDATE employee SET role = 'Support and Maintenance' WHERE iduser = '"+objectManager.getMsgString()+"';"; //update role for user
 			dbHandler.executeUpdate(query);
 			break;
+		case CLOSE_REQUEST:
+			query = "UPDATE request SET status = 'closed' WHERE idrequest = '"+objectManager.getAction().getIdrequest()+"'";;
+			dbHandler.executeUpdate(query);
+			query = "DELETE FROM request_handling WHERE idrequest = "+Integer.valueOf(objectManager.getAction().getIdrequest());
+			dbHandler.executeUpdate(query);
+			query = "SELECT iduser, idrequest FROM request WHERE idrequest = '"+objectManager.getAction().getIdrequest()+"';"; //remove role from user
+			rs = dbHandler.executeQ(query);
+			if(rs.next() == true) {
+				insertMessage(rs.getString("iduser"), "Finished handeling Your Request [ID: "+rs.getString("idrequest")+"]",
+						"Hi, We finished handeling your request. Thank you.", "FINISH");
+			}
+			insertMessage(objectManager.getAction().getIdCharge(), "Finished handeling Request [ID: "+rs.getString("idrequest")+"]",
+					"Hi, We finished handeling the request. Thank you.", "FINISH");
+			deleteAction();
+			break;
 		default:
 			break;
 		}
@@ -827,7 +850,7 @@ public class MsgHandler {
 	private void insertEvaluatorAppointAction(String sysName, String requestId) throws NumberFormatException, SQLException {
 		String query;
 		ResultSet rs;
-		query = "SELECT iduser FROM systems WHERE systemName = '" + sysName + "'" + " AND iduser NOT IN (SELECT iduser FROM systems WHERE iduser = '' OR role IS NULL);"; //Prepare the Evaluator appoint by the Inspector
+		query = "SELECT iduser FROM systems WHERE systemName = '" + sysName + "'" + " AND iduser NOT IN (SELECT iduser FROM systems WHERE iduser = '');"; //Prepare the Evaluator appoint by the Inspector
 		rs = dbHandler.executeQ(query);
 		if(!rs.next()) //in case there is no system charge, just set charge to null
 			query = "INSERT INTO actions_needed VALUES ("+Integer.valueOf(requestId)+", 'None', 'Evaluation', 'Evaluator Appointment');";

@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="728.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProcessInspectorController">
+<AnchorPane prefHeight="728.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProcessInspectorController">
    <children>
       <AnchorPane layoutX="17.0" prefHeight="85.0" prefWidth="201.0">
          <children>
@@ -123,7 +123,7 @@
                                           </Label>
                                        </children>
                                     </Pane>
-                                    <AnchorPane fx:id="apTimeApproval" prefHeight="237.0" prefWidth="420.0">
+                                    <AnchorPane fx:id="apTimeApproval" prefHeight="237.0" prefWidth="420.0" visible="false">
                                        <children>
                                           <Label layoutX="139.0" layoutY="25.0" text="Time Approval" underline="true">
                                              <font>
@@ -155,6 +155,22 @@
                                           </Pane>
                                        </children>
                                     </AnchorPane>
+                                    <AnchorPane fx:id="apClose" layoutX="10.0" layoutY="10.0" prefHeight="286.0" prefWidth="417.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Label layoutX="139.0" layoutY="25.0" text="Close Request" underline="true">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lblSubTitleTime1" layoutX="85.0" layoutY="64.0" text="Process finished and waiting your action">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Button fx:id="btnApproveTime1" layoutX="40.0" layoutY="121.0" mnemonicParsing="false" onAction="#onCloseRequestClick" text="Close" textFill="#0e9402" />
+                                          <Hyperlink layoutX="164.0" layoutY="90.0" onAction="#onViewRequestClick" text="View Request" underline="true" />
+                                       </children>
+                                    </AnchorPane>
                                  </children>
                               </AnchorPane>
                            </content>
@@ -173,14 +189,15 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="tblRequest" layoutX="14.0" layoutY="14.0" onMouseClicked="#clickRequestsTbl" prefHeight="373.0" prefWidth="342.0">
+                        <TableView fx:id="tblRequest" layoutX="40.0" layoutY="25.0" onMouseClicked="#clickRequestsTbl" prefHeight="449.0" prefWidth="601.0">
                           <columns>
                             <TableColumn fx:id="colIDtab2" prefWidth="114.0" text="ID Request" />
-                            <TableColumn fx:id="colStageTab2" prefWidth="114.0" text="Stage" />
-                              <TableColumn fx:id="colStatusTab2" prefWidth="114.0" text="Status" />
+                            <TableColumn fx:id="colStageTab2" prefWidth="126.99996948242188" text="Stage" />
+                              <TableColumn fx:id="colStatusTab2" prefWidth="143.0" text="Status" />
+                              <TableColumn fx:id="colOptions" prefWidth="217.0" text="Options" />
                           </columns>
                         </TableView>
-                        <Button fx:id="btnFreeze" layoutX="14.0" layoutY="395.0" mnemonicParsing="false" onAction="#clickFreeze" text="Freeze" visible="false" />
+                        <Button fx:id="btnFreeze" layoutX="40.0" layoutY="487.0" mnemonicParsing="false" onAction="#clickFreeze" text="Freeze" visible="false" />
                      </children>
                   </AnchorPane>
               </content>

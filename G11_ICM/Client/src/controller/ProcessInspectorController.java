@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,8 @@ import common.ObjectManager;
 import entity.ActionsNeeded;
 import entity.Request;
 import entity.User;
+import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -24,6 +27,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -83,6 +87,8 @@ public class ProcessInspectorController implements Initializable {
 	@FXML
 	private AnchorPane apLoading;
 	@FXML
+	private AnchorPane apClose;
+	@FXML
 	private Label lblSubTitleTime;
 	@FXML
 	private Button btnApproveTime;
@@ -112,6 +118,9 @@ public class ProcessInspectorController implements Initializable {
 
 	  @FXML
 	  private TableColumn<Request, String> colStatusTab2;
+	  
+	  @FXML
+	  private TableColumn<Request,Request> colOptions;
 
 	  @FXML
 	  private Button btnFreeze;
@@ -165,6 +174,7 @@ public class ProcessInspectorController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		if(LoginController.getLoggedUser().getRole().equals("Manager")) tabPane.getTabs().remove(tabWaitingActions); //Manager View
 		apLoading.setVisible(false);
 		lblGreat.setVisible(false);
 		clearScreen();
@@ -176,8 +186,10 @@ public class ProcessInspectorController implements Initializable {
 		col_actions.setCellValueFactory(new PropertyValueFactory<>("actionsNeeded"));
 		try {
 			Thread.sleep(1000);
-			if (arralistOfActions.isEmpty())
+			if (arralistOfActions.isEmpty()) {
+				tblActionsNeeded.setVisible(false);
 				lblGreat.setVisible(true);
+			}
 			else {
 				List = FXCollections.observableArrayList(arralistOfActions);
 				tblActionsNeeded.setItems(List);
@@ -230,6 +242,9 @@ public class ProcessInspectorController implements Initializable {
 			showTimeRequest();
 			lblReason.setVisible(true);
 			taReason.setVisible(true);
+		}
+		if (selected.equals("Close Request")) { // if needs to approve time extend
+			apClose.setVisible(true);
 		}
 		lblPickMsg.setVisible(false);
 	}
@@ -416,6 +431,7 @@ public class ProcessInspectorController implements Initializable {
 		apAppoint.setVisible(false);
 		apAppointExecutor.setVisible(false);
 		apTimeApproval.setVisible(false);
+		apClose.setVisible(false);
 	}
 	
 	//tab 2 functions
@@ -426,26 +442,52 @@ public class ProcessInspectorController implements Initializable {
 		 */
 		  @FXML
 		    void clickFreeze(ActionEvent event) {
-			  	ObjectManager msg = new ObjectManager(selectedRequest.getIdReq(), MsgEnum.FREEZE_REQUEST);
-			  	client.handleMessageFromClientUI(msg);
-			  	try {
-					Thread.sleep(700);
-				} catch (InterruptedException e) {
-					
-					e.printStackTrace();
-				}
+			  if(LoginController.getLoggedUser().getRole().equals("Manager")) {
+				  	ObjectManager msg = new ObjectManager(selectedRequest.getIdReq(), MsgEnum.UNFREEZE_REQUEST);
+				  	client.handleMessageFromClientUI(msg);
+				  	try {
+						Thread.sleep(700);
+					} catch (InterruptedException e) {
+						
+						e.printStackTrace();
+					}
+				  	
+				  	selectedRequest.setStatus("opened");
+				  	for(Request r : oblRequests) {
+				  		if(r.getIdReq().equals(selectedRequest.getIdReq())){
+							oblRequests.remove(r);
+							break;
+				  		}
+				  	}
+				  	
+				  	oblRequests.add(selectedRequest);
+				  	tblRequest.setItems(oblRequests);
+				  	btnFreeze.setVisible(false);
+			  }else {
+				  ObjectManager msg = new ObjectManager(selectedRequest.getIdReq(), MsgEnum.FREEZE_REQUEST);
+				  	client.handleMessageFromClientUI(msg);
+				  	try {
+						Thread.sleep(700);
+					} catch (InterruptedException e) {
+						
+						e.printStackTrace();
+					}
+				  	
+				  	selectedRequest.setStatus("frozen");
+				  	for(Request r : oblRequests) {
+				  		if(r.getIdReq().equals(selectedRequest.getIdReq())){
+							oblRequests.remove(r);
+							break;
+				  		}
+				  	}
+				  	
+				  	oblRequests.add(selectedRequest);
+				  	tblRequest.setItems(oblRequests);
+				  	btnFreeze.setVisible(false);
+			  }
+				  
+				
 			  	
-			  	selectedRequest.setStatus("frozen");
-			  	for(Request r : oblRequests) {
-			  		if(r.getIdReq().equals(selectedRequest.getIdReq())){
-						oblRequests.remove(r);
-						break;
-			  		}
-			  	}
-			  	
-			  	oblRequests.add(selectedRequest);
-			  	tblRequest.setItems(oblRequests);
-			  	btnFreeze.setVisible(false);
 		    }
 
 		  	/**
@@ -459,9 +501,19 @@ public class ProcessInspectorController implements Initializable {
 		    	btnFreeze.setVisible(false);
 		    	
 		    	selectedRequest = tblRequest.getSelectionModel().getSelectedItem();
-		    
+		    	
 		    	if(selectedRequest.getStatus().equals("opened")&&!selectedRequest.getCurrentStage().equals("Closing")) {
-		    		btnFreeze.setVisible(true);
+		    		if(LoginController.getLoggedUser().getRole().equals("Manager")) {
+		    			btnFreeze.setText("UnFreeze Selected");
+		    			btnFreeze.setVisible(false);
+		    		}
+		    		else btnFreeze.setVisible(true);
+		    	}
+		    	if(selectedRequest.getStatus().equals("frozen")) {
+		    		if(LoginController.getLoggedUser().getRole().equals("Manager")) {
+		    			btnFreeze.setText("UnFreeze Selected");
+		    			btnFreeze.setVisible(true);
+		    		}
 		    	}
 		    }
 	/**
@@ -484,9 +536,61 @@ public class ProcessInspectorController implements Initializable {
 		    	colIDtab2.setCellValueFactory(new PropertyValueFactory<>("idReq"));
 		    	colStageTab2.setCellValueFactory(new PropertyValueFactory<>("currentStage"));
 		    	colStatusTab2.setCellValueFactory(new PropertyValueFactory<>("status"));
+		    	colOptions.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		    	colOptions.setCellFactory(param -> new TableCell<Request, Request>() { 
+    				@FXML
+    			    private final Button btnView = new Button("View Request");
+
+    			    protected void updateItem(Request req, boolean empty) {
+    			        super.updateItem(req, empty);
+
+    			        if (req == null) {
+    			            setGraphic(null);
+    			            return;
+    			        }
+    			        setGraphic(btnView);    			        
+    			        btnView.setOnAction(
+    			            event -> {
+    			            	Platform.runLater(new Runnable() {
+    			            	    @Override
+    			            	    public void run() {
+    			            	    	try {
+    										GuiManager.popUpLoader("RequestView", req.getIdReq());
+    									} catch (IOException e) {e.printStackTrace();}
+    			            	    }
+    			            	});
+    			            }
+    			        );
+    			    }
+    			});
 		    	oblRequests = FXCollections.observableArrayList(requestList);
 		    	tblRequest.setItems(oblRequests);
 		    	//for commit
 		    	
+		    }
+		    @FXML
+		    void onViewRequestClick(ActionEvent event) {
+		    	Platform.runLater(new Runnable() {
+            	    @Override
+            	    public void run() {
+            	    	try {
+							GuiManager.popUpLoader("RequestView", action.getIdrequest());
+						} catch (IOException e) {e.printStackTrace();}
+            	    }
+            	});
+		    }
+		    @FXML
+		    void onCloseRequestClick(ActionEvent event) {
+		    	ObjectManager msg = new ObjectManager(action.getIdrequest(), action, MsgEnum.CLOSE_REQUEST); //object to send to server
+				client.handleMessageFromClientUI(msg);
+				try {
+					Thread.sleep(500);
+					tblActionsNeeded.getItems().remove(action); // remove the line from table.
+					GuiManager.showSuccess(lblError, pError, "Request Closed Successfuly!"); //show success message																				// message
+					clearScreen();
+					lblPickMsg.setVisible(true);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 		    }
 }
