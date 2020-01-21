@@ -23,13 +23,11 @@ public class ObjectManager implements Serializable {
 	private Request req;
 	private List<Document> listOfFiles;
 	private Integer reqIDFromServer;
-	private ArrayList<?> array;
+	private ArrayList<?> array,array2;
 	private EvaluationReport evReport;
 	private ActionsNeeded action;
 	private RequestHandling selected;
-	private Systems system;
-	private PerformanceReport perReport;
-	
+	private Systems system;	
 	public boolean isEvFlag() {
 	return evFlag;
 	}
@@ -123,18 +121,15 @@ public class ObjectManager implements Serializable {
 		this.msgEnum= msgEnum;
 		setArray(array);
 	}
-	public ObjectManager(PerformanceReport perRep, MsgEnum msgEnum) {
-		perReport=perRep;
+	public ObjectManager(ArrayList<?> array, ArrayList<?> array2, MsgEnum msgEnum) {
+		this.array=array;
+		this.array2=array2;
 		this.msgEnum=msgEnum;
 	}
-	public PerformanceReport getPerReport() {
-		return perReport;
-	}
-
 	public List<Document> getListOfFiles(){
 		return listOfFiles;
 	}
-
+	
 	public ArrayList<?> getArray() {
 		return array;
 	}
@@ -147,6 +142,10 @@ public class ObjectManager implements Serializable {
 	public MsgEnum getMsgEnum() { //get MsgEnum
 		return msgEnum;
 	}
+	public ArrayList<?> getArray2() {
+		return array2;
+	}
+
 	public String getMsgString() {
 		return msgString;
 	}

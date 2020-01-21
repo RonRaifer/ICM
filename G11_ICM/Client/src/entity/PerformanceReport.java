@@ -1,9 +1,14 @@
 package entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PerformanceReport {
+public class PerformanceReport implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String durationApprovedExtensions;
 	private String durationActivityTimeAdded;
 	

@@ -682,22 +682,21 @@ public class MsgHandler {
 			break;
 		case CREATE_PERFORMANCE_REPORT:
 			PerformanceReport perRep=null;
-			query= "SELECT timeRequested FROM time_rquests WHERE status='Approved'";
+			query= "SELECT timeRequested FROM time_requests WHERE status='Approved'";
 			rs=dbHandler.executeQ(query);
-			Integer sumApprovedExtensions=0;
+			ArrayList<Integer> approvedExtensions=new ArrayList<Integer>();
+			ArrayList<Integer> addedActivityTime= new ArrayList<Integer>();
 			while(rs.next())
 			{
-				sumApprovedExtensions+=rs.getInt("timeRquested");
+				approvedExtensions.add(rs.getInt("timeRequested"));
 			}
 			query= "SELECT e.time, r.totalTime FROM evaluation_report e, request r WHERE e.idreq=r.idrequest AND r.totalTime>e.time";
 			rs=dbHandler.executeQ(query);
-			Integer sumAddedActivityTime=0;
 			while(rs.next())
 			{
-				sumAddedActivityTime+=Math.subtractExact(rs.getInt("totalTime"), rs.getInt("time"));
+				addedActivityTime.add(Math.subtractExact(rs.getInt("totalTime"), rs.getInt("time")));
 			}
-			perRep= new PerformanceReport(sumApprovedExtensions.toString(),sumAddedActivityTime.toString());
-			objectManager= new ObjectManager(perRep,MsgEnum.CREATE_PERFORMANCE_REPORT);
+			objectManager= new ObjectManager(approvedExtensions,addedActivityTime,MsgEnum.CREATE_PERFORMANCE_REPORT);
 			client.sendToClient(objectManager);
 			break;
 		case APPROVE_TIME:

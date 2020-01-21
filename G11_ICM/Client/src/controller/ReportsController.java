@@ -91,7 +91,7 @@ public class ReportsController implements Initializable {
     				Stage stage= new Stage();
         			FXMLLoader loader=new FXMLLoader();
         			try {
-        				loader.setLocation(PerformanceReportPopupController.class.getResource("/boundary/guifiles/ActivityReportPopup.fxml"));
+        				loader.setLocation(ActivityReportPopupController.class.getResource("/boundary/guifiles/ActivityReportPopup.fxml"));
         				Pane root=loader.load();
         				Scene scene=new Scene(root);
         				stage.setScene(scene);
@@ -101,7 +101,7 @@ public class ReportsController implements Initializable {
         			}
     			}
     		}
-    		if(cmbReports.getSelectionModel().getSelectedItem().equals("Performance report")) 
+    		else if(cmbReports.getSelectionModel().getSelectedItem().equals("Performance report")) 
     		{
     			Stage stage= new Stage();
     			FXMLLoader loader=new FXMLLoader();
@@ -115,12 +115,12 @@ public class ReportsController implements Initializable {
     				e.printStackTrace();
     			}
     		}
-    		if(cmbReports.getSelectionModel().getSelectedItem().equals("Peformance behind report"))
+    		else if(cmbReports.getSelectionModel().getSelectedItem().equals("Performance behind report"))
     		{
     			Stage stage= new Stage();
     			FXMLLoader loader=new FXMLLoader();
     			try {
-    				loader.setLocation(PerformanceReportPopupController.class.getResource("/boundary/guifiles/PerformanceBehindReportPopup.fxml"));
+    				loader.setLocation(PerformanceBehindReportPopupController.class.getResource("/boundary/guifiles/PerformanceBehindReportPopup.fxml"));
     				Pane root=loader.load();
     				Scene scene=new Scene(root);
     				stage.setScene(scene);

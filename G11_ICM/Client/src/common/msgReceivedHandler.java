@@ -87,7 +87,8 @@ public class msgReceivedHandler {
 		case SET_REVIEW_EXIST:
 			ReviewController.setReviewExist(objectManager.getMsgString());
 		case CREATE_PERFORMANCE_REPORT:
-			PerformanceReportPopupController.setPerRep(objectManager.getPerReport());
+			PerformanceReportPopupController.setApprovedExtensions((ArrayList<Integer>)objectManager.getArray());
+			PerformanceReportPopupController.setAddedActivityTime((ArrayList<Integer>)objectManager.getArray2());
 			break;
 		case VIEW_EMPLOYEES_WITH_ROLES:
 			EmployeesController.setListOfEmployees((ArrayList<User>)objectManager.getArray());
