@@ -225,6 +225,8 @@ public class ProcessesController implements Initializable {
 						rhArray.add(rh);
 				}
 			}
+			else if(LoginController.getLoggedUser().getIdUser().equals(rh.getIdCharge())) 
+				rhArray.add(rh);
 		}
 		List = FXCollections.observableArrayList(rhArray);
 		tblTimeDetermine1.setItems(List);
