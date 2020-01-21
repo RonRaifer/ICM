@@ -1,18 +1,43 @@
 package controller;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class PerformanceBehindReportPopupController {
+import entity.PerformanceBehindReport;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+
+public class PerformanceBehindReportPopupController implements Initializable {
 	@FXML
     private Label lblMedian;
 
     @FXML
     private Label lblstandarddeviation;
+    
+    @FXML
+    private ComboBox<String> cmbSystem;
+    
+    @FXML
+    private TableView<String> tblFrequencyDistribution;
+    
+    @FXML
+    private TableColumn<String, String> colRange;
 
     @FXML
-    private Label lblDelaysDistribution;
+    private TableColumn<String, Integer> colTotalnRange;
+    
+    private static PerformanceBehindReport perBehindRep=null;
 
-    @FXML
-    private Label lbldelayduration;
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		
+	}
+	public static void setPerBehindRep(PerformanceBehindReport perBehindRep) {
+		PerformanceBehindReportPopupController.perBehindRep = perBehindRep;
+	}
 }

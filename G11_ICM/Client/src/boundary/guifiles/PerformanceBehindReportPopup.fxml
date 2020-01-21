@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.gluonhq.charm.glisten.layout.Layer?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -36,19 +39,14 @@
                </font>
             </Label>
             <Label fx:id="lblstandarddeviation" layoutX="155.0" layoutY="106.0" text="standard deviation" />
-            <Label layoutX="330.0" layoutY="31.0" text="Distribution of delays:">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblDelaysDistribution" layoutX="481.0" layoutY="31.0" text="delays distribution" />
             <Layer layoutX="330.0" layoutY="114.0" />
-            <Label layoutX="316.0" layoutY="106.0" text="Duration of delay:">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label fx:id="lbldelayduration" layoutX="481.0" layoutY="106.0" text="delay duration" />
+            <ComboBox fx:id="cmbSystem" layoutX="20.0" layoutY="6.0" prefWidth="150.0" promptText="Choose System" />
+            <TableView fx:id="tblFrequencyDistribution" layoutX="330.0" layoutY="6.0" prefHeight="180.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="colRange" prefWidth="75.0" text="Range" />
+                <TableColumn fx:id="colTotalnRange" prefWidth="75.0" text="Total" />
+              </columns>
+            </TableView>
          </children>
       </AnchorPane>
    </center>
