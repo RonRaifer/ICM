@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import entity.*;
 /**
@@ -24,6 +25,7 @@ public class ObjectManager implements Serializable {
 	private List<Document> listOfFiles;
 	private Integer reqIDFromServer;
 	private ArrayList<?> array,array2;
+	private Map<?,?> map1,map2;
 	private EvaluationReport evReport;
 	private ActionsNeeded action;
 	private RequestHandling selected;
@@ -126,6 +128,19 @@ public class ObjectManager implements Serializable {
 		this.array2=array2;
 		this.msgEnum=msgEnum;
 	}
+	public ObjectManager(Map<?,?> map1, Map<?,?> map2,MsgEnum msgEnum) {
+		this.map1=map1;
+		this.map2=map2;
+		this.msgEnum=msgEnum;
+	}
+	public Map<?, ?> getMap1() {
+		return map1;
+	}
+
+	public Map<?, ?> getMap2() {
+		return map2;
+	}
+
 	public List<Document> getListOfFiles(){
 		return listOfFiles;
 	}

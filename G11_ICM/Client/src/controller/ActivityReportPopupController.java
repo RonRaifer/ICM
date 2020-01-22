@@ -1,6 +1,7 @@
 package controller;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import entity.ActivityReport;
@@ -27,12 +28,19 @@ public class ActivityReportPopupController implements Initializable {
 
 	    @FXML
 	    private TableColumn<String, Integer> colTotalnRange;
+	    
+	    @FXML
+	    private Label lblStartDate;
+
+	    @FXML
+	    private Label lblEndDate;
 
 	    @FXML
 	    private Button btnAddReport;
 	    
-	    private static ActivityReport actRep=null;
-
+	    private static LocalDate startDate;
+	    
+	    private static LocalDate endDate;
 	    @FXML
 	    void addReportToTable(ActionEvent event) {
 
@@ -43,7 +51,12 @@ public class ActivityReportPopupController implements Initializable {
 			// TODO Auto-generated method stub
 			
 		}
-		public static void setActRep(ActivityReport actRep) {
-			ActivityReportPopupController.actRep = actRep;
+
+		public static void setStartDate(LocalDate startDate) {
+			ActivityReportPopupController.startDate = startDate;
+		}
+
+		public static void setEndDate(LocalDate endDate) {
+			ActivityReportPopupController.endDate = endDate;
 		}
 }

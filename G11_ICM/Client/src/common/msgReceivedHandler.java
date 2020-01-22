@@ -2,6 +2,7 @@ package common;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import controller.EmployeesController;
 import controller.EvaluationController;
@@ -13,6 +14,7 @@ import controller.MessagesController;
 import controller.MyRequestsController;
 
 import controller.NewRequestController;
+import controller.PerformanceBehindReportPopupController;
 import controller.PerformanceReportPopupController;
 import controller.ProcessInspectorController;
 import controller.ProcessesController;
@@ -111,6 +113,10 @@ public class msgReceivedHandler {
 		case SET_PROCESSES_INSPECTOR:
 				ProcessInspectorController.setRequestList((ArrayList<Request>) objectManager.getArray());
 					break;
+		case CREATE_PERFORMANCE_BEHIND_REPORT:
+			PerformanceBehindReportPopupController.setDaysOfDelay((Map<String,Integer>)objectManager.getMap1());
+			PerformanceBehindReportPopupController.setTimeOfDelay((Map<String,Integer>)objectManager.getMap2());
+			break;
 		default:
 			break;
 		}
