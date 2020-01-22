@@ -91,9 +91,12 @@ public class ReportsController implements Initializable {
     				Stage stage= new Stage();
         			FXMLLoader loader=new FXMLLoader();
         			try {
-        				loader.setLocation(PerformanceReportPopupController.class.getResource("/boundary/guifiles/ActivityReportPopup.fxml"));
+        				ActivityReportPopupController.setStartDate(dateStart.getValue());
+        				ActivityReportPopupController.setEndDate(dateEnd.getValue());
+        				loader.setLocation(ActivityReportPopupController.class.getResource("/boundary/guifiles/ActivityReportPopup.fxml"));
         				Pane root=loader.load();
         				Scene scene=new Scene(root);
+        				stage.setTitle("Activity report");
         				stage.setScene(scene);
         				stage.show();
         			}catch (IOException e) {
@@ -101,7 +104,7 @@ public class ReportsController implements Initializable {
         			}
     			}
     		}
-    		if(cmbReports.getSelectionModel().getSelectedItem().equals("Performance report")) 
+    		else if(cmbReports.getSelectionModel().getSelectedItem().equals("Performance report")) 
     		{
     			Stage stage= new Stage();
     			FXMLLoader loader=new FXMLLoader();
@@ -109,20 +112,22 @@ public class ReportsController implements Initializable {
     				loader.setLocation(PerformanceReportPopupController.class.getResource("/boundary/guifiles/PerformanceReportPopup.fxml"));
     				Pane root=loader.load();
     				Scene scene=new Scene(root);
+    				stage.setTitle("Performance report");
     				stage.setScene(scene);
     				stage.show();
     			}catch (IOException e) {
     				e.printStackTrace();
     			}
     		}
-    		if(cmbReports.getSelectionModel().getSelectedItem().equals("Peformance behind report"))
+    		else if(cmbReports.getSelectionModel().getSelectedItem().equals("Performance behind report"))
     		{
     			Stage stage= new Stage();
     			FXMLLoader loader=new FXMLLoader();
     			try {
-    				loader.setLocation(PerformanceReportPopupController.class.getResource("/boundary/guifiles/PerformanceBehindReportPopup.fxml"));
+    				loader.setLocation(PerformanceBehindReportPopupController.class.getResource("/boundary/guifiles/PerformanceBehindReportPopup.fxml"));
     				Pane root=loader.load();
     				Scene scene=new Scene(root);
+    				stage.setTitle("Performance behind report");
     				stage.setScene(scene);
     				stage.show();
     			}catch (IOException e) {

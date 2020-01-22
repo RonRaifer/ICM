@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.sql.ResultSet;
 import entity.ActionsNeeded;
 import entity.Document;
@@ -681,23 +684,21 @@ public class MsgHandler {
 			}
 			break;
 		case CREATE_PERFORMANCE_REPORT:
-			PerformanceReport perRep=null;
-			query= "SELECT timeRequested FROM time_rquests WHERE status='Approved'";
+			query= "SELECT timeRequested FROM time_requests WHERE status='Approved'";
 			rs=dbHandler.executeQ(query);
-			Integer sumApprovedExtensions=0;
+			ArrayList<Integer> approvedExtensions=new ArrayList<Integer>();
+			ArrayList<Integer> addedActivityTime= new ArrayList<Integer>();
 			while(rs.next())
 			{
-				sumApprovedExtensions+=rs.getInt("timeRquested");
+				approvedExtensions.add(rs.getInt("timeRequested"));
 			}
 			query= "SELECT e.time, r.totalTime FROM evaluation_report e, request r WHERE e.idreq=r.idrequest AND r.totalTime>e.time";
 			rs=dbHandler.executeQ(query);
-			Integer sumAddedActivityTime=0;
 			while(rs.next())
 			{
-				sumAddedActivityTime+=Math.subtractExact(rs.getInt("totalTime"), rs.getInt("time"));
+				addedActivityTime.add(Math.subtractExact(rs.getInt("totalTime"), rs.getInt("time")));
 			}
-			perRep= new PerformanceReport(sumApprovedExtensions.toString(),sumAddedActivityTime.toString());
-			objectManager= new ObjectManager(perRep,MsgEnum.CREATE_PERFORMANCE_REPORT);
+			objectManager= new ObjectManager(approvedExtensions,addedActivityTime,MsgEnum.CREATE_PERFORMANCE_REPORT);
 			client.sendToClient(objectManager);
 			break;
 		case APPROVE_TIME:
@@ -833,6 +834,38 @@ public class MsgHandler {
 			insertMessage(objectManager.getAction().getIdCharge(), "Finished handeling Request [ID: "+rs.getString("idrequest")+"]",
 					"Hi, We finished handeling the request. Thank you.", "FINISH");
 			deleteAction();
+			break;
+		case CREATE_PERFORMANCE_BEHIND_REPORT:
+			int countNumofDelays=0;
+			Map<String,String> requestsAndSystems=new HashMap<String, String>();
+			Map<String,Integer> requestsAndNumOfDelays=new HashMap<String, Integer>();
+			Map<String,Integer> requestsAndDelayTime=new HashMap<String, Integer>();
+			query = "SELECT idrequest, ITSystem FROM request";
+			rs=dbHandler.executeQ(query);
+			while(rs.next())
+			{
+				requestsAndSystems.put(rs.getString("idrequest"), rs.getString("ITSystem"));
+			}
+			for(Map.Entry<String, String> entry: requestsAndSystems.entrySet())
+			{
+				String strForQuery="Time exception in stage for request id: " + entry.getKey();
+				query= "SELECT contentMessage FROM Messages WHERE contentMessage= '"+strForQuery+"';";
+				rs=dbHandler.executeQ(query);
+				while(rs.next())
+				{
+					countNumofDelays++;
+				}
+				requestsAndNumOfDelays.put(entry.getValue(), countNumofDelays);
+				countNumofDelays=0;
+			}
+			query ="SELECT r.ITSystem, e.time, r.totalTime FROM evaluation_report e, request r WHERE e.idreq=r.idrequest AND r.totalTime>e.time";
+			rs=dbHandler.executeQ(query);
+			while(rs.next())
+			{
+				requestsAndDelayTime.put(rs.getString("ITSystem"), Math.subtractExact(rs.getInt("totalTime"), rs.getInt("time")));
+			}
+			objectManager=new ObjectManager(requestsAndNumOfDelays, requestsAndDelayTime, MsgEnum.CREATE_PERFORMANCE_BEHIND_REPORT);
+			client.sendToClient(objectManager);
 			break;
 		default:
 			break;

@@ -24,26 +24,40 @@
       </VBox>
    </top>
    <center>
-      <AnchorPane prefHeight="217.0" prefWidth="618.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="267.0" prefWidth="618.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="67.0" layoutY="38.0" text="Median:">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font></Label>
-            <Label fx:id="lblmedian" layoutX="125.0" layoutY="38.0" text="median" />
-            <Label layoutX="76.0" layoutY="83.0" text="Standard Diviation:">
+            <Label layoutX="44.0" layoutY="164.0" text="Median:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="lblStandardDiviation" layoutX="202.0" layoutY="83.0" text="Standard Diviation" />
-            <TableView fx:id="tblFrequencyDistribution" layoutX="332.0" layoutY="22.0" prefHeight="156.0" prefWidth="200.0">
+            <Label fx:id="lblmedian" layoutX="187.0" layoutY="164.0" text="median" />
+            <Label layoutX="35.0" layoutY="204.0" text="Standard Diviation:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblStandardDiviation" layoutX="171.0" layoutY="204.0" text="Standard Diviation" />
+            <TableView fx:id="tblFrequencyDistribution" layoutX="397.0" layoutY="56.0" prefHeight="156.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="colRange" prefWidth="75.0" text="Range" />
                 <TableColumn fx:id="colTotalnRange" prefWidth="75.0" text="Total" />
               </columns>
             </TableView>
-            <Button fx:id="btnAddReport" layoutX="517.0" layoutY="191.0" mnemonicParsing="false" onAction="#addReportToTable" text="Add To Table" />
-         </children></AnchorPane>
+            <Button fx:id="btnAddReport" layoutX="510.0" layoutY="221.0" mnemonicParsing="false" onAction="#addReportToTable" text="Add To Table" />
+            <Label layoutX="53.0" layoutY="26.0" text="Start date:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblStartDate" layoutX="117.0" layoutY="26.0" text="start date" />
+            <Label layoutX="233.0" layoutY="26.0" text="End date:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblEndDate" layoutX="309.0" layoutY="26.0" text="end date" />
+         </children>
+      </AnchorPane>
    </center>
 </BorderPane>
