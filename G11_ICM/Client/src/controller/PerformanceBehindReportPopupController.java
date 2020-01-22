@@ -103,7 +103,7 @@ public class PerformanceBehindReportPopupController implements Initializable {
 		  ArrayList<Integer> numofDelays=new ArrayList<Integer>();
 		  ArrayList<Integer> timeofDelays= new ArrayList<Integer>();
 		  Integer sumofNumDelays=0,sumofDelayTime=0,countNumDelays=1,countDelayTime=1;
-		  Integer arr[];
+		  //Integer arr[];
 		  if(cmbSystem.getSelectionModel().isEmpty())
 			  lblsytstemerr.setVisible(true);
 		  else {
@@ -125,9 +125,13 @@ public class PerformanceBehindReportPopupController implements Initializable {
 						  sumofNumDelays+=val;
 					  Double standardDiviation=(double)(sumofNumDelays/numofDelays.size());
 					  lblstandarddeviationNumDelays.setText(standardDiviation.toString());
-					  arr=new Integer[numofDelays.size()];
-					  arr=(Integer[]) numofDelays.toArray();
-					  for(int i=1; i<arr.length;i++)
+					  Integer[] arr=new Integer[numofDelays.size()];
+					  int i=0;
+					  for(Integer j : numofDelays) {
+						  arr[i]=j;
+						  i++;
+					  }
+					  for(i=1; i<arr.length;i++)
 					  {
 						  if(arr[i-1]==arr[i])
 							  countNumDelays++;
@@ -154,7 +158,7 @@ public class PerformanceBehindReportPopupController implements Initializable {
 					  lblstandarddeviationDelayTime.setText(standardDiviation2.toString());
 					  arr=new Integer[timeofDelays.size()];
 					  arr=(Integer[])timeofDelays.toArray();
-					  for(int i=1; i<arr.length;i++)
+					  for(i=1; i<arr.length;i++)
 					  {
 						  if(arr[i-1]==arr[i])
 							  countDelayTime++;
