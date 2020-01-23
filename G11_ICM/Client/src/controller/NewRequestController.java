@@ -104,7 +104,7 @@ public class NewRequestController implements Initializable{
 	private static  Integer idfromserver;
     
 	
-	public NewRequestController(String system, String state, String change, String purpose) {
+	public void setFields(String system, String state, String change, String purpose) {
 		cbSystem.setValue(system);
 		tbState.setText(state);
 		tbChange.setText(change);
