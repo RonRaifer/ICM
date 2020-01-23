@@ -103,6 +103,14 @@ public class NewRequestController implements Initializable{
 	private Service<Void> addReqBackground;
 	private static  Integer idfromserver;
     
+	
+	public NewRequestController(String system, String state, String change, String purpose) {
+		cbSystem.setValue(system);
+		tbState.setText(state);
+		tbChange.setText(change);
+		tbReason.setText(purpose);
+	}
+	
 	/**
 	 * when clear button is clicked this function is called.
 	 * @param event
@@ -169,7 +177,7 @@ public class NewRequestController implements Initializable{
     public void createClick(ActionEvent event) throws InterruptedException, IOException {
     	
     	lblError.setVisible(false);
-    	if(!checkFormFields().contentEquals("Empty")){
+    	if(!checkFormFields().contentEquals("Input is ok")){
     		lblError.setText(checkFormFields());
     		lblError.setVisible(true);
     		return;
@@ -279,7 +287,7 @@ public class NewRequestController implements Initializable{
     	}
     	
 
-    	return "Empty";
+    	return "Input is ok";
 	}
 	
 	
