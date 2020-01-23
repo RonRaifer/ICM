@@ -1,5 +1,4 @@
 package controller;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-
 import common.MsgEnum;
 import common.ObjectManager;
 import javafx.collections.FXCollections;
@@ -21,53 +19,36 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.paint.Color;
-
 public class PerformanceBehindReportPopupController implements Initializable {
 	@FXML
     private Label lblMedianNumDelays;
-
     @FXML
-    private Label lblstandarddeviationNumDelays;
-    
+    private Label lblstandarddeviationNumDelays; 
     @FXML
     private Label lblMedianDelayTime;
-
     @FXML
-    private Label lblstandarddeviationDelayTime;
-    
+    private Label lblstandarddeviationDelayTime;   
     @FXML
-    private ComboBox<String> cmbSystem;
-    
+    private ComboBox<String> cmbSystem;   
     @FXML
-    private TableView<FrequencyDistribution> tblFrequencyDistributionnumdelays;
-    
+    private TableView<FrequencyDistribution> tblFrequencyDistributionnumdelays;    
     @FXML
-    private TableColumn<FrequencyDistribution, Integer> colRangenumdelays;
-
+    private TableColumn<FrequencyDistribution, Object> colRangenumdelays;
     @FXML
-    private TableColumn<FrequencyDistribution, Integer> colTotalnRangenumdelays;
-    
+    private TableColumn<FrequencyDistribution, Integer> colTotalnRangenumdelays;   
     @FXML
     private TableView<FrequencyDistribution> tblFrequencyDistributiontimedelay;
-
     @FXML
-    private TableColumn<FrequencyDistribution, Integer> colRangetimedelay;
-
+    private TableColumn<FrequencyDistribution, Object> colRangetimedelay;
     @FXML
-    private TableColumn<FrequencyDistribution, Integer> colTotalnRangetimedelay;
-    
+    private TableColumn<FrequencyDistribution, Integer> colTotalnRangetimedelay;    
     @FXML
-    private Button btnData;
-    
+    private Button btnData;    
     @FXML
-    private Label lblsytstemerr;
-    
-    private static Map<String, Integer> daysOfDelay=new HashMap<String, Integer>();
-    
-    private static Map<String,Integer> timeOfDelay =new HashMap<String, Integer>();
-    
+    private Label lblsytstemerr;    
+    private static Map<String, Integer> daysOfDelay=new HashMap<String, Integer>();    
+    private static Map<String,Integer> timeOfDelay =new HashMap<String, Integer>();    
     private static ObjectManager generatePerformanceBehindReport;
-
 	public static void setDaysOfDelay(Map<String, Integer> daysOfDelay) {
 		PerformanceBehindReportPopupController.daysOfDelay = daysOfDelay;
 	}
@@ -108,6 +89,40 @@ public class PerformanceBehindReportPopupController implements Initializable {
 			  lblsytstemerr.setVisible(true);
 		  else {
 			  lblsytstemerr.setVisible(false);
+			  arrangeDetails(cmbSystem.getSelectionModel().getSelectedItem());
+		  }
+	  }
+	  public void arrangeDetails(String ITSystem) {
+		  ArrayList<Integer> numofDelays= new ArrayList<Integer>();
+		  ArrayList<Integer> timeofDelays= new ArrayList<Integer>();
+		  Integer sumofNumDelays=0,sumofTimeDelays=0,countNumDelays=1,countTimeDelays=1,avgNumofDelays,avgTimeofDelays;
+		  Object[] arr;
+		  Double standardDiviationNumDelays, standardDiviationTimeDelays;
+		  for(Map.Entry<String, Integer> entry : daysOfDelay.entrySet())
+			  if(entry.getKey().equals(ITSystem))
+				  numofDelays.add(entry.getValue());
+		  Collections.sort(numofDelays);
+		  if((numofDelays.size()%2)==0)
+		  {
+			  avgNumofDelays=Math.addExact(numofDelays.get((numofDelays.size()/2)+1),numofDelays.get(numofDelays.size()/2));
+			  avgNumofDelays/=2;
+			  lblMedianNumDelays.setText(avgNumofDelays.toString());
+		  }
+		  else lblMedianNumDelays.setText(numofDelays.get(numofDelays.size()/2).toString());
+		  for(Integer val : numofDelays)
+			  sumofNumDelays+=val;
+		  standardDiviationNumDelays=(double)(sumofNumDelays/numofDelays.size());
+		  lblstandarddeviationNumDelays.setText(standardDiviationNumDelays.toString());
+		  arr= new Object[numofDelays.size()];
+		  arr=numofDelays.toArray();
+		  for(int i=1;i<arr.length;i++)
+		  {
+			  if(arr[i-1].equals(arr[i]))
+				  countNumDelays++;
+			  else
+			  {
+				  tblFrequencyDistributionnumdelays.getItems().add(new FrequencyDistribution(arr[i-1], countNumDelays));
+				  countNumDelays=1;
 			  switch(cmbSystem.getSelectionModel().getSelectedItem()) {
 			  case "Braude Website":
 				  for(Map.Entry<String, Integer> entry : daysOfDelay.entrySet())
@@ -171,13 +186,40 @@ public class PerformanceBehindReportPopupController implements Initializable {
 					  break;
 				  }
 			  }
-		  
 		  }
-	    }
-	  class FrequencyDistribution {
-		  private Integer range,totalInRange;
-		  public FrequencyDistribution(Integer range,Integer totalInRange) {
+		  for(Map.Entry<String, Integer> entry : timeOfDelay.entrySet())
+			  if(entry.getKey().equals(ITSystem))
+					 timeofDelays.add(entry.getValue());
+		  Collections.sort(timeofDelays);
+		  if((timeofDelays.size()%2)==0)
+		  {
+			  avgTimeofDelays=Math.addExact(timeofDelays.get((timeofDelays.size()/2)+1),timeofDelays.get(timeofDelays.size()/2));
+			  lblMedianDelayTime.setText(avgTimeofDelays.toString());
+		  }
+		  else lblMedianDelayTime.setText(timeofDelays.get(timeofDelays.size()/2).toString());
+		  for(Integer val : timeofDelays)
+			  sumofTimeDelays+=val;
+		  standardDiviationTimeDelays=(double)(sumofTimeDelays/timeofDelays.size());
+		  lblstandarddeviationDelayTime.setText(standardDiviationTimeDelays.toString());
+		  arr= new Object[timeofDelays.size()];
+		  arr=timeofDelays.toArray();
+		  for(int i=1;i<arr.length;i++)
+		  {
+			  if(arr[i-1].equals(arr[i]))
+				  countTimeDelays++;
+			  else
+			  {
+				  tblFrequencyDistributionnumdelays.getItems().add(new FrequencyDistribution(arr[i-1], countTimeDelays));
+				  countTimeDelays=1;
+			  }
+		  }
+	  }
+	  private class FrequencyDistribution {
+		  private Object range;
+		private Integer totalInRange;
+		  public FrequencyDistribution(Object range,Integer totalInRange) {
 			  this.range=range;
 			  this.totalInRange=totalInRange;
+			  }
 		  }
 }
