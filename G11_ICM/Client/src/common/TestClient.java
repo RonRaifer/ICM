@@ -17,18 +17,11 @@ class TestClient {
 	@Test
 	void wrongInput() {
 		
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/boundary/guifiles/NewRequestController.fxml"));
-		try {
-			Parent root = loader.load();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//this constructor set the text box inside the controller
-		newRequest = loader.getController();
-		newRequest.setFields("Office", "", "","");
 		
-		Assertions.assertTrue(!newRequest.checkFormFields().equals("Input is ok"));
+		newRequest = new NewRequestController();
+		
+		//empty input
+		Assertions.assertTrue(!newRequest.checkFormFields("","","","").equals("Input is ok"));
 	}
 
 }

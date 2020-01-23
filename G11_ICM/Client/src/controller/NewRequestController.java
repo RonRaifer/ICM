@@ -104,12 +104,7 @@ public class NewRequestController implements Initializable{
 	private static  Integer idfromserver;
     
 	
-	public void setFields(String system, String state, String change, String purpose) {
-		cbSystem.setValue(system);
-		tbState.setText(state);
-		tbChange.setText(change);
-		tbReason.setText(purpose);
-	}
+	
 	
 	/**
 	 * when clear button is clicked this function is called.
@@ -177,8 +172,14 @@ public class NewRequestController implements Initializable{
     public void createClick(ActionEvent event) throws InterruptedException, IOException {
     	
     	lblError.setVisible(false);
-    	if(!checkFormFields().contentEquals("Input is ok")){
-    		lblError.setText(checkFormFields());
+    	
+    	String system = cbSystem.getValue();
+    	String state = tbState.getText();
+    	String change = tbChange.getText();
+    	String reason = tbReason.getText();
+    	
+    	if(!checkFormFields(system,state,change,reason).equals("Input is ok")){
+    		lblError.setText(checkFormFields(system,state,change,reason));
     		lblError.setVisible(true);
     		return;
     	}
@@ -254,28 +255,26 @@ public class NewRequestController implements Initializable{
      * @return "Empty" if all fields are filled, otherwise return a string that describes 
      * the missing fields  
      */
-	public String checkFormFields() {
+	public String checkFormFields(String system, String state, String change, String purpose) {
 		
 		
 		StringBuilder errorLable = new StringBuilder("The following fields are empty: ");
-    	String tempState = tbState.getText();
-    	String tempChange = tbChange.getText();
-    	String tempReason = tbReason.getText();
+    	
     	boolean errFlag = false; 
     	
-    	 if(cbSystem.getSelectionModel().isEmpty()) {
+    	 if(system.isEmpty()) {
     		 errFlag = true;
     		 errorLable.append("System, ");
      	}
-    	 if(tempState.isEmpty()) {
+    	 if(state.isEmpty()) {
     		 errFlag = true;
     		errorLable.append("Current state, ");
     	}
-    	 if(tempChange.isEmpty()) {
+    	 if(change.isEmpty()) {
     		 errFlag = true;
     		errorLable.append("Change, ");
     	}
-    	 if(tempReason.isEmpty()){
+    	 if(purpose.isEmpty()){
     		 errFlag = true;
     		errorLable.append("Reason, ");
     	}
