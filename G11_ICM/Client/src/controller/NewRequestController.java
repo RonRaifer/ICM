@@ -168,6 +168,7 @@ public class NewRequestController implements Initializable{
      */
     public void createClick(ActionEvent event) throws InterruptedException, IOException {
     	
+    	lblError.setVisible(false);
     	if(!checkFormFields().contentEquals("Empty")){
     		lblError.setText(checkFormFields());
     		lblError.setVisible(true);
