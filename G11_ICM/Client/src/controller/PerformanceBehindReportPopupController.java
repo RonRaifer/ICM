@@ -81,6 +81,10 @@ public class PerformanceBehindReportPopupController implements Initializable {
 	
 	  @FXML
 	    void displayData(ActionEvent event) {
+		  ArrayList<Integer> numofDelays=new ArrayList<Integer>();
+		  ArrayList<Integer> timeofDelays= new ArrayList<Integer>();
+		  Integer sumofNumDelays=0,sumofDelayTime=0,countNumDelays=1,countDelayTime=1;
+		  //Integer arr[];
 		  if(cmbSystem.getSelectionModel().isEmpty())
 			  lblsytstemerr.setVisible(true);
 		  else {
@@ -119,6 +123,68 @@ public class PerformanceBehindReportPopupController implements Initializable {
 			  {
 				  tblFrequencyDistributionnumdelays.getItems().add(new FrequencyDistribution(arr[i-1], countNumDelays));
 				  countNumDelays=1;
+			  switch(cmbSystem.getSelectionModel().getSelectedItem()) {
+			  case "Braude Website":
+				  for(Map.Entry<String, Integer> entry : daysOfDelay.entrySet())
+					  if(entry.getKey().equals("Braude Website"))
+						  numofDelays.add(entry.getValue());
+				  Collections.sort(numofDelays);
+					  if(((numofDelays.size())%2)==0)
+					  {
+						  Integer avg1=(Math.addExact(numofDelays.get(numofDelays.size()/2-1), numofDelays.size()/2)/2);
+						  lblMedianNumDelays.setText(avg1.toString());
+					  }
+					  else
+						  lblMedianNumDelays.setText(numofDelays.get(numofDelays.size()/2).toString());
+					  for(Integer val : numofDelays)
+						  sumofNumDelays+=val;
+					  Double standardDiviation=(double)(sumofNumDelays/numofDelays.size());
+					  lblstandarddeviationNumDelays.setText(standardDiviation.toString());
+					  Integer[] arr=new Integer[numofDelays.size()];
+					  int i=0;
+					  for(Integer j : numofDelays) {
+						  arr[i]=j;
+						  i++;
+					  }
+					  for(i=1; i<arr.length;i++)
+					  {
+						  if(arr[i-1]==arr[i])
+							  countNumDelays++;
+						  else
+						  {
+							  tblFrequencyDistributionnumdelays.getItems().add(new FrequencyDistribution(arr[i-1], countNumDelays));
+							  countNumDelays=1;
+						  }
+					  }
+					  for(Map.Entry<String, Integer> entry: timeOfDelay.entrySet())
+						  if(entry.getKey().equals("Braude Website"))
+							  timeofDelays.add(entry.getValue());
+					  Collections.sort(timeofDelays);
+					  if(((timeofDelays.size())%2)==0)
+					  {
+						  Integer avg2=(Math.addExact(timeofDelays.get(timeofDelays.size()/2-1), timeofDelays.size()/2)/2);
+						  lblMedianDelayTime.setText(avg2.toString());
+					  }
+					  else
+						  lblMedianDelayTime.setText(timeofDelays.get(timeofDelays.size()/2).toString());
+					  for(Integer val : timeofDelays)
+						  sumofDelayTime+=val;
+					  Double standardDiviation2=(double)(sumofDelayTime/timeofDelays.size());
+					  lblstandarddeviationDelayTime.setText(standardDiviation2.toString());
+					  arr=new Integer[timeofDelays.size()];
+					  arr=(Integer[])timeofDelays.toArray();
+					  for(i=1; i<arr.length;i++)
+					  {
+						  if(arr[i-1]==arr[i])
+							  countDelayTime++;
+						  else
+						  {
+							  tblFrequencyDistributiontimedelay.getItems().add(new FrequencyDistribution(arr[i-1], countDelayTime));
+							  countDelayTime=1;
+						  }
+					  }
+					  break;
+				  }
 			  }
 		  }
 		  for(Map.Entry<String, Integer> entry : timeOfDelay.entrySet())
