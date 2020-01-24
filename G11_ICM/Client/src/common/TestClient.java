@@ -34,4 +34,9 @@ class TestClient {
 		newRequest= new NewRequestController();
 		Assertions.assertTrue(newRequest.checkFormFields("Library","","","d").equals("The following fields are empty: Current state, Change. "));
 	}
+	@Test
+	void correctInput() {
+		newRequest= new NewRequestController();
+		Assertions.assertTrue(newRequest.checkFormFields("Moodle","state","change","purpose").contentEquals("Input is ok"));
+	}
 }
