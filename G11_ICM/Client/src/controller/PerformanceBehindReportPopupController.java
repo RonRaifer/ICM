@@ -140,19 +140,19 @@ public class PerformanceBehindReportPopupController implements Initializable {
 						  sumofNumDelays+=val;
 					  Double standardDiviation=(double)(sumofNumDelays/numofDelays.size());
 					  lblstandarddeviationNumDelays.setText(standardDiviation.toString());
-					  Integer[] arr=new Integer[numofDelays.size()];
-					  int i=0;
+					  Integer[] arr1=new Integer[numofDelays.size()];
+					  i=0;
 					  for(Integer j : numofDelays) {
-						  arr[i]=j;
+						  arr1[i]=j;
 						  i++;
 					  }
-					  for(i=1; i<arr.length;i++)
+					  for(i=1; i<arr1.length;i++)
 					  {
-						  if(arr[i-1]==arr[i])
+						  if(arr1[i-1]==arr1[i])
 							  countNumDelays++;
 						  else
 						  {
-							  tblFrequencyDistributionnumdelays.getItems().add(new FrequencyDistribution(arr[i-1], countNumDelays));
+							  tblFrequencyDistributionnumdelays.getItems().add(new FrequencyDistribution(arr1[i-1], countNumDelays));
 							  countNumDelays=1;
 						  }
 					  }
@@ -171,15 +171,15 @@ public class PerformanceBehindReportPopupController implements Initializable {
 						  sumofDelayTime+=val;
 					  Double standardDiviation2=(double)(sumofDelayTime/timeofDelays.size());
 					  lblstandarddeviationDelayTime.setText(standardDiviation2.toString());
-					  arr=new Integer[timeofDelays.size()];
-					  arr=(Integer[])timeofDelays.toArray();
-					  for(i=1; i<arr.length;i++)
+					  arr1=new Integer[timeofDelays.size()];
+					  arr1=(Integer[])timeofDelays.toArray();
+					  for(i=1; i<arr1.length;i++)
 					  {
-						  if(arr[i-1]==arr[i])
+						  if(arr1[i-1]==arr1[i])
 							  countDelayTime++;
 						  else
 						  {
-							  tblFrequencyDistributiontimedelay.getItems().add(new FrequencyDistribution(arr[i-1], countDelayTime));
+							  tblFrequencyDistributiontimedelay.getItems().add(new FrequencyDistribution(arr1[i-1], countDelayTime));
 							  countDelayTime=1;
 						  }
 					  }
