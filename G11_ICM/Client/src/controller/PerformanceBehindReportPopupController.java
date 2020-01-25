@@ -49,6 +49,13 @@ public class PerformanceBehindReportPopupController implements Initializable {
     private static Map<String, Integer> daysOfDelay=new HashMap<String, Integer>();    
     private static Map<String,Integer> timeOfDelay =new HashMap<String, Integer>();    
     private static ObjectManager generatePerformanceBehindReport;
+    ArrayList<Integer> numofDelays= new ArrayList<Integer>();
+	  ArrayList<Integer> timeofDelays= new ArrayList<Integer>();
+
+	  Integer countDelayTime=1;
+	  Integer sumofNumDelays=0,sumofTimeDelays=0,countNumDelays=1,countTimeDelays=1,avgNumofDelays,avgTimeofDelays;
+	  Object[] arr;
+	  Double standardDiviationNumDelays, standardDiviationTimeDelays;
 	public static void setDaysOfDelay(Map<String, Integer> daysOfDelay) {
 		PerformanceBehindReportPopupController.daysOfDelay = daysOfDelay;
 	}
@@ -81,9 +88,7 @@ public class PerformanceBehindReportPopupController implements Initializable {
 	
 	  @FXML
 	    void displayData(ActionEvent event) {
-		  ArrayList<Integer> numofDelays=new ArrayList<Integer>();
-		  ArrayList<Integer> timeofDelays= new ArrayList<Integer>();
-		  Integer sumofNumDelays=0,sumofDelayTime=0,countNumDelays=1,countDelayTime=1;
+		  
 		  //Integer arr[];
 		  if(cmbSystem.getSelectionModel().isEmpty())
 			  lblsytstemerr.setVisible(true);
@@ -93,11 +98,7 @@ public class PerformanceBehindReportPopupController implements Initializable {
 		  }
 	  }
 	  public void arrangeDetails(String ITSystem) {
-		  ArrayList<Integer> numofDelays= new ArrayList<Integer>();
-		  ArrayList<Integer> timeofDelays= new ArrayList<Integer>();
-		  Integer sumofNumDelays=0,sumofTimeDelays=0,countNumDelays=1,countTimeDelays=1,avgNumofDelays,avgTimeofDelays;
-		  Object[] arr;
-		  Double standardDiviationNumDelays, standardDiviationTimeDelays;
+		  
 		  for(Map.Entry<String, Integer> entry : daysOfDelay.entrySet())
 			  if(entry.getKey().equals(ITSystem))
 				  numofDelays.add(entry.getValue());
@@ -123,7 +124,8 @@ public class PerformanceBehindReportPopupController implements Initializable {
 			  {
 				  tblFrequencyDistributionnumdelays.getItems().add(new FrequencyDistribution(arr[i-1], countNumDelays));
 				  countNumDelays=1;
-			  switch(cmbSystem.getSelectionModel().getSelectedItem()) {
+			  Integer sumofDelayTime = null;
+			switch(cmbSystem.getSelectionModel().getSelectedItem()) {
 			  case "Braude Website":
 				  for(Map.Entry<String, Integer> entry : daysOfDelay.entrySet())
 					  if(entry.getKey().equals("Braude Website"))
