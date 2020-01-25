@@ -14,26 +14,28 @@ import javafx.scene.Parent;
 class TestClient {
 
 	private NewRequestController newRequest;
+	
+	//Test all fields empty
 	@Test
 	void wrongInput() {
-		
-		
-		newRequest = new NewRequestController();
-		
+		newRequest = new NewRequestController();		
 		//empty input
 		Assertions.assertTrue(!newRequest.checkFormFields("","","","").equals("Input is ok"));
 	}
+	//Test current state empty
 	@Test
 	void notFullInput() {
 		newRequest= new NewRequestController();
 		Assertions.assertFalse(newRequest.checkFormFields("Moodle","","asd","f").equals("Input is ok"));
 	}
+	//Test current state and change requested empty
 	@Test
 	void notFullInput2()
 	{
 		newRequest= new NewRequestController();
 		Assertions.assertTrue(newRequest.checkFormFields("Library","","","d").equals("The following fields are empty: Current state, Change. "));
 	}
+	//Test correct input
 	@Test
 	void correctInput() {
 		newRequest= new NewRequestController();
