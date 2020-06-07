@@ -12,3 +12,12 @@ Braude Information Systems Change Management (students project)
 
 ## Server Side
 ![Server Side](https://github.com/RonRaifer/ICM/blob/master/ServerSide.png)
+
+# Usage
+Download 
+Load icm.sql
+Open CMD
+```
+aaa
+```
+
