@@ -14,10 +14,10 @@ Braude Information Systems Change Management (students project)
 ![Server Side](https://github.com/RonRaifer/ICM/blob/master/ServerSide.png)
 
 # Usage
-Download 
-Load icm.sql
-Open CMD
+1. Download 
+2. Load icm.sql
+Open CMD and run server 
 ```
-aaa
+
 ```
 
