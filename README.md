@@ -15,9 +15,16 @@ Braude Information Systems Change Management (students project)
 
 # Usage
 1. Download 
-2. Load icm.sql
-Open CMD and run server 
+2. Load icm.sql to mysql server
+3. Open CMD and run the following command 
 ```
-
+java -jar G11_server.jar
 ```
+4. Tick "Run Server"
+5. Open CMD and run the following command 
+```
+java -jar G11_client.jar
+```
+6. Login
 
+For more details, contact me at Ronraifer@gmail.com
